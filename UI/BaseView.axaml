@@ -1,0 +1,40 @@
+<UserControl
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="clr-namespace:EstragoniaTemplate.UI"
+	mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+	x:Class="EstragoniaTemplate.UI.BaseView"
+	RenderOptions.TextRenderingMode="Antialias"
+	XYFocus.NavigationModes="Enabled">
+
+	<UserControl.Styles>
+		<Style Selector="StackPanel">
+			<Setter Property="Background" Value="Aqua" />
+		</Style>
+		<Style Selector="Button:pressed">
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+	</UserControl.Styles>
+
+	<Border Padding="20" BorderThickness="3" Background="Red" HorizontalAlignment="Center" VerticalAlignment="Center">
+		<StackPanel>
+			<controls:ButtonControl />
+			<Button>
+				This is a button.
+			</Button>
+			<Button>
+				This is a button.
+			</Button>
+			<Button>
+				This is a button.
+			</Button>
+			<TextBlock>
+				Lorem ipsum
+			</TextBlock>
+		</StackPanel>
+	</Border>
+
+
+</UserControl>

@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Markup.Xaml;
 
-namespace EstragoniaUI;
+namespace EstragoniaTemplate.UI;
 
 public class App : Application
 {
