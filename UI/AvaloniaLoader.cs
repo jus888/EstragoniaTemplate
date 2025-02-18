@@ -12,8 +12,8 @@ public partial class AvaloniaLoader : Node
     public double UIScaling { get; private set; } = 1;
     private double _pendingUIScaling = 1;
 
-    private float _resolutionTargetWidth = 1920;
-    private float _resolutionTargetHeight = 1080;
+    private float _resolutionTargetWidth = 960;
+    private float _resolutionTargetHeight = 540;
     private double _resizeGracePeriod = 0.1;
     private double _elapsedSinceLastResize = 0;
 

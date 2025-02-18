@@ -1,11 +1,11 @@
-<Application
-	xmlns="https://github.com/avaloniaui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	x:Class="EstragoniaTemplate.UI.App"
-	RequestedThemeVariant="Light">
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="EstragoniaTemplate.UI.App"
+             xmlns:local="using:EstragoniaTemplate.UI"
+             RequestedThemeVariant="Light">
+	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
 	<Application.Styles>
 		<FluentTheme />
 	</Application.Styles>
-
 </Application>

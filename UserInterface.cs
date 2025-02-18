@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using EstragoniaTemplate.UI;
+using EstragoniaTemplate.UI.Views;
+using EstragoniaTemplate.UI.ViewModels;
 using JLeb.Estragonia;
 
 namespace EstragoniaTemplate;
@@ -15,7 +17,12 @@ public partial class UserInterface : AvaloniaControl
             RenderScaling = scale; 
         };
 
-        Control = new BaseView();
+        var mainViewModel = new MainViewModel(new MainMenuViewModel());
+
+        Control = new MainView()
+        {
+            DataContext = mainViewModel
+        };
 
         base._Ready();
     }
