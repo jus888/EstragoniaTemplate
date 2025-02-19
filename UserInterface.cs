@@ -17,7 +17,9 @@ public partial class UserInterface : AvaloniaControl
             RenderScaling = scale; 
         };
 
-        var mainViewModel = new MainViewModel(new MainMenuViewModel());
+        var mainViewModel = new MainViewModel();
+        var mainMenuViewModel = new MainMenuViewModel(mainViewModel);
+        mainViewModel.NavigateTo(mainMenuViewModel);
 
         Control = new MainView()
         {

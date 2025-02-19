@@ -1,10 +1,11 @@
 using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
+using Avalonia.Interactivity;
+using System.Diagnostics;
 
 namespace EstragoniaTemplate.UI.Views;
 
-public partial class MainMenuView : UserControl
+public partial class MainMenuView : View
 {
-    public MainMenuView()
-        => InitializeComponent();
+    //public MainMenuView()
+    //    => InitializeComponent();
 }

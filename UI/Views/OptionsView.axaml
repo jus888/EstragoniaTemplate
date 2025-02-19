@@ -1,0 +1,54 @@
+<ui:View
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ui="using:EstragoniaTemplate.UI"
+	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
+	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+	x:Class="EstragoniaTemplate.UI.Views.OptionsView"
+	x:DataType="vm:OptionsViewModel"
+	RenderOptions.TextRenderingMode="Antialias">
+
+	<Design.DataContext>
+		<vm:OptionsViewModel />
+	</Design.DataContext>
+
+	<UserControl.Styles>
+		<Style Selector=":is(Control).alignRight">
+			<Setter Property="HorizontalAlignment" Value="Right" />
+		</Style>
+	</UserControl.Styles>
+
+	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+		<Border Padding="20" 
+						Background="White"
+						BorderBrush="Black" 
+						BorderThickness="1"
+						CornerRadius="5">
+			<Grid ColumnDefinitions="Auto, *, Auto, Auto"
+						RowDefinitions="Auto, Auto, Auto">
+				<TextBlock>Screen</TextBlock>
+				<ComboBox Grid.Column="3"
+									Name="InitialFocus0"
+									SelectedIndex="0">
+					<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
+					<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
+					<ComboBoxItem>Windowed</ComboBoxItem>
+				</ComboBox>
+
+				<TextBlock Grid.Row="1">VSync</TextBlock>
+				<CheckBox Grid.Row="1" Grid.Column="3" 
+									Classes="alignRight"/>
+
+				<TextBlock Grid.Row="2">FPS Limit</TextBlock>
+				<Slider Grid.Row="2" Grid.Column="2" Width="50" />
+				<NumericUpDown Grid.Row="2" Grid.Column="3"
+												ShowButtonSpinner="False"
+												Value="10"/>
+			</Grid>
+		</Border>
+		<Button Content="Back" Command="{Binding Close}" />
+	</StackPanel>
+
+</ui:View>

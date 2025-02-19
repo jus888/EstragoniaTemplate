@@ -1,21 +1,26 @@
-<UserControl
+<ui:View
 	xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:local="using:EstragoniaTemplate.UI"
+	xmlns:ui="using:EstragoniaTemplate.UI"
+	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	x:Class="EstragoniaTemplate.UI.Views.MainView"
-	RenderOptions.TextRenderingMode="Antialias"
-	XYFocus.NavigationModes="Enabled"
-	XYFocus.UpNavigationStrategy="Projection"
-  XYFocus.DownNavigationStrategy="Projection"
-  XYFocus.LeftNavigationStrategy="Projection"
-  XYFocus.RightNavigationStrategy="Projection">	
+	x:DataType="vm:MainViewModel"
+	RenderOptions.TextRenderingMode="Antialias">	
 
 	<UserControl.DataTemplates>
-		<local:ViewLocator/>
+		<ui:ViewLocator/>
 	</UserControl.DataTemplates>
 
-	<ContentControl Content="{Binding CurrentViewModel}" />
+	<TransitioningContentControl Content="{ReflectionBinding CurrentViewModel}">
+		<TransitioningContentControl.PageTransition>
+			<CompositePageTransition>
+				<controls:TransitionDisableFrom Duration="0.3" />
+				<controls:SequentialFade Duration="0.3" />
+			</CompositePageTransition>
+		</TransitioningContentControl.PageTransition>
+	</TransitioningContentControl>
 
-</UserControl>
+</ui:View>

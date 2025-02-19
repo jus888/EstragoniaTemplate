@@ -1,8 +1,23 @@
+using Avalonia.Controls;
+using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
-public class MainMenuViewModel : ViewModelBase
+public partial class MainMenuViewModel : ViewModel
 {
-    public string ButtonName { get; } = "This is a binding";
+    private readonly MainViewModel? _mainViewModel;
+
+    public MainMenuViewModel() { }
+    public MainMenuViewModel(MainViewModel mainViewModel)
+    {
+        _mainViewModel = mainViewModel;
+    }
+
+    [RelayCommand]
+    public void ToOptions()
+    {
+        _mainViewModel?.NavigateTo(new OptionsViewModel());
+    }
 }
