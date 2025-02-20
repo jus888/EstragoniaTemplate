@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using EstragoniaTemplate.UI.DataTemplates;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -6,15 +7,19 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public partial class MainViewModel : ViewModel
 {
-    ViewModel? CurrentViewModel
-    {
-        get => _viewModels.Count > 0 ? _viewModels.Peek() : null;
-    }
+    [ObservableProperty]
+    private ViewModel? _currentViewModel;
+
+    [ObservableProperty]
+    private TransitionTemplateArguments _transitionArguments = new();
 
     private readonly Stack<ViewModel> _viewModels = new();
 
-    public void NavigateTo(ViewModel viewModel, bool clearStack = false)
+    public void NavigateTo(ViewModel viewModel, TransitionTemplateArguments? transitionArguments = null, bool clearStack = false)
     {
+        transitionArguments ??= new();
+        TransitionArguments = transitionArguments;
+
         if (clearStack)
         {
             _viewModels.Clear();
@@ -22,14 +27,13 @@ public partial class MainViewModel : ViewModel
 
         viewModel.Closed += OnViewModelClosed;
         _viewModels.Push(viewModel);
-        OnPropertyChanged(nameof(CurrentViewModel));
+        CurrentViewModel = viewModel;
 
         void OnViewModelClosed()
         {
             viewModel.Closed -= OnViewModelClosed;
-
             _viewModels.Pop();
-            OnPropertyChanged(nameof(CurrentViewModel));
+            CurrentViewModel = _viewModels.Peek();
         }
     }
 }

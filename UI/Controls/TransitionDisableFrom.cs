@@ -23,16 +23,24 @@ public class TransitionDisableFrom : IPageTransition
             return;
         }
 
-        toElement.IsEnabled = true;
-        if (cancellationToken.IsCancellationRequested)
+        void OnTransitionEnd()
         {
             fromElement.IsEnabled = true;
+            toElement.IsHitTestVisible = true;
+        }
+
+        fromElement.IsEnabled = false;
+        toElement.IsHitTestVisible = false;
+        toElement.IsEnabled = true;
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            OnTransitionEnd();
             return;
         }
-        fromElement.IsEnabled = false;
 
         await Task.Delay(Duration, CancellationToken.None);
 
-        fromElement.IsEnabled = true;
+        OnTransitionEnd();
     }
 }

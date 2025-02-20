@@ -1,20 +1,21 @@
-<ui:View
+<ui:MainView
 	xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="using:EstragoniaTemplate.UI"
+	xmlns:dataTemplates="using:EstragoniaTemplate.UI.DataTemplates"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
 	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	x:Class="EstragoniaTemplate.UI.Views.MainView"
 	x:DataType="vm:MainViewModel"
-	RenderOptions.TextRenderingMode="Antialias">	
-
-	<UserControl.DataTemplates>
+	RenderOptions.TextRenderingMode="Antialias">
+	
+	<ui:MainView.DataTemplates>
 		<ui:ViewLocator/>
-	</UserControl.DataTemplates>
+	</ui:MainView.DataTemplates>
 
-	<TransitioningContentControl Content="{ReflectionBinding CurrentViewModel}">
+	<TransitioningContentControl Content="{Binding CurrentViewModel}">
 		<TransitioningContentControl.PageTransition>
 			<CompositePageTransition>
 				<controls:TransitionDisableFrom Duration="0.3" />
@@ -23,4 +24,4 @@
 		</TransitioningContentControl.PageTransition>
 	</TransitioningContentControl>
 
-</ui:View>
+</ui:MainView>

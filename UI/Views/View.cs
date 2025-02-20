@@ -37,6 +37,6 @@ public abstract partial class View : UserControl
             count++;
         }
 
-        focusableControl?.Focus();
+        focusableControl?.Focus(NavigationMethod.Directional);
     }
 }
