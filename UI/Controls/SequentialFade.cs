@@ -14,11 +14,7 @@ public class SequentialFade : IPageTransition
     private readonly Animation _fadeOutAnimation;
     private readonly Animation _fadeInAnimation;
 
-    public SequentialFade()
-        : this(TimeSpan.Zero)
-    {
-    }
-
+    public SequentialFade() : this(TimeSpan.Zero) { }
     public SequentialFade(TimeSpan duration)
     {
         _fadeOutAnimation = new Animation

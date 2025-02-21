@@ -12,9 +12,15 @@ using System.Threading.Tasks;
 
 namespace EstragoniaTemplate.UI.Controls;
 
-public class TransitionDisableFrom : IPageTransition
+public class TransitionDisableFromControl : IPageTransition
 {
     public TimeSpan Duration { get; set; }
+
+    public TransitionDisableFromControl() : this(TimeSpan.Zero) { }
+    public TransitionDisableFromControl(TimeSpan duration)
+    {
+        Duration = duration;
+    }
 
     public async Task Start(Visual? from, Visual? to, bool forward, CancellationToken cancellationToken)
     {

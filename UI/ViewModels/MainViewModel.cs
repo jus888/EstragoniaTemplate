@@ -1,5 +1,5 @@
+using Avalonia.Animation;
 using CommunityToolkit.Mvvm.ComponentModel;
-using EstragoniaTemplate.UI.DataTemplates;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -11,14 +11,18 @@ public partial class MainViewModel : ViewModel
     private ViewModel? _currentViewModel;
 
     [ObservableProperty]
-    private TransitionTemplateArguments _transitionArguments = new();
+    private IPageTransition? _transition = null;
 
     private readonly Stack<ViewModel> _viewModels = new();
 
-    public void NavigateTo(ViewModel viewModel, TransitionTemplateArguments? transitionArguments = null, bool clearStack = false)
+    public void SetPageTransition(IPageTransition? transition)
     {
-        transitionArguments ??= new();
-        TransitionArguments = transitionArguments;
+        Transition = transition;
+    }
+
+    public void NavigateTo(ViewModel viewModel, IPageTransition? transition = null, bool clearStack = false)
+    {
+        this.Transition = transition;
 
         if (clearStack)
         {

@@ -7,21 +7,15 @@
 	xmlns:dataTemplates="using:EstragoniaTemplate.UI.DataTemplates"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
 	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
+	xmlns:converters="using:EstragoniaTemplate.UI.Converters"
 	x:Class="EstragoniaTemplate.UI.Views.MainView"
 	x:DataType="vm:MainViewModel"
 	RenderOptions.TextRenderingMode="Antialias">
-	
+
 	<ui:MainView.DataTemplates>
 		<ui:ViewLocator/>
 	</ui:MainView.DataTemplates>
 
-	<TransitioningContentControl Content="{Binding CurrentViewModel}">
-		<TransitioningContentControl.PageTransition>
-			<CompositePageTransition>
-				<controls:TransitionDisableFrom Duration="0.3" />
-				<controls:SequentialFade Duration="0.3" />
-			</CompositePageTransition>
-		</TransitioningContentControl.PageTransition>
-	</TransitioningContentControl>
-
+	<TransitioningContentControl Content="{Binding CurrentViewModel}" 
+															 PageTransition="{Binding Transition}" />
 </ui:MainView>
