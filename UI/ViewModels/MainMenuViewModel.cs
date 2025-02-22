@@ -23,6 +23,6 @@ public partial class MainMenuViewModel : ViewModel
     public void ToOptions()
     {
         _mainViewModel?.NavigateTo(new OptionsViewModel(), 
-            CreateCommonTransition(TransitionType.Fade, 0.5f));
+            CreateCommonPageTransition(TransitionType.Fade, 0.5f));
     }
 }

@@ -2,6 +2,7 @@ using Avalonia.Animation;
 using EstragoniaTemplate.UI.Controls;
 using Godot;
 using System;
+using System.Diagnostics;
 
 namespace EstragoniaTemplate.UI;
 
@@ -20,7 +21,7 @@ public static class Utilities
         Fade
     }
 
-    public static IPageTransition? CreateCommonTransition(TransitionType transitionType, float durationSeconds)
+    public static IPageTransition? CreateCommonPageTransition(TransitionType transitionType, float durationSeconds)
     {
         var duration = CreateTimeSpanSeconds(durationSeconds);
 
