@@ -9,6 +9,36 @@ namespace EstragoniaTemplate.UI.Views;
 
 public abstract partial class View : UserControl
 {
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Handled || e.KeyModifiers != KeyModifiers.None || e.Source is not InputElement inputElement)
+            return;
+
+        IInputElement? nextFocus = null;
+        switch (e.Key)
+        {
+            case Key.Up:
+                nextFocus = KeyboardNavigationHandler.GetNext(inputElement, NavigationDirection.Up);
+                break;
+            case Key.Down:
+                nextFocus = KeyboardNavigationHandler.GetNext(inputElement, NavigationDirection.Down);
+                break;
+            case Key.Left:
+                nextFocus = KeyboardNavigationHandler.GetNext(inputElement, NavigationDirection.Left);
+                break;
+            case Key.Right:
+                nextFocus = KeyboardNavigationHandler.GetNext(inputElement, NavigationDirection.Right);
+                break;
+        }
+
+        if (nextFocus != null && nextFocus.Focusable)
+        {
+            nextFocus.Focus(NavigationMethod.Directional);
+        }
+    }
+
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);

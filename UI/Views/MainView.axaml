@@ -8,7 +8,12 @@
 	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	x:Class="EstragoniaTemplate.UI.Views.MainView"
 	x:DataType="vm:MainViewModel"
-	RenderOptions.TextRenderingMode="Antialias">
+	RenderOptions.TextRenderingMode="Antialias"
+	XYFocus.NavigationModes="Enabled"
+  XYFocus.UpNavigationStrategy="Projection"
+  XYFocus.DownNavigationStrategy="Projection"
+  XYFocus.LeftNavigationStrategy="Projection"
+  XYFocus.RightNavigationStrategy="Projection"	>
 
 	<ui:MainView.DataTemplates>
 		<ui:ViewLocator/>
