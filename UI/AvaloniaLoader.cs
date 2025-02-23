@@ -2,6 +2,7 @@ using Avalonia;
 using Godot;
 using JLeb.Estragonia;
 using System;
+using System.Diagnostics;
 
 namespace EstragoniaTemplate.UI;
 
@@ -9,7 +10,29 @@ public partial class AvaloniaLoader : Node
 {
     public static AvaloniaLoader Instance { get; set; } = null!;
     public event EventHandler<double>? UIScaleChanged;
-    public double UIScaling { get; private set; } = 1;
+
+    private double _uiScalingOption = 1;
+    public double UIScalingOption
+    {
+        get => _uiScalingOption;
+        set
+        {
+            _uiScalingOption = value;
+            _pendingUIScaling = ComputeUIScale(GetWindow());
+            _elapsedSinceLastResize = _resizeGracePeriod;
+        }
+    }
+
+    private double _uiScaling;
+    public double UIScaling
+    {
+        get => _uiScaling;
+        private set
+        {
+            _uiScaling = value;
+            UIScaleChanged?.Invoke(this, _uiScaling);
+        }
+    }
     private double _pendingUIScaling = 1;
 
     private float _resolutionTargetWidth = 960;
@@ -19,10 +42,11 @@ public partial class AvaloniaLoader : Node
 
     private double ComputeUIScale(Window window)
     {
+        Debug.WriteLine(UIScalingOption);
         var xRatio = window.Size.X / _resolutionTargetWidth;
         var yRatio = window.Size.Y / _resolutionTargetHeight;
 
-        return Mathf.Min(xRatio, yRatio);
+        return Mathf.Min(xRatio, yRatio) * UIScalingOption;
     }
 
     public override void _Ready()
@@ -52,7 +76,6 @@ public partial class AvaloniaLoader : Node
         if (UIScaling != _pendingUIScaling && _elapsedSinceLastResize > _resizeGracePeriod)
         {
             UIScaling = _pendingUIScaling;
-            UIScaleChanged?.Invoke(this, UIScaling);
         }
     }
 }

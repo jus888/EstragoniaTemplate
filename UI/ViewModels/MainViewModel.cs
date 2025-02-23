@@ -1,5 +1,6 @@
 using Avalonia.Animation;
 using CommunityToolkit.Mvvm.ComponentModel;
+using EstragoniaTemplate.UI.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -14,6 +15,13 @@ public partial class MainViewModel : ViewModel
     private IPageTransition? _transition = null;
 
     private readonly Stack<ViewModel> _viewModels = new();
+
+    public UIOptions UIOptions { get; set; }
+
+    public MainViewModel(UIOptions uiOptions)
+    {
+        UIOptions = uiOptions;
+    }
 
     public void SetPageTransition(IPageTransition? transition)
     {

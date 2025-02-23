@@ -20,11 +20,11 @@ public partial class UserInterface : AvaloniaControl
     {   
         RenderScaling = AvaloniaLoader.Instance.UIScaling;
         AvaloniaLoader.Instance.UIScaleChanged += (_, scale) => 
-        { 
-            RenderScaling = scale; 
+        {
+            RenderScaling = scale;
         };
 
-        var mainViewModel = new MainViewModel();
+        var mainViewModel = new MainViewModel(new());
         var mainMenuViewModel = new MainMenuViewModel(mainViewModel);
         mainViewModel.NavigateTo(mainMenuViewModel);
 

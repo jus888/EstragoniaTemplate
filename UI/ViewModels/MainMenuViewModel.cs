@@ -11,9 +11,8 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public partial class MainMenuViewModel : ViewModel
 {
-    private readonly MainViewModel? _mainViewModel;
+    private readonly MainViewModel _mainViewModel;
 
-    public MainMenuViewModel() { }
     public MainMenuViewModel(MainViewModel mainViewModel)
     {
         _mainViewModel = mainViewModel;
@@ -22,7 +21,7 @@ public partial class MainMenuViewModel : ViewModel
     [RelayCommand]
     public void ToOptions()
     {
-        _mainViewModel?.NavigateTo(new OptionsViewModel(), 
+        _mainViewModel?.NavigateTo(new OptionsViewModel(_mainViewModel.UIOptions), 
             CreateCommonPageTransition(TransitionType.Fade, 0.5f));
     }
 }
