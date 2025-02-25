@@ -70,7 +70,7 @@
 											 IsEnabled="{Binding !Options.VSync}" />
 
 				<!-- UI Scale -->
-				<TextBlock Grid.Row="3">UI Scale</TextBlock>
+				<TextBlock Grid.Row="3" Focusable="True">UI Scale</TextBlock>
 				<Slider Grid.Row="3" Grid.Column="2" Width="50"
 								Minimum="0.5"
 								Maximum="2"
@@ -89,11 +89,15 @@
 		<DockPanel>
 			<Button DockPanel.Dock="Left" Content="Cancel" Command="{Binding Close}" />
 			<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-				<Button Content="Save" Command="{Binding Close}" />
-				<Button Content="Apply" Command="{Binding Apply}" />
+				<Button Content="Save" 
+								Command="{Binding Close}"
+								IsCancel="True" />
+				<Button Content="Apply"
+								Command="{Binding ApplyCommand}"
+								Focusable="True" />
 			</StackPanel>
 			<Control />
 		</DockPanel>
 	</StackPanel>
-
+	
 </ui:OptionsView>

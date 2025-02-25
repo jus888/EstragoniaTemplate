@@ -1,3 +1,4 @@
+using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Godot;
 using System;
@@ -17,4 +18,19 @@ public partial class UIOptions : ObservableObject
 
     [ObservableProperty]
     private float _UIScale = 1;
+
+    public void Apply()
+    {
+        DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, false);
+        DisplayServer.WindowSetMode(WindowMode);
+        DisplayServer.WindowSetVsyncMode(VSync ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled);
+
+        AvaloniaLoader.Instance.UIScalingOption = UIScale;
+
+        Engine.MaxFps = 0;
+        if (!VSync)
+        {
+            Engine.MaxFps = FPSLimit;
+        }
+    }
 }

@@ -2,54 +2,44 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EstragoniaTemplate.UI.Models;
 using Godot;
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
 public partial class OptionsViewModel : ViewModel
 {
     [ObservableProperty]
-    UIOptions _options;
+    private UIOptions _options;
 
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
     private bool _canApply = false;
-    public bool CanApply
-    {
-        get => _canApply;
-        private set
-        {
-            if (SetProperty(ref _canApply, value))
-            {
-                ApplyCommand.NotifyCanExecuteChanged();
-            }
-        }
-    }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        CanApply = true;
+
+        if (e.PropertyName != nameof(CanApply))
+        {
+            CanApply = true;
+        }
     }
 
     public OptionsViewModel(UIOptions uiOptions)
     {
         _options = uiOptions;
+        Options.PropertyChanged += (s, e) =>
+        {
+            OnPropertyChanged(e);
+        };
     }
 
     [RelayCommand(CanExecute = nameof(CanApply))]
     public void Apply()
     {
-        _canApply = false;
-
-        DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, false);
-        DisplayServer.WindowSetMode(Options.WindowMode);
-        DisplayServer.WindowSetVsyncMode(Options.VSync ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled);
-
-        AvaloniaLoader.Instance.UIScalingOption = Options.UIScale;
-
-        Engine.MaxFps = 0;
-        if (!Options.VSync)
-        {
-            Engine.MaxFps = Options.FPSLimit;
-        }
+        Options.Apply();
+        CanApply = false;
     }
 }

@@ -42,7 +42,6 @@ public partial class AvaloniaLoader : Node
 
     private double ComputeUIScale(Window window)
     {
-        Debug.WriteLine(UIScalingOption);
         var xRatio = window.Size.X / _resolutionTargetWidth;
         var yRatio = window.Size.Y / _resolutionTargetHeight;
 
