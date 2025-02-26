@@ -19,6 +19,20 @@ public partial class UIOptions : ObservableObject
     [ObservableProperty]
     private float _UIScale = 1;
 
+    public UIOptions() { }
+    public UIOptions(UIOptions options)
+    {
+        SetFromOptions(options);
+    }
+
+    public void SetFromOptions(UIOptions options)
+    {
+        WindowMode = options.WindowMode;
+        VSync = options.VSync;
+        FPSLimit = options.FPSLimit;
+        UIScale = options.UIScale;
+    }
+
     public void Apply()
     {
         DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, false);
@@ -32,5 +46,25 @@ public partial class UIOptions : ObservableObject
         {
             Engine.MaxFps = FPSLimit;
         }
+    }
+
+    public void SaveOverrideFile()
+    {
+        using var file = FileAccess.Open("user://settings_override.cfg", FileAccess.ModeFlags.Write)!;
+        file.StoreLine($"display/window/size/mode = {(int)WindowMode}");
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is UIOptions options &&
+               WindowMode == options.WindowMode &&
+               VSync == options.VSync &&
+               FPSLimit == options.FPSLimit &&
+               UIScale == options.UIScale;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(WindowMode, VSync, FPSLimit, UIScale);
     }
 }

@@ -6,6 +6,8 @@
 	xmlns:ui="using:EstragoniaTemplate.UI"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
 	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
+	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
 	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.OptionsView"
@@ -39,15 +41,14 @@
 						RowDefinitions="Auto, Auto, Auto, Auto">
 				
 				<!-- Screen mode -->
-				<TextBlock>Screen mode</TextBlock>
-				<ComboBox Grid.Column="3"
-									Name="InitialFocus0"
-									SelectedIndex="{Binding Options.WindowMode,
+					<TextBlock>Screen mode</TextBlock>
+					<ComboBox Name="InitialFocus0" Grid.Column="3"
+										SelectedIndex="{Binding Options.WindowMode,
 										Converter={StaticResource windowModeConverter}}">
-					<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
-					<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
-					<ComboBoxItem>Windowed</ComboBoxItem>
-				</ComboBox>
+						<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
+						<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
+						<ComboBoxItem>Windowed</ComboBoxItem>
+					</ComboBox>
 
 				<!-- VSync -->
 				<TextBlock Grid.Row="1">VSync</TextBlock>
@@ -87,14 +88,23 @@
 		</Border>
 
 		<DockPanel>
-			<Button DockPanel.Dock="Left" Content="Cancel" Command="{Binding Close}" />
+			<Button DockPanel.Dock="Left" 
+							Content="Cancel" 
+							Command="{Binding CancelCommand}" />
+			
 			<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-				<Button Content="Save" 
-								Command="{Binding Close}"
+				<Button Name="Save"
+								Content="Save" 
+								Command="{Binding SaveCommand}"
 								IsCancel="True" />
+				
 				<Button Content="Apply"
-								Command="{Binding ApplyCommand}"
-								Focusable="True" />
+								Command="{Binding ApplyCommand}">
+					<Interaction.Behaviors>
+						<behaviors:MoveFocusWhenDisabledBehavior Target="{Binding #Save}" />
+					</Interaction.Behaviors>
+				</Button>
+				
 			</StackPanel>
 			<Control />
 		</DockPanel>

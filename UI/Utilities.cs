@@ -31,8 +31,11 @@ public static class Utilities
             case TransitionType.Fade:
                 transition = new CompositePageTransition() 
                 { 
-                    PageTransitions =
-                    [ new SequentialFade(duration), new TransitionDisableFromControl(duration) ]
+                    PageTransitions = new() 
+                    { 
+                        new SequentialFade(duration), 
+                        new TransitionDisableFromControl(duration) 
+                    }
                 };
                 break;
         }

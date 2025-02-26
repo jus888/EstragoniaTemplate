@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="EstragoniaTemplate"
-run/main_scene="res://scene.tscn"
+run/main_scene="res://Main/main_scene.tscn"
+config/project_settings_override="user://settings_override.cfg"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

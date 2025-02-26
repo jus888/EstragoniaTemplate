@@ -6,12 +6,7 @@ using System.Diagnostics;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
-public partial class MainViewModel : NavigatorViewModel
+public partial class DialogMainViewModel : NavigatorViewModel
 {
-    public UIOptions UIOptions { get; set; }
 
-    public MainViewModel(UIOptions uiOptions)
-    {
-        UIOptions = uiOptions;
-    }
 }
