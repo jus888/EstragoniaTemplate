@@ -19,6 +19,8 @@ public partial class UIOptions : ObservableObject
     [ObservableProperty]
     private float _UIScale = 1;
 
+    public event EventHandler? Applied;
+
     public UIOptions() { }
     public UIOptions(UIOptions options)
     {
@@ -35,6 +37,8 @@ public partial class UIOptions : ObservableObject
 
     public void Apply()
     {
+        Applied?.Invoke(this, EventArgs.Empty);
+
         DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, false);
         DisplayServer.WindowSetMode(WindowMode);
         DisplayServer.WindowSetVsyncMode(VSync ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled);

@@ -16,6 +16,8 @@ public partial class UserInterface : AvaloniaControl
     private bool _stopAcceptRepeat = false;
     private StringName _uiAcceptName = "ui_accept";
 
+    private KeyRepeater? _keyRepeater;
+
     public override void _Ready()
     {   
         RenderScaling = AvaloniaLoader.Instance.UIScaling;
@@ -29,6 +31,8 @@ public partial class UserInterface : AvaloniaControl
 
     public void Initialize(MainViewModel mainViewModel)
     {
+        _keyRepeater = new KeyRepeater(mainViewModel.UIOptions);
+
         var mainMenuViewModel = new MainMenuViewModel(mainViewModel);
         mainViewModel.NavigateTo(mainMenuViewModel);
 
@@ -38,49 +42,23 @@ public partial class UserInterface : AvaloniaControl
         };
     }
 
-    //public override void _GuiInput(InputEvent @event)
-    //{
-    //    var inputEventKey = @event as InputEventKey;
-    //    var joypadButton = @event as InputEventJoypadButton;
-    //    if (inputEventKey != null || joypadButton != null)
-    //    {
-    //        bool isAcceptInput = false;
-    //        bool pressed = false;
-    //        var mapAcceptEvents = InputMap.ActionGetEvents(_uiAcceptName);
-    //        foreach (var inputEvent in mapAcceptEvents)
-    //        {
-    //            if (inputEvent is InputEventKey key && key.PhysicalKeycode == inputEventKey?.PhysicalKeycode)
-    //            {
-    //                isAcceptInput = true;
-    //                pressed = inputEventKey.Pressed;
-    //                break;
-    //            }
+    public override void _GuiInput(InputEvent @event)
+    {
+        if (_keyRepeater != null && _keyRepeater.Input(@event))
+            return;
 
-    //            if (inputEvent is InputEventJoypadButton joypad && joypad.ButtonIndex == joypadButton?.ButtonIndex)
-    //            {
-    //                isAcceptInput = true;
-    //                pressed = joypadButton.Pressed;
-    //                break;
-    //            }
-    //        }
+        base._GuiInput(@event);
+    }
 
-    //        if (isAcceptInput)
-    //        {
-    //            if (_stopAcceptRepeat == false)
-    //            {
-    //                base._GuiInput(@event);
-    //            }
+    public void ForceGuiInput(InputEvent @event)
+    {
+        base._GuiInput(@event);
+    }
 
-    //            _stopAcceptRepeat = false;
-    //            if (pressed)
-    //            {
-    //                _stopAcceptRepeat = true;
-    //            }
+    public override void _Process(double delta)
+    {
+        _keyRepeater?.Process((float)delta, this);
 
-    //            return;
-    //        }
-    //    }
-
-    //    base._GuiInput(@event);
-    //}
+        base._Process(delta);
+    }
 }
