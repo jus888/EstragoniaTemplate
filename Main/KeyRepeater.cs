@@ -1,23 +1,28 @@
+using Avalonia.Input;
 using EstragoniaTemplate.UI.Models;
 using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace EstragoniaTemplate.Main;
 
 public class KeyRepeater
 {
     private const float SecondsUntilRepeat = 0.35f;
-    private const float RepeatIntervalSeconds = 0.1f;
+    private const float RepeatIntervalSeconds = 0.06f;
 
     readonly StringName[] _directionalInputEventNames = ["ui_left", "ui_right", "ui_up", "ui_down"];
-    private InputEvent[] _directionalInputEvents = Array.Empty<InputEvent>();
+    private HashSet<InputEvent> _directionalInputEvents = new();
 
-    private Dictionary<InputEvent, float> _inputDownDurations = new(); 
+    private Dictionary<InputEvent, float> _inputDownDurations = new();
+    private HashSet<Godot.Key> _blockedKeys = new();
+    private HashSet<JoyButton> _blockedJoyButtons = new();
 
-    public KeyRepeater(UIOptions uiOptions)
+    public KeyRepeater(UIOptions uiOptions, Window window)
     {
+        window.FocusExited += ClearRepeatingAndBlockedInput;
         uiOptions.Applied += (s, e) => UpdateDirectionalKeys();
         UpdateDirectionalKeys();
     }
@@ -32,27 +37,44 @@ public class KeyRepeater
 
         if (inputEventKey == null && joypadButton == null) return false;
 
-        bool pressed = false;
+        bool pressed = inputEventKey?.Pressed ?? joypadButton!.Pressed;
         InputEvent? correspondingDirectionalEvent = null;
         foreach (var directionalEvent in _directionalInputEvents)
         {
             if (directionalEvent is InputEventKey keyEvent && keyEvent.PhysicalKeycode == inputEventKey?.PhysicalKeycode)
             {
-                pressed = inputEventKey.Pressed;
                 correspondingDirectionalEvent = directionalEvent;
                 break;
             }
 
             if (directionalEvent is InputEventJoypadButton joypadEvent && joypadEvent.ButtonIndex == joypadButton?.ButtonIndex)
             {
-                pressed = joypadButton.Pressed;
                 correspondingDirectionalEvent = directionalEvent;
                 break;
             }
         }
 
         if (correspondingDirectionalEvent == null)
-            return false;
+        {
+            if (inputEventKey != null)
+            {
+                if (pressed)
+                {
+                    return !_blockedKeys.Add(inputEventKey.PhysicalKeycode);
+                }
+                _blockedKeys.Remove(inputEventKey.PhysicalKeycode);
+                return false;
+            }
+            else
+            {
+                if (pressed)
+                {
+                    return !_blockedJoyButtons.Add(joypadButton!.ButtonIndex);
+                }
+                _blockedJoyButtons.Remove(joypadButton!.ButtonIndex);
+                return false;
+            }
+        }
 
         if (_inputDownDurations.ContainsKey(correspondingDirectionalEvent))
         {
@@ -71,6 +93,13 @@ public class KeyRepeater
         return true;
     }
 
+    public void ClearRepeatingAndBlockedInput()
+    {
+        _inputDownDurations.Clear();
+        _blockedKeys.Clear();
+        _blockedJoyButtons.Clear();
+    }
+
     public void UpdateDirectionalKeys()
     {
         List<InputEvent> directionalEvents = new();
@@ -80,8 +109,8 @@ public class KeyRepeater
             directionalEvents.AddRange(directionEvents);
         }
 
-        _directionalInputEvents = directionalEvents.ToArray();
-        _inputDownDurations.Clear();
+        _directionalInputEvents = directionalEvents.ToHashSet();
+        ClearRepeatingAndBlockedInput();
     }
 
     /// <summary>
