@@ -14,12 +14,15 @@ public partial class OptionsViewModel : ViewModel
 {
     [ObservableProperty]
     private UIOptions _options;
-
     private UIOptions _originalOptions;
+    private UIOptions _currentlyAppliedOptions;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
     private bool _canApply = false;
+
+    // Nullable because the view uses constructor with only UIOptions (for the designer).
+    private readonly MainViewModel? _mainViewModel;
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -27,19 +30,24 @@ public partial class OptionsViewModel : ViewModel
 
         if (e.PropertyName != nameof(CanApply))
         {
-            CanApply = true;
+            CanApply = !Options.Equals(_currentlyAppliedOptions);
         }
     }
 
-    public OptionsViewModel(UIOptions uiOptions)
+    public OptionsViewModel(MainViewModel mainViewModel) : this(mainViewModel.UIOptions)
     {
-        _options = uiOptions;
+        _mainViewModel = mainViewModel;
+    }
+    public OptionsViewModel(UIOptions options)
+    {
+        _currentlyAppliedOptions = new(options);
+        Options = options;
         Options.PropertyChanged += (s, e) =>
         {
             OnPropertyChanged(e);
         };
 
-        _originalOptions = new(uiOptions);
+        _originalOptions = new(options);
     }
 
     [RelayCommand(CanExecute = nameof(CanApply))]
@@ -47,6 +55,7 @@ public partial class OptionsViewModel : ViewModel
     {
         Options.Apply();
         CanApply = false;
+        _currentlyAppliedOptions = new(Options);
     }
 
     [RelayCommand]
@@ -69,11 +78,39 @@ public partial class OptionsViewModel : ViewModel
     }
 
     [RelayCommand]
-    public void Cancel()
+    public void Exit()
     {
-        Options.SetFromOptions(_originalOptions);
-        Apply();
+        if (!_currentlyAppliedOptions.Equals(_originalOptions))
+        {
+            var dialog = new DialogViewModel("You have unsaved applied changes.\nExit without saving or save changes?", "Cancel", "Do not save", "Save applied settings");
+            dialog.UserResponded += OnResponse;
 
-        Close();
+            void OnResponse(DialogViewModel.Response response)
+            {
+                dialog.UserResponded -= OnResponse;
+                switch (response)
+                {
+                    case DialogViewModel.Response.Cancel:
+                        return;
+                    case DialogViewModel.Response.Deny:
+                        Options.SetFromOptions(_originalOptions);
+                        Apply();
+                        Close();
+                        return;
+                    case DialogViewModel.Response.Confirm:
+                        Options.SetFromOptions(_currentlyAppliedOptions);
+                        Save();
+                        return;
+                }
+            }
+
+            _mainViewModel?.ShowDialogViewModel(dialog);
+        }
+        else
+        {
+            Options.SetFromOptions(_originalOptions);
+            Apply();
+            Close();
+        }
     }
 }

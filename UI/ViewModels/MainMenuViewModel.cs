@@ -21,7 +21,7 @@ public partial class MainMenuViewModel : ViewModel
     [RelayCommand]
     public void ToOptions()
     {
-        _mainViewModel?.NavigateTo(new OptionsViewModel(_mainViewModel.UIOptions), 
+        _mainViewModel?.NavigateTo(new OptionsViewModel(_mainViewModel), 
             CreateCommonPageTransition(TransitionType.Fade, 0.5f));
     }
 }

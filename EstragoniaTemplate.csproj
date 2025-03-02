@@ -6,7 +6,7 @@
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<Nullable>enable</Nullable>
 		<OutputType>Exe</OutputType>
-		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>				
+		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(Configuration) == 'Debug'">
@@ -22,8 +22,8 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Compile Update="UI\Views\DialogMainView.axaml.cs">
-	    <DependentUpon>DialogMainView.axaml</DependentUpon>
+	  <Compile Update="UI\Views\DialogView.axaml.cs">
+	    <DependentUpon>DialogView.axaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 </Project>

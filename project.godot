@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 
 AvaloniaLoader="*res://UI/AvaloniaLoader.cs"
 
+[display]
+
+window/size/mode=3
+
 [dotnet]
 
 project/assembly_name="EstragoniaTemplate"

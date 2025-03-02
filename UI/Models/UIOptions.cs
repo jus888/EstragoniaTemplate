@@ -40,8 +40,13 @@ public partial class UIOptions : ObservableObject
         Applied?.Invoke(this, EventArgs.Empty);
 
         DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, false);
-        DisplayServer.WindowSetMode(WindowMode);
         DisplayServer.WindowSetVsyncMode(VSync ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled);
+
+        var currentMode = DisplayServer.WindowGetMode();
+        if (WindowMode != DisplayServer.WindowMode.Windowed || currentMode != DisplayServer.WindowMode.Maximized)
+        {
+            DisplayServer.WindowSetMode(WindowMode);
+        }
 
         AvaloniaLoader.Instance.UIScalingOption = UIScale;
 

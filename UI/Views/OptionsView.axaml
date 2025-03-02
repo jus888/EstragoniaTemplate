@@ -31,21 +31,25 @@
 		</Style>
 	</UserControl.Styles>
 
-	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-		<Border Padding="20" 
-						Background="White"
-						BorderBrush="Black" 
-						BorderThickness="1"
-						CornerRadius="5">
+	<Border Padding="20"
+			Background="White"
+			BorderBrush="Black"
+			BorderThickness="1"
+			CornerRadius="5"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center">
+
+		<!-- Settings List -->
+		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 			<Grid ColumnDefinitions="Auto, *, Auto, Auto"
-						RowDefinitions="Auto, Auto, Auto, Auto">
+				  RowDefinitions="Auto, Auto, Auto, Auto">
 				
 				<!-- Screen mode -->
 					<TextBlock>Screen mode</TextBlock>
 					<ComboBox Name="InitialFocus0" Grid.Column="3"
-										Width="200"
-										SelectedIndex="{Binding Options.WindowMode,
-										Converter={StaticResource windowModeConverter}}">
+							  Width="200"
+							  SelectedIndex="{Binding Options.WindowMode,
+							  Converter={StaticResource windowModeConverter}}">
 						<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Windowed</ComboBoxItem>
@@ -54,61 +58,64 @@
 				<!-- VSync -->
 				<TextBlock Grid.Row="1">VSync</TextBlock>
 				<CheckBox Grid.Row="1" Grid.Column="3"
-									Classes="alignRight"
-									IsChecked="{Binding Options.VSync}" />
+						  Classes="alignRight"
+						  IsChecked="{Binding Options.VSync}" />
 
 				<!-- FPS Limit -->
 				<TextBlock Grid.Row="2">FPS Limit</TextBlock>
 				<Slider Grid.Row="2" Grid.Column="2" Width="50"
-								Minimum="10"
-								Maximum="200"
-								Value="{Binding Options.FPSLimit}"
-								IsEnabled="{Binding !Options.VSync}" />
+						Minimum="10"
+						Maximum="200"
+						Value="{Binding Options.FPSLimit}"
+						IsEnabled="{Binding !Options.VSync}" />
+				
 				<NumericUpDown Grid.Row="2" Grid.Column="3"
-											 Minimum="10"
-											 Maximum="200"
-											 ShowButtonSpinner="False"
-											 Value="{Binding Options.FPSLimit}"
-											 IsEnabled="{Binding !Options.VSync}" />
+							   Minimum="10"
+							   Maximum="200"
+							   ShowButtonSpinner="False"
+							   Value="{Binding Options.FPSLimit}"
+							   IsEnabled="{Binding !Options.VSync}" />
 
 				<!-- UI Scale -->
 				<TextBlock Grid.Row="3">UI Scale</TextBlock>
 				<Slider Grid.Row="3" Grid.Column="2" Width="50"
-								Minimum="0.5"
-								Maximum="2"
-								TickFrequency="0.1"
-								IsSnapToTickEnabled="True"
-								SmallChange="0.1"
-								Value="{Binding Options.UIScale}" />
+						Minimum="0.5"
+						Maximum="2"
+						TickFrequency="0.1"
+						IsSnapToTickEnabled="True"
+						SmallChange="0.1"
+						Value="{Binding Options.UIScale}" />
 				<NumericUpDown Grid.Row="3" Grid.Column="3"
-											 Minimum="0.5"
-											 Maximum="2"
-											 ShowButtonSpinner="False"
-											 Value="{Binding Options.UIScale}" />
+							   Minimum="0.5"
+							   Maximum="2"
+							   ShowButtonSpinner="False"
+							   Value="{Binding Options.UIScale}" />
 			</Grid>
-		</Border>
+			<Separator Margin="10" />
 
-		<DockPanel>
-			<Button DockPanel.Dock="Left" 
-							Content="Cancel" 
-							Command="{Binding CancelCommand}" />
-			
-			<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-				<Button Name="Save"
-								Content="Save" 
-								Command="{Binding SaveCommand}"
-								IsCancel="True" />
+			<!-- Bottom Buttons -->
+			<DockPanel>
+				<Button DockPanel.Dock="Left"
+						Content="Exit"
+						Command="{Binding ExitCommand}" />
 				
-				<Button Content="Apply"
-								Command="{Binding ApplyCommand}">
-					<Interaction.Behaviors>
-						<behaviors:MoveFocusWhenDisabledBehavior Target="{Binding #Save}" />
-					</Interaction.Behaviors>
-				</Button>
-				
-			</StackPanel>
-			<Control />
-		</DockPanel>
-	</StackPanel>
+				<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+					<Button Name="Save"
+							Content="Save"
+							Command="{Binding SaveCommand}"
+							IsCancel="True" />
+
+					<Button Content="Apply"
+							Command="{Binding ApplyCommand}">
+						<Interaction.Behaviors>
+							<behaviors:MoveFocusWhenDisabledBehavior Target="{Binding #Save}" />
+						</Interaction.Behaviors>
+					</Button>
+				</StackPanel>
+				<Control />
+			</DockPanel>
+		</StackPanel>
+	</Border>
+
 	
 </ui:OptionsView>

@@ -1,0 +1,70 @@
+<ui:DialogOptionConfirmView
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ui="using:EstragoniaTemplate.UI"
+	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
+	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
+	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
+	xmlns:model="using:EstragoniaTemplate.UI.Models"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+	x:Class="EstragoniaTemplate.UI.Views.DialogView"
+	x:DataType="vm:DialogViewModel">
+
+	<Design.DataContext>
+		<vm:DialogViewModel>
+			<x:Arguments>
+				<x:String>Message</x:String>
+				<x:String>Cancel</x:String>
+				<x:String>Deny</x:String>
+				<x:String>Confirm</x:String>
+			</x:Arguments>
+		</vm:DialogViewModel>
+	</Design.DataContext>
+
+	<Border Background="rgba(0, 0, 0, 0.2)">
+		<Border Padding="20"
+				Background="White"
+				BorderBrush="Black"
+				BorderThickness="1"
+				CornerRadius="5"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center">
+
+			<StackPanel>
+				<TextBlock HorizontalAlignment="Center" 
+						   Text="{Binding Message}" />
+				<Separator Margin="10" />
+				<DockPanel>
+					<Button DockPanel.Dock="Left"
+							Content="{Binding ConfirmText}"
+							Command="{Binding ButtonResponseCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>2</sys:Int32>
+						</Button.CommandParameter>
+					</Button>
+					<Button DockPanel.Dock="Left"		
+							Content="{Binding DenyText}"
+							Command="{Binding ButtonResponseCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>1</sys:Int32>
+						</Button.CommandParameter>
+					</Button>
+					<Button DockPanel.Dock="Right"
+							Name="InitialFocus0"
+							Content="{Binding CancelText}"
+							Command="{Binding ButtonResponseCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>0</sys:Int32>
+						</Button.CommandParameter>
+					</Button>
+					<Control Width="30" />
+				</DockPanel>
+			</StackPanel>
+		</Border>
+	</Border>
+	
+</ui:DialogOptionConfirmView>

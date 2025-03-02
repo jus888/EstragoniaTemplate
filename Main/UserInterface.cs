@@ -11,12 +11,6 @@ namespace EstragoniaTemplate.Main;
 
 public partial class UserInterface : AvaloniaControl
 {
-    /// <summary>
-    /// Prevents auto key repeat when holding accept button(s).
-    /// </summary>
-    private bool _stopAcceptRepeat = false;
-    private StringName _uiAcceptName = "ui_accept";
-
     private KeyRepeater? _keyRepeater;
 
     public override void _Ready()
@@ -30,12 +24,13 @@ public partial class UserInterface : AvaloniaControl
         base._Ready();
     }
 
-    public void Initialize(MainViewModel mainViewModel)
+    public void Initialize(MainViewModel mainViewModel, ViewModel? initialViewModel = null)
     {
         _keyRepeater = new KeyRepeater(mainViewModel.UIOptions, GetWindow());
-
-        var mainMenuViewModel = new MainMenuViewModel(mainViewModel);
-        mainViewModel.NavigateTo(mainMenuViewModel);
+        if (initialViewModel != null)
+        {
+            mainViewModel.NavigateTo(initialViewModel);
+        }
 
         Control = new MainView()
         {

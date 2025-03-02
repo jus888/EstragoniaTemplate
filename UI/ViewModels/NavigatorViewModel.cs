@@ -1,6 +1,7 @@
 using Avalonia.Animation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EstragoniaTemplate.Main;
 using System;
 using System.Collections.Generic;
 
@@ -16,12 +17,29 @@ public abstract partial class NavigatorViewModel : ViewModel
 
     private readonly Stack<ViewModel> _viewModels = new();
 
+    protected readonly UserInterface _userInterface;
+
+    public NavigatorViewModel(UserInterface userInterface)
+    {
+        _userInterface = userInterface;
+    }
+
     public void SetPageTransition(IPageTransition? transition)
     {
         Transition = transition;
     }
 
-    public void NavigateTo(ViewModel viewModel, IPageTransition? transition = null, bool clearStack = false)
+    private void OnViewModelsAddedOrRemoved()
+    {
+        _userInterface.FocusMode = Godot.Control.FocusModeEnum.All;
+        if (_viewModels.Count == 0)
+        {
+            _userInterface.FocusMode = Godot.Control.FocusModeEnum.None;
+            _userInterface.ReleaseFocus();
+        }
+    }
+
+    public void NavigateTo(ViewModel viewModel, IPageTransition? transition = null, bool replace = false, bool clearStack = false)
     {
         this.Transition = transition;
 
@@ -29,16 +47,30 @@ public abstract partial class NavigatorViewModel : ViewModel
         {
             _viewModels.Clear();
         }
+        else if (replace)
+        {
+            _viewModels.Pop();
+        }
 
         viewModel.Closed += OnViewModelClosed;
         _viewModels.Push(viewModel);
         CurrentViewModel = viewModel;
+        OnViewModelsAddedOrRemoved();
 
         void OnViewModelClosed()
         {
             viewModel.Closed -= OnViewModelClosed;
             _viewModels.Pop();
-            CurrentViewModel = _viewModels.Peek();
+            if (_viewModels.Count > 0)
+            {
+                CurrentViewModel = _viewModels.Peek();
+            }
+            else
+            {
+                CurrentViewModel = null;
+            }
+
+            OnViewModelsAddedOrRemoved();
         }
     }
 }
