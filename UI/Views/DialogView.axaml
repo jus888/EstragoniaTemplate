@@ -19,7 +19,7 @@
 			<x:Arguments>
 				<x:String>Message</x:String>
 				<x:String>Cancel</x:String>
-				<x:String>Deny</x:String>
+				<x:Null />
 				<x:String>Confirm</x:String>
 			</x:Arguments>
 		</vm:DialogViewModel>
@@ -27,6 +27,7 @@
 
 	<Border Background="rgba(0, 0, 0, 0.2)">
 		<Border Padding="20"
+				MinWidth="300"
 				Background="White"
 				BorderBrush="Black"
 				BorderThickness="1"
@@ -40,6 +41,8 @@
 				<Separator Margin="10" />
 				<DockPanel>
 					<Button DockPanel.Dock="Left"
+							IsVisible="{Binding ConfirmText,
+								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
 							Content="{Binding ConfirmText}"
 							Command="{Binding ButtonResponseCommand}">
 						<Button.CommandParameter>
@@ -47,6 +50,8 @@
 						</Button.CommandParameter>
 					</Button>
 					<Button DockPanel.Dock="Left"		
+							IsVisible="{Binding DenyText,
+								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"							
 							Content="{Binding DenyText}"
 							Command="{Binding ButtonResponseCommand}">
 						<Button.CommandParameter>
@@ -55,6 +60,8 @@
 					</Button>
 					<Button DockPanel.Dock="Right"
 							Name="InitialFocus0"
+							IsVisible="{Binding CancelText,
+								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"							
 							Content="{Binding CancelText}"
 							Command="{Binding ButtonResponseCommand}">
 						<Button.CommandParameter>

@@ -12,9 +12,9 @@ namespace EstragoniaTemplate.UI.ViewModels;
 public partial class DialogViewModel : ViewModel
 {
     public string Message { get; private set; } = "";
-    public string CancelText { get; private init; } = "";
-    public string DenyText { get; private init; } = "";
-    public string ConfirmText { get; private init; } = "";
+    public string? CancelText { get; private init; }
+    public string? DenyText { get; private init; }
+    public string? ConfirmText { get; private init; }
 
     public enum Response
     {
@@ -26,7 +26,7 @@ public partial class DialogViewModel : ViewModel
     public event Action<Response>? UserResponded;
 
     public DialogViewModel() { }
-    public DialogViewModel(string message, string cancelText, string denyText, string confirmText)
+    public DialogViewModel(string message, string? cancelText = null, string? denyText = null, string? confirmText = null)
     {
         Message = message;
         CancelText = cancelText;
