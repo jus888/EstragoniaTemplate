@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:system="using:System">
+
+	<FontFamily x:Key="StandardFontFamily">sans-serif</FontFamily>
+	<system:Double x:Key="NormalFontSize">18</system:Double>
+
+	<SolidColorBrush x:Key="ForegroundBrush" Color="#000000" />
+	<SolidColorBrush x:Key="DisabledForegroundBrush" Color="#FF808080" />
+
+	<SolidColorBrush x:Key="AccentBrush" Color="rgb(255, 173, 34)" />
+	<SolidColorBrush x:Key="AccentFocusBrush" Color="rgb(255, 218, 159)" />
+
+	<SolidColorBrush x:Key="ContainerNormalBackgroundBrush" Color="#A0324780" />
+	<SolidColorBrush x:Key="ContainerNormalBorderBrush" Color="Transparent" />
+	<SolidColorBrush x:Key="ContainerFocusBackgroundBrush" Color="#C5324780" />
+	<SolidColorBrush x:Key="ContainerFocusBorderBrush" Color="#FFFFFFFF" />
+
+	<SolidColorBrush x:Key="ButtonNormalBackgroundBrush" Color="#9AC9F6" />
+	<SolidColorBrush x:Key="ButtonNormalBorderBrush" Color="#2F4356" />
+	<SolidColorBrush x:Key="ButtonFocusBackgroundBrush" Color="#D8F1FF" />
+	<SolidColorBrush x:Key="ButtonFocusBorderBrush" Color="#FFFFFFFF" />
+
+	<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#80808080" />
+	<SolidColorBrush x:Key="DisabledBorderBrush" Color="#FF808080" />
+</ResourceDictionary>

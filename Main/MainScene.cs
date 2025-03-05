@@ -37,5 +37,7 @@ public partial class MainScene : Node2D
 
         UserInterface!.Initialize(mainViewModel, new MainMenuViewModel(mainViewModel));
         UserInterfaceDialog!.Initialize(mainViewModelDialog);
+
+        UserInterface.GrabFocus();
     }
 }

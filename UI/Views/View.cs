@@ -14,7 +14,7 @@ public abstract partial class View : UserControl
     public bool Test { get; set; }
 
     protected LinkedList<Control> LastFocussedControls = new();
-    protected const int FocussedTrackCount = 10;
+    protected const int FocussedTrackCount = 2;
 
     protected override void OnGotFocus(GotFocusEventArgs e)
     {

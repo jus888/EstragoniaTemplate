@@ -29,6 +29,12 @@
 		<Style Selector=":is(Control).alignRight">
 			<Setter Property="HorizontalAlignment" Value="Right" />
 		</Style>
+		<!--<Style Selector=":is(Control):focus-visible, :is(Control):focus">
+			<Setter Property="Width" Value="300" />
+		</Style>
+		<Style Selector="Button /template/ ContentPresenter">
+			<Setter Property="FontSize" Value="25" />
+		</Style>-->
 	</UserControl.Styles>
 
 	<Border Padding="20"
@@ -99,7 +105,10 @@
 						Content="Exit"
 						Command="{Binding ExitCommand}" />
 				
-				<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+				<Control Width="50" />
+				
+				<StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
+							Spacing="5">
 					<Button Name="Save"
 							Content="Save"
 							Command="{Binding SaveCommand}"
