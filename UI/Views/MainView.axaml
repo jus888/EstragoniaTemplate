@@ -10,15 +10,15 @@
 	x:DataType="vm:MainViewModel"
 	RenderOptions.TextRenderingMode="Antialias"
 	XYFocus.NavigationModes="Enabled"
-  XYFocus.UpNavigationStrategy="Projection"
-  XYFocus.DownNavigationStrategy="Projection"
-  XYFocus.LeftNavigationStrategy="Projection"
-  XYFocus.RightNavigationStrategy="Projection"	>
+	XYFocus.UpNavigationStrategy="Projection"
+	XYFocus.DownNavigationStrategy="Projection"
+	XYFocus.LeftNavigationStrategy="Projection"
+	XYFocus.RightNavigationStrategy="Projection">
 
 	<ui:MainView.DataTemplates>
 		<ui:ViewLocator/>
 	</ui:MainView.DataTemplates>
 
 	<TransitioningContentControl Content="{Binding CurrentViewModel}" 
-															 PageTransition="{Binding Transition}" />
+								 PageTransition="{Binding Transition}" />
 </ui:MainView>

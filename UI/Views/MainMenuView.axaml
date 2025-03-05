@@ -15,7 +15,7 @@
 
 	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 		<Button Name="InitialFocus0"
-						Command="{Binding ToOptions}">
+				Command="{Binding ToOptions}">
 			Options
 		</Button>
 	</StackPanel>
