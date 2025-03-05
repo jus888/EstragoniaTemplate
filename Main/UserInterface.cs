@@ -6,6 +6,8 @@ using EstragoniaTemplate.UI.ViewModels;
 using JLeb.Estragonia;
 using System.Linq;
 using System.Diagnostics;
+using Avalonia.Controls;
+using EstragoniaTemplate.UI.Models;
 
 namespace EstragoniaTemplate.Main;
 
@@ -26,7 +28,11 @@ public partial class UserInterface : AvaloniaControl
 
     public void Initialize(MainViewModel mainViewModel, ViewModel? initialViewModel = null)
     {
-        _keyRepeater = new KeyRepeater(mainViewModel.UIOptions, GetWindow());
+        _keyRepeater = new();
+        GetWindow().FocusExited += _keyRepeater.ClearRepeatingAndBlockedInput;
+        mainViewModel.UIOptions.Applied += (s, e) => _keyRepeater.UpdateDirectionalKeys();
+        mainViewModel.Navigated += (s, e) => _keyRepeater.ClearRepeatingAndBlockedInput();
+
         if (initialViewModel != null)
         {
             mainViewModel.NavigateTo(initialViewModel);

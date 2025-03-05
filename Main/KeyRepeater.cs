@@ -20,10 +20,8 @@ public class KeyRepeater
     private HashSet<Godot.Key> _blockedKeys = new();
     private HashSet<JoyButton> _blockedJoyButtons = new();
 
-    public KeyRepeater(UIOptions uiOptions, Window window)
+    public KeyRepeater()
     {
-        window.FocusExited += ClearRepeatingAndBlockedInput;
-        uiOptions.Applied += (s, e) => UpdateDirectionalKeys();
         UpdateDirectionalKeys();
     }
 

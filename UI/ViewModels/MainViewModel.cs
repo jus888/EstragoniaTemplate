@@ -43,6 +43,8 @@ public partial class MainViewModel : NavigatorViewModel
             _userInterface.FocusMode = Control.FocusModeEnum.All;
             _userInterface.GrabFocus();
             CurrentViewModel?.OnNavigatorReturnedFocus(changedUserInterface: true);
+
+            OnNavigated();
         }
     }
 }

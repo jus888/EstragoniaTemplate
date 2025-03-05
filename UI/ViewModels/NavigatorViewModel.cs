@@ -9,6 +9,8 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public abstract partial class NavigatorViewModel : ViewModel
 {
+    public event EventHandler? Navigated;
+
     [ObservableProperty]
     private ViewModel? _currentViewModel;
 
@@ -39,6 +41,11 @@ public abstract partial class NavigatorViewModel : ViewModel
         }
     }
 
+    protected virtual void OnNavigated()
+    {
+        Navigated?.Invoke(this, EventArgs.Empty);
+    }
+
     public void NavigateTo(ViewModel viewModel, IPageTransition? transition = null, bool replace = false, bool clearStack = false)
     {
         this.Transition = transition;
@@ -55,7 +62,9 @@ public abstract partial class NavigatorViewModel : ViewModel
         viewModel.Closed += OnViewModelClosed;
         _viewModels.Push(viewModel);
         CurrentViewModel = viewModel;
+
         OnViewModelsAddedOrRemoved();
+        OnNavigated();
 
         void OnViewModelClosed()
         {
@@ -72,6 +81,7 @@ public abstract partial class NavigatorViewModel : ViewModel
             }
 
             OnViewModelsAddedOrRemoved();
+            OnNavigated();
         }
     }
 }

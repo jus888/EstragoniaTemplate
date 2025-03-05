@@ -102,6 +102,7 @@
 			<!-- Bottom Buttons -->
 			<DockPanel>
 				<Button DockPanel.Dock="Left"
+						IsCancel="True"
 						Content="Exit"
 						Command="{Binding ExitCommand}" />
 				
@@ -111,8 +112,7 @@
 							Spacing="5">
 					<Button Name="Save"
 							Content="Save"
-							Command="{Binding SaveCommand}"
-							IsCancel="True" />
+							Command="{Binding SaveCommand}" />
 
 					<Button Content="Apply"
 							Command="{Binding ApplyCommand}">
