@@ -7,16 +7,18 @@
 	<Design.PreviewWith>
 		<Border Background="White">
 			<StackPanel Spacing="20" Margin="20">
-				<Button Content="Button 1" />
-				<Button Content="Button 2" IsEnabled="False" />
+				<Button Theme="{StaticResource TextButton}" Content="Button 1" />
+				<Button Theme="{StaticResource TextButton}" Content="Button 1" 
+						IsEnabled="False" />
 			</StackPanel>
 		</Border>
 	</Design.PreviewWith>
 
-	<ControlTheme x:Key="{x:Type Button}" TargetType="Button">
-		<Setter Property="Background" Value="{StaticResource ButtonNormalBackgroundBrush}" />
-		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorderBrush}" />
-		<Setter Property="BorderThickness" Value="1" />
+	<ControlTheme x:Key="TextButton" TargetType="Button">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBackgroundBrush}" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="FontWeight" Value="600" />
 		<Setter Property="Padding" Value="10, 4" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
@@ -42,13 +44,14 @@
 		<Setter Property="Transitions">
 			<Transitions>
 				<BrushTransition Property="Background" Duration="0.2" />
-				<BrushTransition Property="BorderBrush" Duration="0.2" />
+				<ThicknessTransition Property="BorderThickness" Duration="0.1"
+									 Easing="QuadraticEaseOut"/>
 			</Transitions>
 		</Setter>
 
 		<Style Selector="^:focus-visible, ^:pointerover">
 			<Setter Property="Background" Value="{StaticResource ButtonFocusBackgroundBrush}" />
-			<Setter Property="BorderBrush" Value="{StaticResource ButtonFocusBorderBrush}" />
+			<Setter Property="BorderThickness" Value="6,0,0,0" />
 
 			<!--<Style.Animations>
 				<Animation Duration="1.0" IterationCount="infinite" PlaybackDirection="Alternate">

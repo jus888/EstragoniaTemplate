@@ -9,8 +9,9 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceInclude Source="Theme/Common.axaml" />
-				<ResourceInclude Source="Theme/AdornerLayer.axaml" />
+				<!--<ResourceInclude Source="Theme/AdornerLayer.axaml" />-->
 				<ResourceInclude Source="Theme/Button.axaml" />
+				<ResourceInclude Source="Theme/TextButton.axaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

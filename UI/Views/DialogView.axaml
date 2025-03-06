@@ -19,7 +19,7 @@
 			<x:Arguments>
 				<x:String>Message</x:String>
 				<x:String>Cancel</x:String>
-				<x:Null />
+				<x:String>Deny</x:String>
 				<x:String>Confirm</x:String>
 			</x:Arguments>
 		</vm:DialogViewModel>
@@ -37,8 +37,8 @@
 
 			<StackPanel>
 				<TextBlock HorizontalAlignment="Center" 
-						   Text="{Binding Message}" />
-				<Separator Margin="10" />
+						   Text="{Binding Message}"
+						   Margin="0,0,0,16" />
 				<DockPanel>
 					<Button DockPanel.Dock="Left"
 							IsVisible="{Binding ConfirmText,
@@ -49,7 +49,8 @@
 							<sys:Int32>2</sys:Int32>
 						</Button.CommandParameter>
 					</Button>
-					<Button DockPanel.Dock="Left"		
+					<Button DockPanel.Dock="Left"
+							Margin="4,0,0,0"
 							IsVisible="{Binding DenyText,
 								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"							
 							Content="{Binding DenyText}"
@@ -68,7 +69,7 @@
 							<sys:Int32>0</sys:Int32>
 						</Button.CommandParameter>
 					</Button>
-					<Control Width="30" />
+					<Control Width="32" />
 				</DockPanel>
 			</StackPanel>
 		</Border>

@@ -35,7 +35,7 @@ public partial class MainScene : Node2D
         var mainViewModelDialog = new MainViewModel(UserInterfaceDialog!, options);
         var mainViewModel = new MainViewModel(UserInterface!, options, mainViewModelDialog);
 
-        UserInterface!.Initialize(mainViewModel, new MainMenuViewModel(mainViewModel));
+        UserInterface!.Initialize(mainViewModel, new MainMenuViewModel(mainViewModel, this));
         UserInterfaceDialog!.Initialize(mainViewModelDialog);
 
         UserInterface.GrabFocus();

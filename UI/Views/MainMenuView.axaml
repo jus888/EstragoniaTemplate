@@ -12,11 +12,25 @@
 	<Design.DataContext>
 		<vm:MainMenuViewModel />
 	</Design.DataContext>
-
-	<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+	
+	<StackPanel HorizontalAlignment="Center" 
+				VerticalAlignment="Center"
+				Spacing="10">
+		<TextBlock FontSize="80"
+				   FontWeight="600">
+			Title Of Titles
+		</TextBlock>
+		
 		<Button Name="InitialFocus0"
-				Command="{Binding ToOptions}">
+				Theme="{StaticResource TextButton}"
+				HorizontalAlignment="Center"
+				Command="{Binding ToOptionsCommand}">
 			Options
+		</Button>
+		<Button Theme="{StaticResource TextButton}"
+				HorizontalAlignment="Center"
+				Command="{Binding QuitCommand}">
+			Quit
 		</Button>
 	</StackPanel>
 

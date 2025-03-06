@@ -26,101 +26,123 @@
 	</UserControl.Resources>
 	
 	<UserControl.Styles>
-		<Style Selector=":is(Control).alignRight">
-			<Setter Property="HorizontalAlignment" Value="Right" />
+		<Style Selector=".centerChildrenVertical > :is(Control)">
+			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
-		<!--<Style Selector=":is(Control):focus-visible, :is(Control):focus">
-			<Setter Property="Width" Value="300" />
-		</Style>
-		<Style Selector="Button /template/ ContentPresenter">
-			<Setter Property="FontSize" Value="25" />
-		</Style>-->
 	</UserControl.Styles>
 
-	<Border Padding="20"
-			Background="White"
+	<Border Padding="15"
+			Width="400"
+			Background="{StaticResource ContainerNormalBackgroundBrush}"
 			BorderBrush="Black"
 			BorderThickness="1"
-			CornerRadius="5"
 			VerticalAlignment="Center"
 			HorizontalAlignment="Center">
 
 		<!-- Settings List -->
-		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-			<Grid ColumnDefinitions="Auto, *, Auto, Auto"
-				  RowDefinitions="Auto, Auto, Auto, Auto">
+		<StackPanel>
+			<StackPanel Spacing="2">
 				
 				<!-- Screen mode -->
+				<Grid ColumnDefinitions="Auto, *, Auto"
+					  Height="40"
+					  Classes="centerChildrenVertical">
 					<TextBlock>Screen mode</TextBlock>
-					<ComboBox Name="InitialFocus0" Grid.Column="3"
+					<ComboBox Name="InitialFocus0" Grid.Column="2"
 							  Width="200"
 							  SelectedIndex="{Binding Options.WindowMode,
-							  Converter={StaticResource windowModeConverter}}">
+								Converter={StaticResource windowModeConverter}}">
 						<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Windowed</ComboBoxItem>
 					</ComboBox>
+				</Grid>
 
 				<!-- VSync -->
-				<TextBlock Grid.Row="1">VSync</TextBlock>
-				<CheckBox Grid.Row="1" Grid.Column="3"
-						  Classes="alignRight"
-						  IsChecked="{Binding Options.VSync}" />
+				<Grid ColumnDefinitions="Auto, *, Auto"
+					  Height="40"
+					  Classes="centerChildrenVertical">
+					<TextBlock>VSync</TextBlock>
+					<CheckBox Grid.Column="2"
+							  IsChecked="{Binding Options.VSync}" />
+				</Grid>
 
 				<!-- FPS Limit -->
-				<TextBlock Grid.Row="2">FPS Limit</TextBlock>
-				<Slider Grid.Row="2" Grid.Column="2" Width="50"
-						Minimum="10"
-						Maximum="200"
-						Value="{Binding Options.FPSLimit}"
-						IsEnabled="{Binding !Options.VSync}" />
-				
-				<NumericUpDown Grid.Row="2" Grid.Column="3"
-							   Minimum="10"
-							   Maximum="200"
-							   ShowButtonSpinner="False"
-							   Value="{Binding Options.FPSLimit}"
-							   IsEnabled="{Binding !Options.VSync}" />
+				<Grid ColumnDefinitions="Auto, *, Auto, Auto"
+					  Height="40"
+					  Classes="centerChildrenVertical">
+					<TextBlock Grid.Row="2">FPS Limit</TextBlock>
+					<NumericUpDown Grid.Column="2"
+								   Width="60"
+								   BorderBrush="Transparent"
+								   HorizontalContentAlignment="Right"
+								   XYFocus.NavigationModes="Disabled"
+								   Minimum="10"
+								   Maximum="200"
+								   ShowButtonSpinner="False"
+								   Value="{Binding Options.FPSLimit}"
+								   IsEnabled="{Binding !Options.VSync}" />
+					
+					<Slider Grid.Column="3" Width="100"
+							VerticalAlignment="Center"
+							Minimum="10"
+							Maximum="200"
+							SmallChange="5"
+							LargeChange="25"
+							Value="{Binding Options.FPSLimit}"
+							IsEnabled="{Binding !Options.VSync}" />
+				</Grid>
 
 				<!-- UI Scale -->
-				<TextBlock Grid.Row="3">UI Scale</TextBlock>
-				<Slider Grid.Row="3" Grid.Column="2" Width="50"
-						Minimum="0.5"
-						Maximum="2"
-						TickFrequency="0.1"
-						IsSnapToTickEnabled="True"
-						SmallChange="0.1"
-						Value="{Binding Options.UIScale}" />
-				<NumericUpDown Grid.Row="3" Grid.Column="3"
-							   Minimum="0.5"
-							   Maximum="2"
-							   ShowButtonSpinner="False"
-							   Value="{Binding Options.UIScale}" />
-			</Grid>
+				<Grid ColumnDefinitions="Auto, *, Auto, Auto"
+					  Height="40"
+					  Classes="centerChildrenVertical">
+					<TextBlock Grid.Row="3">UI Scale</TextBlock>
+					<NumericUpDown Grid.Column="2"
+								   Width="60"
+								   BorderBrush="Transparent"
+								   HorizontalContentAlignment="Right"
+								   XYFocus.NavigationModes="Disabled"
+								   Minimum="0.5"
+								   Maximum="2"
+								   ShowButtonSpinner="False"
+								   Value="{Binding Options.UIScale}" />
+					
+					<Slider Grid.Column="3" 
+							Name="UIScaleSlider"
+							Width="100"
+							Minimum="0.5"
+							Maximum="2"
+							TickFrequency="0.1"
+							IsSnapToTickEnabled="True"
+							SmallChange="0.1"
+							LargeChange="0.5"
+							Value="{Binding Options.UIScale}" />
+				</Grid>
+			</StackPanel>
 			<Separator Margin="10" />
 
 			<!-- Bottom Buttons -->
 			<DockPanel>
-				<Button DockPanel.Dock="Left"
-						IsCancel="True"
-						Content="Exit"
-						Command="{Binding ExitCommand}" />
-				
-				<Control Width="50" />
-				
-				<StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
-							Spacing="5">
+				<StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="4">
+					<Button IsCancel="True"
+							Content="Exit"
+							Command="{Binding ExitCommand}" />
 					<Button Name="Save"
 							Content="Save"
-							Command="{Binding SaveCommand}" />
-
-					<Button Content="Apply"
-							Command="{Binding ApplyCommand}">
-						<Interaction.Behaviors>
-							<behaviors:MoveFocusWhenDisabledBehavior Target="{Binding #Save}" />
-						</Interaction.Behaviors>
-					</Button>
+							Command="{Binding SaveCommand}"
+							XYFocus.Right="{Binding #Apply}, {Binding #UIScaleSlider}"/>
 				</StackPanel>
+
+				<Button DockPanel.Dock="Right"
+						Name="Apply"
+						Content="Apply"
+						Command="{Binding ApplyCommand}">
+					<Interaction.Behaviors>
+						<behaviors:MoveFocusWhenDisabledBehavior
+							Target="{Binding #Save}" />
+					</Interaction.Behaviors>
+				</Button>
 				<Control />
 			</DockPanel>
 		</StackPanel>

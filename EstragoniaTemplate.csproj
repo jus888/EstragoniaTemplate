@@ -24,6 +24,12 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <AvaloniaXaml Update="UI\Theme\TextButton.axaml">
+	    <SubType>Designer</SubType>
+	  </AvaloniaXaml>
+	</ItemGroup>
+	
+	<ItemGroup>
 	  <Compile Update="UI\Views\DialogView.axaml.cs">
 	    <DependentUpon>DialogView.axaml</DependentUpon>
 	  </Compile>
