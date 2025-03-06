@@ -8,6 +8,8 @@ namespace EstragoniaTemplate.UI;
 
 public partial class AvaloniaLoader : Node
 {
+    public static bool LastPressedInputWasMouseClick = true;
+
     public static AvaloniaLoader Instance { get; set; } = null!;
     public event EventHandler<double>? UIScaleChanged;
 
@@ -75,6 +77,18 @@ public partial class AvaloniaLoader : Node
         if (UIScaling != _pendingUIScaling && _elapsedSinceLastResize > _resizeGracePeriod)
         {
             UIScaling = _pendingUIScaling;
+        }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
+        {
+            LastPressedInputWasMouseClick = true;
+        }
+        else if ((@event is InputEventKey key && key.Pressed) || (@event is InputEventJoypadButton joypadButton && joypadButton.Pressed))
+        {
+            LastPressedInputWasMouseClick = false;
         }
     }
 }

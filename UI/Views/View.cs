@@ -6,6 +6,7 @@ using EstragoniaTemplate.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static EstragoniaTemplate.UI.Utilities;
 
 namespace EstragoniaTemplate.UI.Views;
 
@@ -45,11 +46,11 @@ public abstract partial class View : UserControl
             var args = (NavigatorReturnedFocusEventArgs)e;
             if (args.ChangedUserInterface)
             {
-                lastNode?.Previous?.Value.Focus(NavigationMethod.Directional);
+                lastNode?.Previous?.Value.Focus(NavigationMethodBasedOnMouseOrKey());
             }
             else
             {
-                lastNode?.Value.Focus(NavigationMethod.Directional);
+                lastNode?.Value.Focus(NavigationMethodBasedOnMouseOrKey());
             }
         };
     }
@@ -75,7 +76,7 @@ public abstract partial class View : UserControl
             count++;
         }
 
-        focusableControl?.Focus(NavigationMethod.Directional);
+        focusableControl?.Focus(NavigationMethodBasedOnMouseOrKey());
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -104,7 +105,7 @@ public abstract partial class View : UserControl
 
         if (nextFocus != null && nextFocus.Focusable)
         {
-            nextFocus.Focus(NavigationMethod.Directional);
+            nextFocus.Focus(NavigationMethodBasedOnMouseOrKey());
         }
     }
 }

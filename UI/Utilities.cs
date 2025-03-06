@@ -3,11 +3,16 @@ using EstragoniaTemplate.UI.Controls;
 using Godot;
 using System;
 using System.Diagnostics;
+using EstragoniaTemplate.UI;
+using Avalonia.Input;
 
 namespace EstragoniaTemplate.UI;
 
 public static class Utilities
 {
+    public static NavigationMethod NavigationMethodBasedOnMouseOrKey()
+        => AvaloniaLoader.LastPressedInputWasMouseClick ? NavigationMethod.Unspecified : NavigationMethod.Directional;
+
     /// <summary>
     /// Note: rounds to milliseconds.
     /// </summary>

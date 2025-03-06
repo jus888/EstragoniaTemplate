@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Xaml.Interactivity;
+using static EstragoniaTemplate.UI.Utilities;
 
 namespace EstragoniaTemplate.UI.Behaviors;
 
@@ -39,7 +40,7 @@ public sealed class MoveFocusWhenDisabledBehavior : Behavior<Control>
     private void OnIsEnabledChanged(bool isEnabled)
     {
         if (!isEnabled && AssociatedObject?.IsFocused == true)
-            Target?.Focus();
+            Target?.Focus(NavigationMethodBasedOnMouseOrKey());
     }
 
 }
