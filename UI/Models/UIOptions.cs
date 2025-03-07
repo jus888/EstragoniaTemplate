@@ -2,6 +2,7 @@ using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Godot;
 using System;
+using System.Text.Json;
 
 namespace EstragoniaTemplate.UI.Models;
 
@@ -20,6 +21,27 @@ public partial class UIOptions : ObservableObject
     private float _UIScale = 1;
 
     public event EventHandler? Applied;
+
+    public static UIOptions LoadOrCreateOptions()
+    {
+        UIOptions options;
+        if (FileAccess.FileExists("user://settings.json"))
+        {
+            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Read);
+            options = JsonSerializer.Deserialize<UIOptions>(file.GetAsText()) ?? new();
+        }
+        else
+        {
+            options = new();
+            options.SaveOverrideFile();
+
+            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
+            file.StoreString(JsonSerializer.Serialize(options));
+        }
+        options.Apply();
+
+        return options;
+    }
 
     public UIOptions() { }
     public UIOptions(UIOptions options)

@@ -5,7 +5,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="using:EstragoniaTemplate.UI"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
-	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	x:Class="EstragoniaTemplate.UI.Views.MainView"
 	x:DataType="vm:MainViewModel"
 	RenderOptions.TextRenderingMode="Antialias"

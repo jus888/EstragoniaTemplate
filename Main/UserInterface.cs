@@ -13,6 +13,8 @@ namespace EstragoniaTemplate.Main;
 
 public partial class UserInterface : AvaloniaControl
 {
+    public MainViewModel? MainViewModel { get; private set; }
+
     private KeyRepeater? _keyRepeater;
 
     public override void _Ready()
@@ -26,12 +28,11 @@ public partial class UserInterface : AvaloniaControl
         base._Ready();
     }
 
-    public void Initialize(MainViewModel mainViewModel, ViewModel? initialViewModel = null)
+    public void Initialize(MainViewModel mainViewModel, KeyRepeater keyRepeater, ViewModel? initialViewModel = null)
     {
-        _keyRepeater = new();
+        MainViewModel = mainViewModel;
+        _keyRepeater = keyRepeater;
         GetWindow().FocusExited += _keyRepeater.ClearRepeatingAndBlockedInput;
-        mainViewModel.UIOptions.Applied += (s, e) => _keyRepeater.UpdateDirectionalKeys();
-        mainViewModel.Navigated += (s, e) => _keyRepeater.ClearRepeatingAndBlockedInput();
 
         if (initialViewModel != null)
         {
@@ -42,6 +43,28 @@ public partial class UserInterface : AvaloniaControl
         {
             DataContext = mainViewModel
         };
+    }
+
+    public void StealFocus(UserInterface from, bool returnWhenCurrentViewModelIsNull)
+    {
+        from.FocusMode = FocusModeEnum.None;
+        this.FocusMode = FocusModeEnum.All;
+        GrabFocus();
+
+        if (returnWhenCurrentViewModelIsNull && MainViewModel != null)
+        {
+            MainViewModel.Navigated += OnNavigated;
+            
+            void OnNavigated(object? sender, ViewModel? viewModel)
+            {
+                if (viewModel == null)
+                {
+                    MainViewModel.Navigated -= OnNavigated;
+                    from.StealFocus(this, false);
+                    from.MainViewModel?.CurrentViewModel?.OnNavigatorReturnedFocus(true);
+                }
+            }
+        }
     }
 
     public override void _GuiInput(InputEvent @event)

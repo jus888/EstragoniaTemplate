@@ -23,7 +23,7 @@ public partial class DialogViewModel : ViewModel
         Confirm = 2
     }
 
-    public event Action<Response>? UserResponded;
+    public event Action<Response>? Responded;
 
     public DialogViewModel() { }
     public DialogViewModel(string message, string? cancelText = null, string? denyText = null, string? confirmText = null)
@@ -37,7 +37,7 @@ public partial class DialogViewModel : ViewModel
     [RelayCommand]
     public void ButtonResponse(int type)
     {
-        UserResponded?.Invoke((Response)type);
+        Responded?.Invoke((Response)type);
         Close();
     }
 }

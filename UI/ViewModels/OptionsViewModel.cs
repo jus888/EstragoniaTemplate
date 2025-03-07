@@ -1,6 +1,7 @@
 using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EstragoniaTemplate.Main;
 using EstragoniaTemplate.UI.Models;
 using Godot;
 using System;
@@ -21,8 +22,8 @@ public partial class OptionsViewModel : ViewModel
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
     private bool _canApply = false;
 
-    // Nullable because the view uses constructor with only UIOptions (for the designer).
-    private readonly MainViewModel? _mainViewModel;
+    private readonly UserInterface _userInterface;
+    private readonly UserInterface _userInterfaceDialog;
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -34,10 +35,14 @@ public partial class OptionsViewModel : ViewModel
         }
     }
 
-    public OptionsViewModel(MainViewModel mainViewModel) : this(mainViewModel.UIOptions)
+    public OptionsViewModel(UIOptions options, UserInterface userInterface, UserInterface userInterfaceDialog) : this(options)
     {
-        _mainViewModel = mainViewModel;
+        _userInterface = userInterface;
+        _userInterfaceDialog = userInterfaceDialog;
     }
+    /// <summary>
+    /// Intended for designer usage only.
+    /// </summary>
     public OptionsViewModel(UIOptions options)
     {
         _currentlyAppliedOptions = new(options);
@@ -83,11 +88,11 @@ public partial class OptionsViewModel : ViewModel
         if (!_currentlyAppliedOptions.Equals(_originalOptions))
         {
             var dialog = new DialogViewModel("You have unsaved applied changes.\nExit without saving or save changes?", "Cancel", "Do not save", "Save applied settings");
-            dialog.UserResponded += OnResponse;
+            dialog.Responded += OnResponse;
 
             void OnResponse(DialogViewModel.Response response)
             {
-                dialog.UserResponded -= OnResponse;
+                dialog.Responded -= OnResponse;
                 switch (response)
                 {
                     case DialogViewModel.Response.Cancel:
@@ -104,7 +109,8 @@ public partial class OptionsViewModel : ViewModel
                 }
             }
 
-            _mainViewModel?.ShowDialogViewModel(dialog);
+            _userInterfaceDialog.MainViewModel?.NavigateTo(dialog);
+            _userInterfaceDialog.StealFocus(_userInterface, true);
         }
         else
         {

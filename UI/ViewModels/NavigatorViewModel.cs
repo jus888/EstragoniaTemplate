@@ -9,7 +9,7 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public abstract partial class NavigatorViewModel : ViewModel
 {
-    public event EventHandler? Navigated;
+    public event EventHandler<ViewModel?>? Navigated;
 
     [ObservableProperty]
     private ViewModel? _currentViewModel;
@@ -26,11 +26,6 @@ public abstract partial class NavigatorViewModel : ViewModel
         _userInterface = userInterface;
     }
 
-    public void SetPageTransition(IPageTransition? transition)
-    {
-        Transition = transition;
-    }
-
     private void OnViewModelsAddedOrRemoved()
     {
         _userInterface.FocusMode = Godot.Control.FocusModeEnum.All;
@@ -43,7 +38,7 @@ public abstract partial class NavigatorViewModel : ViewModel
 
     protected virtual void OnNavigated()
     {
-        Navigated?.Invoke(this, EventArgs.Empty);
+        Navigated?.Invoke(this, CurrentViewModel);
     }
 
     public void NavigateTo(ViewModel viewModel, IPageTransition? transition = null, bool replace = false, bool clearStack = false)

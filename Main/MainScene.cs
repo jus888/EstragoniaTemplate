@@ -16,27 +16,26 @@ public partial class MainScene : Node2D
 
     public override void _Ready()
     {
-        UIOptions options;
-        if (FileAccess.FileExists("user://settings.json"))
-        {
-            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Read);
-            options = JsonSerializer.Deserialize<UIOptions>(file.GetAsText()) ?? new();
-        }
-        else
-        {
-            options = new();
-            options.SaveOverrideFile();
+        if (UserInterface == null || UserInterfaceDialog == null)
+            throw new NullReferenceException();
 
-            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
-            file.StoreString(JsonSerializer.Serialize(options));
-        }
-        options.Apply();
+        var options = UIOptions.LoadOrCreateOptions();
 
-        var mainViewModelDialog = new MainViewModel(UserInterfaceDialog!, options);
-        var mainViewModel = new MainViewModel(UserInterface!, options, mainViewModelDialog);
+        var mainViewModelDialog = new MainViewModel(UserInterfaceDialog);
+        var mainViewModel = new MainViewModel(UserInterface);
+        var viewModelFactory = new ViewModelFactory(
+            options, 
+            mainViewModel, 
+            UserInterface, 
+            UserInterfaceDialog);
 
-        UserInterface!.Initialize(mainViewModel, new MainMenuViewModel(mainViewModel, this));
-        UserInterfaceDialog!.Initialize(mainViewModelDialog);
+        var keyRepeater = new KeyRepeater();
+
+        UserInterfaceDialog.Initialize(mainViewModelDialog, keyRepeater);
+        UserInterface.Initialize(
+            mainViewModel, 
+            keyRepeater, 
+            viewModelFactory.CreateMainMenu(GetTree()));
 
         UserInterface.GrabFocus();
     }
