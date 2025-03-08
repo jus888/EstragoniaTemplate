@@ -3,14 +3,14 @@
 [ext_resource type="Script" path="res://Main/UserInterface.cs" id="1_dvukn"]
 [ext_resource type="Script" path="res://Main/MainScene.cs" id="1_np0ii"]
 
-[node name="MainNode" type="Node2D" node_paths=PackedStringArray("UserInterface", "UserInterfaceDialog")]
+[node name="MainNode" type="Node2D" node_paths=PackedStringArray("UserInterfaceMain", "UserInterfaceDialog")]
 script = ExtResource("1_np0ii")
-UserInterface = NodePath("UI/UserInterface")
+UserInterfaceMain = NodePath("UI/UserInterfaceMain")
 UserInterfaceDialog = NodePath("UI/UserInterfaceDialog")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="UserInterface" type="Control" parent="UI"]
+[node name="UserInterfaceMain" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

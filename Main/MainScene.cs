@@ -10,34 +10,43 @@ namespace EstragoniaTemplate.Main;
 public partial class MainScene : Node2D
 {
     [Export]
-    private UserInterface? UserInterface { get; set; }
+    private UserInterface? UserInterfaceMain { get; set; }
     [Export]
     private UserInterface? UserInterfaceDialog { get; set; }
 
     public override void _Ready()
     {
-        if (UserInterface == null || UserInterfaceDialog == null)
+        if (UserInterfaceMain == null || UserInterfaceDialog == null)
             throw new NullReferenceException();
 
         var options = UIOptions.LoadOrCreateOptions();
 
         var mainViewModelDialog = new MainViewModel(UserInterfaceDialog);
-        var mainViewModel = new MainViewModel(UserInterface);
+        var mainViewModel = new MainViewModel(UserInterfaceMain);
         var viewModelFactory = new ViewModelFactory(
             options, 
             mainViewModel, 
-            UserInterface, 
+            mainViewModelDialog,
+            UserInterfaceMain, 
             UserInterfaceDialog);
 
         var keyRepeater = new KeyRepeater();
         GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;
 
         UserInterfaceDialog.Initialize(mainViewModelDialog, keyRepeater);
-        UserInterface.Initialize(
+        UserInterfaceMain.Initialize(
             mainViewModel, 
             keyRepeater, 
             viewModelFactory.CreateMainMenu(GetTree()));
 
-        UserInterface.GrabFocus();
+        UserInterfaceMain.GrabFocus();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey key && key.PhysicalKeycode == Key.Escape)
+        {
+            GetViewport().SetInputAsHandled();
+        }
     }
 }

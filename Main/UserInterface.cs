@@ -13,7 +13,12 @@ namespace EstragoniaTemplate.Main;
 
 public partial class UserInterface : AvaloniaControl
 {
-    public MainViewModel? MainViewModel { get; private set; }
+    public ViewModel? CurrentViewModel
+    {
+        get => _mainViewModel?.CurrentViewModel;
+    }
+
+    private MainViewModel? _mainViewModel;
 
     private KeyRepeater? _keyRepeater;
 
@@ -30,7 +35,7 @@ public partial class UserInterface : AvaloniaControl
 
     public void Initialize(MainViewModel mainViewModel, KeyRepeater keyRepeater, ViewModel? initialViewModel = null)
     {
-        MainViewModel = mainViewModel;
+        _mainViewModel = mainViewModel;
         _keyRepeater = keyRepeater;
 
         if (initialViewModel != null)
@@ -50,17 +55,17 @@ public partial class UserInterface : AvaloniaControl
         this.FocusMode = FocusModeEnum.All;
         GrabFocus();
 
-        if (returnWhenCurrentViewModelIsNull && MainViewModel != null)
+        if (returnWhenCurrentViewModelIsNull && _mainViewModel != null)
         {
-            MainViewModel.Navigated += OnNavigated;
+            _mainViewModel.Navigated += OnNavigated;
             
             void OnNavigated(object? sender, ViewModel? viewModel)
             {
                 if (viewModel == null)
                 {
-                    MainViewModel.Navigated -= OnNavigated;
+                    _mainViewModel.Navigated -= OnNavigated;
                     from.StealFocus(this, false);
-                    from.MainViewModel?.CurrentViewModel?.OnNavigatorReturnedFocus(true);
+                    from.CurrentViewModel?.OnNavigatorReturnedFocus(true);
                 }
             }
         }

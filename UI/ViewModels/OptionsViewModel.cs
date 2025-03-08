@@ -22,8 +22,9 @@ public partial class OptionsViewModel : ViewModel
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
     private bool _canApply = false;
 
-    private readonly UserInterface _userInterface;
-    private readonly UserInterface _userInterfaceDialog;
+    private readonly MainViewModel _mainViewModel;
+    private readonly UserInterface? _currentUserInterface;
+    private readonly UserInterface? _targetUserInterface;
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -35,10 +36,18 @@ public partial class OptionsViewModel : ViewModel
         }
     }
 
-    public OptionsViewModel(UIOptions options, UserInterface userInterface, UserInterface userInterfaceDialog) : this(options)
+    /// <summary>
+    /// Set the UserInterface parameters if dialog should open in a different UserInterface (target).
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="mainViewModel"></param>
+    /// <param name="currentUserInterface"></param>
+    /// <param name="targetUserInterface"></param>
+    public OptionsViewModel(UIOptions options, MainViewModel mainViewModel, UserInterface? currentUserInterface = null, UserInterface? targetUserInterface = null) : this(options)
     {
-        _userInterface = userInterface;
-        _userInterfaceDialog = userInterfaceDialog;
+        _mainViewModel = mainViewModel;
+        _currentUserInterface = currentUserInterface;
+        _targetUserInterface = targetUserInterface;
     }
     /// <summary>
     /// Intended for designer usage only.
@@ -109,8 +118,12 @@ public partial class OptionsViewModel : ViewModel
                 }
             }
 
-            _userInterfaceDialog.MainViewModel?.NavigateTo(dialog);
-            _userInterfaceDialog.StealFocus(_userInterface, true);
+            _mainViewModel.NavigateTo(dialog);
+
+            if (_currentUserInterface != null && _targetUserInterface != null)
+            {
+                _targetUserInterface.StealFocus(_currentUserInterface, true);
+            }
         }
         else
         {
