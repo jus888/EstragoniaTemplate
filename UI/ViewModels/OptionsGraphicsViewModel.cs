@@ -39,10 +39,6 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     /// <summary>
     /// Set the UserInterface parameters if dialog should open in a different UserInterface (target).
     /// </summary>
-    /// <param name="options"></param>
-    /// <param name="mainViewModel"></param>
-    /// <param name="currentUserInterface"></param>
-    /// <param name="targetUserInterface"></param>
     public OptionsGraphicsViewModel(UIOptions options, MainViewModel mainViewModel, UserInterface? currentUserInterface = null, UserInterface? targetUserInterface = null) : this(options)
     {
         _mainViewModel = mainViewModel;
@@ -54,14 +50,14 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     /// </summary>
     public OptionsGraphicsViewModel(UIOptions options)
     {
+        _savedOptions = new(options);
         _currentlyAppliedOptions = new(options);
+
         Options = options;
         Options.PropertyChanged += (s, e) =>
         {
             OnPropertyChanged(e);
         };
-
-        _savedOptions = new(options);
     }
 
     [RelayCommand(CanExecute = nameof(CanApply))]
@@ -127,7 +123,6 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         else
         {
             Options.SetFromOptions(_savedOptions);
-            Apply();
             callOnClose();
         }
     }

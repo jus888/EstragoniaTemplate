@@ -38,7 +38,8 @@
 					BorderThickness="0,0,0,1">
 				<Button HorizontalAlignment="Right"
 						BorderThickness="1,0,0,0"
-						Command="{Binding CloseCommand}">
+						Command="{Binding CloseCommand}"
+						IsCancel="True">
 					Exit
 				</Button>
 			</Border>
