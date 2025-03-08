@@ -32,7 +32,6 @@ public partial class UserInterface : AvaloniaControl
     {
         MainViewModel = mainViewModel;
         _keyRepeater = keyRepeater;
-        GetWindow().FocusExited += _keyRepeater.ClearRepeatingAndBlockedInput;
 
         if (initialViewModel != null)
         {

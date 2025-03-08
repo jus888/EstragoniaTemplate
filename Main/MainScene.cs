@@ -30,6 +30,7 @@ public partial class MainScene : Node2D
             UserInterfaceDialog);
 
         var keyRepeater = new KeyRepeater();
+        GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;
 
         UserInterfaceDialog.Initialize(mainViewModelDialog, keyRepeater);
         UserInterface.Initialize(
