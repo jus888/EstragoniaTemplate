@@ -5,148 +5,69 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="using:EstragoniaTemplate.UI"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
-	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
-	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
-	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"	
 	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.OptionsView"
 	x:DataType="vm:OptionsViewModel">
 
+	<ui:OptionsView.DataTemplates>
+		<ui:ViewLocator/>
+	</ui:OptionsView.DataTemplates>	
+
 	<Design.DataContext>
 		<vm:OptionsViewModel>
 			<x:Arguments>
-				<model:UIOptions />
+				<vm:OptionsGraphicsViewModel>
+					<x:Arguments>
+						<model:UIOptions />
+					</x:Arguments>
+				</vm:OptionsGraphicsViewModel>
 			</x:Arguments>
 		</vm:OptionsViewModel>
 	</Design.DataContext>
 
-	<UserControl.Resources>
-		<conv:GodotWindowModeConverter x:Key="windowModeConverter" />
-	</UserControl.Resources>
-	
-	<UserControl.Styles>
-		<Style Selector=".centerChildrenVertical > :is(Control)">
-			<Setter Property="VerticalAlignment" Value="Center" />
-		</Style>
-	</UserControl.Styles>
-
-	<Border Padding="15"
-			Width="400"
-			Background="{StaticResource ContainerNormalBackgroundBrush}"
-			BorderBrush="Black"
+	<Border BorderBrush="Black"
 			BorderThickness="1"
-			VerticalAlignment="Center"
-			HorizontalAlignment="Center">
-
-		<!-- Settings List -->
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center">
+		
 		<StackPanel>
-			<StackPanel Spacing="2">
-				
-				<!-- Screen mode -->
-				<Grid ColumnDefinitions="Auto, *, Auto"
-					  Height="40"
-					  Classes="centerChildrenVertical">
-					<TextBlock>Screen mode</TextBlock>
-					<ComboBox Name="InitialFocus0" Grid.Column="2"
-							  Width="200"
-							  SelectedIndex="{Binding Options.WindowMode,
-								Converter={StaticResource windowModeConverter}}">
-						<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
-						<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
-						<ComboBoxItem>Windowed</ComboBoxItem>
-					</ComboBox>
-				</Grid>
-
-				<!-- VSync -->
-				<Grid ColumnDefinitions="Auto, *, Auto"
-					  Height="40"
-					  Classes="centerChildrenVertical">
-					<TextBlock>VSync</TextBlock>
-					<CheckBox Grid.Column="2"
-							  IsChecked="{Binding Options.VSync}" />
-				</Grid>
-
-				<!-- FPS Limit -->
-				<Grid ColumnDefinitions="Auto, *, Auto, Auto"
-					  Height="40"
-					  Classes="centerChildrenVertical">
-					<TextBlock Grid.Row="2">FPS Limit</TextBlock>
-					<NumericUpDown Grid.Column="2"
-								   Width="60"
-								   BorderBrush="Transparent"
-								   HorizontalContentAlignment="Right"
-								   XYFocus.NavigationModes="Disabled"
-								   Minimum="10"
-								   Maximum="200"
-								   ShowButtonSpinner="False"
-								   Value="{Binding Options.FPSLimit}"
-								   IsEnabled="{Binding !Options.VSync}" />
-					
-					<Slider Grid.Column="3" Width="100"
-							VerticalAlignment="Center"
-							Minimum="10"
-							Maximum="200"
-							SmallChange="5"
-							LargeChange="25"
-							Value="{Binding Options.FPSLimit}"
-							IsEnabled="{Binding !Options.VSync}" />
-				</Grid>
-
-				<!-- UI Scale -->
-				<Grid ColumnDefinitions="Auto, *, Auto, Auto"
-					  Height="40"
-					  Classes="centerChildrenVertical">
-					<TextBlock Grid.Row="3">UI Scale</TextBlock>
-					<NumericUpDown Grid.Column="2"
-								   Width="60"
-								   BorderBrush="Transparent"
-								   HorizontalContentAlignment="Right"
-								   XYFocus.NavigationModes="Disabled"
-								   Minimum="0.5"
-								   Maximum="2"
-								   ShowButtonSpinner="False"
-								   Value="{Binding Options.UIScale}" />
-					
-					<Slider Grid.Column="3" 
-							Name="UIScaleSlider"
-							Width="100"
-							Minimum="0.5"
-							Maximum="2"
-							TickFrequency="0.1"
-							IsSnapToTickEnabled="True"
-							SmallChange="0.1"
-							LargeChange="0.5"
-							Value="{Binding Options.UIScale}" />
-				</Grid>
-			</StackPanel>
-			<Separator Margin="10" />
-
-			<!-- Bottom Buttons -->
-			<DockPanel>
-				<StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="4">
-					<Button IsCancel="True"
-							Content="Exit"
-							Command="{Binding ExitCommand}" />
-					<Button Name="Save"
-							Content="Save"
-							Command="{Binding SaveCommand}"
-							XYFocus.Right="{Binding #Apply}, {Binding #UIScaleSlider}"/>
-				</StackPanel>
-
-				<Button DockPanel.Dock="Right"
-						Name="Apply"
-						Content="Apply"
-						Command="{Binding ApplyCommand}">
-					<Interaction.Behaviors>
-						<behaviors:MoveFocusWhenDisabledBehavior
-							Target="{Binding #Save}" />
-					</Interaction.Behaviors>
+			<!-- Top Bar -->
+			<Border BorderBrush="Black"
+					BorderThickness="0,0,0,1">
+				<Button HorizontalAlignment="Right"
+						BorderThickness="1,0,0,0"
+						Command="{Binding CloseCommand}">
+					Exit
 				</Button>
-				<Control />
-			</DockPanel>
+			</Border>
+			
+			<!-- Main Content-->
+			<StackPanel Orientation="Horizontal">
+				
+				<!-- Tabs -->
+				<StackPanel Width="100">
+					<Button Theme="{StaticResource TextButton}" 
+							Command="{Binding ToOptionsTabCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>0</sys:Int32>
+						</Button.CommandParameter>
+						Graphics
+					</Button>
+					<Button Theme="{StaticResource TextButton}"
+							Command="{Binding ToOptionsTabCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>1</sys:Int32>
+						</Button.CommandParameter>
+						Controls
+					</Button>
+				</StackPanel>
+				
+				<!-- Content -->
+				<ContentControl MinWidth="200" Content="{Binding CurrentViewModel}" />
+			</StackPanel>
 		</StackPanel>
 	</Border>
 
-	
 </ui:OptionsView>

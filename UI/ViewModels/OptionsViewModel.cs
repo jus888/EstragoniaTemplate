@@ -1,135 +1,90 @@
-using Avalonia.Data;
+using Avalonia.Controls;
+using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using EstragoniaTemplate.Main;
-using EstragoniaTemplate.UI.Models;
-using Godot;
+using Avalonia.Animation;
+using EstragoniaTemplate.UI.Controls;
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Text.Json;
+using EstragoniaTemplate.Main;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
-public partial class OptionsViewModel : ViewModel
+public interface IOptionsTabViewModel
 {
-    [ObservableProperty]
-    private UIOptions _options;
-    private UIOptions _originalOptions;
-    private UIOptions _currentlyAppliedOptions;
+    public void TryClose(Action callOnClose);
+}
 
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
-    private bool _canApply = false;
+public partial class OptionsViewModel : NavigatorViewModel
+{
+    private ViewModelFactory _viewModelFactory;
 
-    private readonly MainViewModel _mainViewModel;
-    private readonly UserInterface? _currentUserInterface;
-    private readonly UserInterface? _targetUserInterface;
-
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        base.OnPropertyChanged(e);
-
-        if (e.PropertyName != nameof(CanApply))
-        {
-            CanApply = !Options.Equals(_currentlyAppliedOptions);
-        }
-    }
-
-    /// <summary>
-    /// Set the UserInterface parameters if dialog should open in a different UserInterface (target).
-    /// </summary>
-    /// <param name="options"></param>
-    /// <param name="mainViewModel"></param>
-    /// <param name="currentUserInterface"></param>
-    /// <param name="targetUserInterface"></param>
-    public OptionsViewModel(UIOptions options, MainViewModel mainViewModel, UserInterface? currentUserInterface = null, UserInterface? targetUserInterface = null) : this(options)
-    {
-        _mainViewModel = mainViewModel;
-        _currentUserInterface = currentUserInterface;
-        _targetUserInterface = targetUserInterface;
-    }
     /// <summary>
     /// Intended for designer usage only.
     /// </summary>
-    public OptionsViewModel(UIOptions options)
+    public OptionsViewModel(ViewModel initialViewModel) : base(null)
     {
-        _currentlyAppliedOptions = new(options);
-        Options = options;
-        Options.PropertyChanged += (s, e) =>
-        {
-            OnPropertyChanged(e);
-        };
-
-        _originalOptions = new(options);
+        NavigateTo(initialViewModel);
     }
 
-    [RelayCommand(CanExecute = nameof(CanApply))]
-    public void Apply()
+    public OptionsViewModel(ViewModelFactory viewModelFactory, UserInterface userInterface) : base(userInterface)
     {
-        Options.Apply();
-        CanApply = false;
-        _currentlyAppliedOptions = new(Options);
+        _viewModelFactory = viewModelFactory;
+        NavigateTo(viewModelFactory.CreateOptionsGraphics());
+        ToOptionsTabCommand.NotifyCanExecuteChanged();
     }
 
-    [RelayCommand]
-    public void Save()
+    public enum OptionsTab
     {
-        if (!Options.Equals(_originalOptions))
-        {
-            Options.SaveOverrideFile();
+        Graphics = 0,
+        Controls = 1
+    }
 
-            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
-            file.StoreString(JsonSerializer.Serialize(Options));
+    public bool DifferentFromCurrentViewModel(int tabIndex)
+    {
+        switch ((OptionsTab)tabIndex)
+        {
+            case OptionsTab.Graphics:
+                return CurrentViewModel is not OptionsGraphicsViewModel;
+            case OptionsTab.Controls:
+                return CurrentViewModel is not OptionsControlsViewModel;
         }
 
-        if (CanApply)
-        {
-            Apply();
-        }
-
-        Close();
+        throw new ArgumentException(nameof(tabIndex));
     }
 
-    [RelayCommand]
-    public void Exit()
+    [RelayCommand(CanExecute = nameof(DifferentFromCurrentViewModel))]
+    public void ToOptionsTab(int tabIndex)
     {
-        if (!_currentlyAppliedOptions.Equals(_originalOptions))
+        var tab = (OptionsTab)tabIndex;
+        Action action;
+        if (tab == OptionsTab.Graphics)
         {
-            var dialog = new DialogViewModel("You have unsaved applied changes.\nExit without saving or save changes?", "Cancel", "Do not save", "Save applied settings");
-            dialog.Responded += OnResponse;
-
-            void OnResponse(DialogViewModel.Response response)
+            action = () =>
             {
-                dialog.Responded -= OnResponse;
-                switch (response)
-                {
-                    case DialogViewModel.Response.Cancel:
-                        return;
-                    case DialogViewModel.Response.Deny:
-                        Options.SetFromOptions(_originalOptions);
-                        Apply();
-                        Close();
-                        return;
-                    case DialogViewModel.Response.Confirm:
-                        Options.SetFromOptions(_currentlyAppliedOptions);
-                        Save();
-                        return;
-                }
-            }
-
-            _mainViewModel.NavigateTo(dialog);
-
-            if (_currentUserInterface != null && _targetUserInterface != null)
-            {
-                _targetUserInterface.StealFocus(_currentUserInterface, true);
-            }
+                NavigateTo(_viewModelFactory.CreateOptionsGraphics(), replace: true);
+                ToOptionsTabCommand.NotifyCanExecuteChanged();
+            };
         }
-        else
+        else/* if (tab == OptionsTab.Controls)*/
         {
-            Options.SetFromOptions(_originalOptions);
-            Apply();
-            Close();
+            action = () =>
+            {
+                NavigateTo(new OptionsControlsViewModel(), replace: true);
+                ToOptionsTabCommand.NotifyCanExecuteChanged();
+            };
+        }
+
+        if (CurrentViewModel is IOptionsTabViewModel viewModel)
+        {
+            viewModel.TryClose(action);
+        }
+    }
+
+    public override void Close()
+    {
+        if (CurrentViewModel is IOptionsTabViewModel viewModel)
+        {
+            viewModel.TryClose(() => base.Close());
         }
     }
 }

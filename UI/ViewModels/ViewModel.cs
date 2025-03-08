@@ -15,7 +15,7 @@ public abstract partial class ViewModel : ObservableObject
     public event Action? Closed;
 
     [RelayCommand]
-    public void Close()
+    public virtual void Close()
     {
         Closed?.Invoke();
     }

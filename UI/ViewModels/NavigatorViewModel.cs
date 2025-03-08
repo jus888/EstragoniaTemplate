@@ -19,15 +19,18 @@ public abstract partial class NavigatorViewModel : ViewModel
 
     private readonly Stack<ViewModel> _viewModels = new();
 
-    protected readonly UserInterface _userInterface;
+    protected readonly UserInterface? _userInterface;
 
-    public NavigatorViewModel(UserInterface userInterface)
+    public NavigatorViewModel(UserInterface? userInterface)
     {
         _userInterface = userInterface;
     }
 
     private void OnViewModelsAddedOrRemoved()
     {
+        if (_userInterface == null)
+            return;
+
         _userInterface.FocusMode = Godot.Control.FocusModeEnum.All;
         if (_viewModels.Count == 0)
         {

@@ -1,0 +1,32 @@
+<ui:OptionsControlsView
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ui="using:EstragoniaTemplate.UI"
+	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
+	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
+	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
+	xmlns:model="using:EstragoniaTemplate.UI.Models"
+	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+	x:Class="EstragoniaTemplate.UI.Views.OptionsControlsView"
+	x:DataType="vm:OptionsControlsViewModel">
+
+	<Design.DataContext>
+		<vm:OptionsControlsViewModel />
+	</Design.DataContext>
+
+	<Border Padding="15"
+			Width="400"
+			Background="{StaticResource ContainerNormalBackgroundBrush}"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center">
+
+		<StackPanel Spacing="2">
+			<TextBlock>Things here</TextBlock>
+		</StackPanel>
+	</Border>
+
+	
+</ui:OptionsControlsView>

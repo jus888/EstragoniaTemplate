@@ -27,11 +27,24 @@
 	  <AvaloniaXaml Update="UI\Theme\TextButton.axaml">
 	    <SubType>Designer</SubType>
 	  </AvaloniaXaml>
+	  <AvaloniaXaml Update="UI\Views\OptionsView.axaml">
+	    <SubType>Designer</SubType>
+	  </AvaloniaXaml>
 	</ItemGroup>
 	
 	<ItemGroup>
 	  <Compile Update="UI\Views\DialogView.axaml.cs">
 	    <DependentUpon>DialogView.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="UI\Views\OptionsControlsView.axaml.cs">
+	    <DependentUpon>OptionsControlsView.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="UI\Views\OptionsView.axaml.cs">
+	    <SubType>Code</SubType>
+	    <DependentUpon>OptionsView.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="UI\Views\OptionsGraphicsView.axaml.cs">
+	    <DependentUpon>OptionsGraphicsView.axaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 </Project>

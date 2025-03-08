@@ -26,15 +26,18 @@ public class ViewModelFactory
         _userInterfaceDialog = userInterfaceDialog;
     }
 
-    public MainMenuViewModel CreateMainMenu(SceneTree sceneTree)
-        => new MainMenuViewModel(this, _mainViewModel, sceneTree);
+    public virtual MainMenuViewModel CreateMainMenu(SceneTree sceneTree)
+        => new(this, _mainViewModel, sceneTree);
+
+    public virtual OptionsViewModel CreateOptions()
+        => new(this, _userInterfaceMain);
 
     /// <summary>
     /// Assumes that this viewModel is created for the main UserInterface.
     /// </summary>
-    public OptionsViewModel CreateOptions()
-        => new OptionsViewModel(_options, _mainViewModelDialog, _userInterfaceMain, _userInterfaceDialog);
+    public virtual OptionsGraphicsViewModel CreateOptionsGraphics()
+        => new(_options, _mainViewModelDialog, _userInterfaceMain, _userInterfaceDialog);
 
-    public OptionsViewModel CreateOptions(MainViewModel mainViewModel)
-        => new OptionsViewModel(_options, mainViewModel);
+    public virtual OptionsGraphicsViewModel CreateOptionsGraphics(MainViewModel mainViewModel)
+        => new(_options, mainViewModel);
 }

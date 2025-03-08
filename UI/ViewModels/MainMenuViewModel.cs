@@ -32,7 +32,7 @@ public partial class MainMenuViewModel : ViewModel
     [RelayCommand]
     public void ToOptions()
     {
-        _navigatorViewModel?.NavigateTo(_viewModelFactory.CreateOptions(), 
+        _navigatorViewModel.NavigateTo(_viewModelFactory.CreateOptions(), 
             CreateCommonPageTransition(TransitionType.Fade, 0.5f));
     }
 
