@@ -10,8 +10,8 @@ namespace EstragoniaTemplate.Main;
 
 public class KeyRepeater
 {
-    private const float SecondsUntilRepeat = 0.35f;
-    private const float RepeatIntervalSeconds = 0.06f;
+    private const float SecondsUntilRepeat = 0.5f;
+    private const float RepeatIntervalSeconds = 0.16f;
 
     readonly StringName[] _directionalInputEventNames = ["ui_left", "ui_right", "ui_up", "ui_down"];
     private HashSet<InputEvent> _directionalInputEvents = new();

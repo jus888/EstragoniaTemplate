@@ -9,7 +9,9 @@
 	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
-	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+	mc:Ignorable="d"
+	d:DesignWidth="960"
+	d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.OptionsGraphicsView"
 	x:DataType="vm:OptionsGraphicsViewModel">
 
@@ -23,11 +25,13 @@
 
 	<UserControl.Resources>
 		<conv:GodotWindowModeConverter x:Key="windowModeConverter" />
+		<conv:IgnoringNullConverter x:Key="ignoringNullConverter" />
 	</UserControl.Resources>
-	
+
 	<UserControl.Styles>
 		<Style Selector=".centerChildrenVertical > :is(Control)">
-			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment"
+					Value="Center" />
 		</Style>
 	</UserControl.Styles>
 
@@ -40,13 +44,14 @@
 		<!-- Settings List -->
 		<StackPanel>
 			<StackPanel Spacing="2">
-				
+
 				<!-- Screen mode -->
 				<Grid ColumnDefinitions="Auto, *, Auto"
 					  Height="40"
 					  Classes="centerChildrenVertical">
 					<TextBlock>Screen mode</TextBlock>
-					<ComboBox Name="InitialFocus0" Grid.Column="2"
+					<ComboBox Name="initialFocus0"
+							  Grid.Column="2"
 							  Width="200"
 							  SelectedIndex="{Binding Options.WindowMode,
 								Converter={StaticResource windowModeConverter}}">
@@ -70,25 +75,36 @@
 					  Height="40"
 					  Classes="centerChildrenVertical">
 					<TextBlock Grid.Row="2">FPS Limit</TextBlock>
-					<NumericUpDown Grid.Column="2"
-								   Width="60"
-								   BorderBrush="Transparent"
-								   HorizontalContentAlignment="Right"
-								   XYFocus.NavigationModes="Disabled"
-								   Minimum="10"
-								   Maximum="200"
-								   ShowButtonSpinner="False"
-								   Value="{Binding Options.FPSLimit}"
-								   IsEnabled="{Binding !Options.VSync}" />
-					
-					<Slider Grid.Column="3" Width="100"
-							VerticalAlignment="Center"
-							Minimum="10"
-							Maximum="200"
-							SmallChange="5"
-							LargeChange="25"
-							Value="{Binding Options.FPSLimit}"
-							IsEnabled="{Binding !Options.VSync}" />
+					<controls:ConfirmableNumericUpDown
+						Grid.Column="2"
+						Target="{Binding #fpsSlider}"
+						BorderBrush="Transparent"
+						HorizontalContentAlignment="Right"
+						XYFocus.NavigationModes="Disabled"
+						Minimum="60"
+						Maximum="300"
+						ClipValueToMinMax="True"
+						ShowButtonSpinner="False"
+						Value="{Binding Options.FPSLimit,
+							Converter={StaticResource ignoringNullConverter}}"
+						IsEnabled="{Binding !Options.VSync}" />
+
+					<controls:SliderFocusser Grid.Column="3"
+											 IsEnabled="{Binding !Options.VSync}">
+						<controls:SliderFocusser.Slider>
+							<controls:FocusableSlider
+								Name="fpsSlider"
+								Width="100"
+								VerticalAlignment="Center"
+								Minimum="60"
+								Maximum="300"
+								SmallChange="10"
+								LargeChange="40"
+								Value="{Binding Options.FPSLimit}"
+								IsEnabled="{Binding !Options.VSync}" />
+						</controls:SliderFocusser.Slider>
+					</controls:SliderFocusser>
+
 				</Grid>
 
 				<!-- UI Scale -->
@@ -96,51 +112,62 @@
 					  Height="40"
 					  Classes="centerChildrenVertical">
 					<TextBlock Grid.Row="3">UI Scale</TextBlock>
-					<NumericUpDown Grid.Column="2"
-								   Width="60"
-								   BorderBrush="Transparent"
-								   HorizontalContentAlignment="Right"
-								   XYFocus.NavigationModes="Disabled"
-								   Minimum="0.5"
-								   Maximum="2"
-								   ShowButtonSpinner="False"
-								   Value="{Binding Options.UIScale}" />
-					
-					<Slider Grid.Column="3" 
-							Name="UIScaleSlider"
-							Width="100"
-							Minimum="0.5"
-							Maximum="2"
-							TickFrequency="0.1"
-							IsSnapToTickEnabled="True"
-							SmallChange="0.1"
-							LargeChange="0.5"
-							Value="{Binding Options.UIScale}" />
+					<controls:ConfirmableNumericUpDown
+						Grid.Column="2"
+						InnerRightContent="x"
+						Target="{Binding #uiScaleSlider}"
+						BorderBrush="Transparent"
+						HorizontalContentAlignment="Right"
+						XYFocus.NavigationModes="Disabled"
+						FormatString="0.0"
+						Minimum="0.5"
+						Maximum="2"
+						ClipValueToMinMax="True"
+						ShowButtonSpinner="False"
+						Value="{Binding Options.UIScale,
+							Converter={StaticResource ignoringNullConverter}}" />
+
+					<controls:SliderFocusser Grid.Column="3">
+						<controls:SliderFocusser.Slider>
+							<controls:FocusableSlider
+								Name="uiScaleSlider"
+								Width="100"
+								Minimum="0.5"
+								Maximum="2"
+								TickFrequency="0.1"
+								IsSnapToTickEnabled="True"
+								SmallChange="0.1"
+								LargeChange="0.2"
+								Value="{Binding Options.UIScale}" />
+						</controls:SliderFocusser.Slider>
+					</controls:SliderFocusser>
+
 				</Grid>
 			</StackPanel>
 			<Separator Margin="10" />
 
 			<!-- Bottom Buttons -->
-			<DockPanel>
+			<StackPanel Orientation="Horizontal"
+						HorizontalAlignment="Right"
+						Spacing="8">
 				<Button DockPanel.Dock="Left"
-						Name="Save"
-						Content="Save"
-						Command="{Binding SaveCommand}"
-						XYFocus.Right="{Binding #Apply}, {Binding #UIScaleSlider}"/>
-
-				<Button DockPanel.Dock="Right"
-						Name="Apply"
+						Name="apply"
 						Content="Apply"
 						Command="{Binding ApplyCommand}">
 					<Interaction.Behaviors>
 						<behaviors:MoveFocusWhenDisabledBehavior
-							Target="{Binding #Save}" />
+							Target="{Binding #save}" />
 					</Interaction.Behaviors>
 				</Button>
+
+				<Button DockPanel.Dock="Right"
+						Name="save"
+						Content="Save"
+						Command="{Binding SaveCommand}" />
 				<Control />
-			</DockPanel>
+			</StackPanel>
 		</StackPanel>
 	</Border>
 
-	
+
 </ui:OptionsGraphicsView>

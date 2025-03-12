@@ -46,11 +46,11 @@ public abstract partial class View : UserControl
             var args = (NavigatorReturnedFocusEventArgs)e;
             if (args.ChangedUserInterface)
             {
-                lastNode?.Previous?.Value.Focus(NavigationMethodBasedOnMouseOrKey());
+                lastNode?.Previous?.Value.Focus(NavigationMethodBasedOnMouseOrKey);
             }
             else
             {
-                lastNode?.Value.Focus(NavigationMethodBasedOnMouseOrKey());
+                lastNode?.Value.Focus(NavigationMethodBasedOnMouseOrKey);
             }
         };
     }
@@ -62,7 +62,7 @@ public abstract partial class View : UserControl
         {
             try
             {
-                var control = this.GetControl<Control>($"InitialFocus{count}");
+                var control = this.GetControl<Control>($"initialFocus{count}");
                 if (control.Focusable)
                 {
                     focusableControl = control;
@@ -76,7 +76,7 @@ public abstract partial class View : UserControl
             count++;
         }
 
-        focusableControl?.Focus(NavigationMethodBasedOnMouseOrKey());
+        focusableControl?.Focus(NavigationMethodBasedOnMouseOrKey);
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -105,7 +105,7 @@ public abstract partial class View : UserControl
 
         if (nextFocus != null && nextFocus.Focusable)
         {
-            nextFocus.Focus(NavigationMethodBasedOnMouseOrKey());
+            nextFocus.Focus(NavigationMethodBasedOnMouseOrKey);
         }
     }
 }

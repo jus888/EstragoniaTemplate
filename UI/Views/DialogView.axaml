@@ -60,7 +60,7 @@
 						</Button.CommandParameter>
 					</Button>
 					<Button DockPanel.Dock="Right"
-							Name="InitialFocus0"
+							Name="initialFocus0"
 							IsVisible="{Binding CancelText,
 								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"							
 							Content="{Binding CancelText}"

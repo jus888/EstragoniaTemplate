@@ -4,6 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="using:EstragoniaTemplate.UI"
+	xmlns:views="using:EstragoniaTemplate.UI.Views"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
 	x:Class="EstragoniaTemplate.UI.Views.MainView"
 	x:DataType="vm:MainViewModel"

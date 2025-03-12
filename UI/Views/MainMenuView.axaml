@@ -21,7 +21,7 @@
 			Title Of Titles
 		</TextBlock>
 		
-		<Button Name="InitialFocus0"
+		<Button Name="initialFocus0"
 				Theme="{StaticResource TextButton}"
 				HorizontalAlignment="Center"
 				Command="{Binding ToOptionsCommand}">

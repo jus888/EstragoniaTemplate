@@ -36,6 +36,9 @@
 	  <Compile Update="UI\Views\DialogView.axaml.cs">
 	    <DependentUpon>DialogView.axaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="UI\Controls\SliderFocusser.axaml.cs">
+	    <DependentUpon>SliderFocusser.axaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="UI\Views\OptionsControlsView.axaml.cs">
 	    <DependentUpon>OptionsControlsView.axaml</DependentUpon>
 	  </Compile>

@@ -40,7 +40,7 @@ public sealed class MoveFocusWhenDisabledBehavior : Behavior<Control>
     private void OnIsEnabledChanged(bool isEnabled)
     {
         if (!isEnabled && AssociatedObject?.IsFocused == true)
-            Target?.Focus(NavigationMethodBasedOnMouseOrKey());
+            Target?.Focus(NavigationMethodBasedOnMouseOrKey);
     }
 
 }

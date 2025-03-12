@@ -10,7 +10,7 @@ namespace EstragoniaTemplate.UI;
 
 public static class Utilities
 {
-    public static NavigationMethod NavigationMethodBasedOnMouseOrKey()
+    public static NavigationMethod NavigationMethodBasedOnMouseOrKey
         => AvaloniaLoader.LastPressedInputWasMouseClick ? NavigationMethod.Unspecified : NavigationMethod.Directional;
 
     /// <summary>
