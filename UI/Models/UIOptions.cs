@@ -2,51 +2,74 @@ using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Godot;
 using System;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace EstragoniaTemplate.UI.Models;
 
 public partial class UIOptions : ObservableObject
 {
+    public int MaxFPSLimit => 300;
+    public int MinFPSLimit => 60;
+
     [ObservableProperty]
     private DisplayServer.WindowMode _windowMode = DisplayServer.WindowMode.Fullscreen;
 
     [ObservableProperty]
-    private bool _vSync = true;
+    private bool _vSync = false;
 
-    [ObservableProperty]
-    private int _FPSLimit = 60;
+    private int _fpsLimit = 60;
+    public int FPSLimit
+    {
+        get => _fpsLimit;
+        set => SetProperty(ref _fpsLimit, Mathf.Clamp(value, MinFPSLimit, MaxFPSLimit));
+    }
 
     [ObservableProperty]
     private float _UIScale = 1;
 
     public event EventHandler? Applied;
 
+    public UIOptions() { }
+    public UIOptions(UIOptions options)
+    {
+        SetFromOptions(options);
+    }
+
+    public UIOptions SetFPSLimitToRefreshRate()
+    {
+        var refreshRate = DisplayServer.ScreenGetRefreshRate();
+        if (refreshRate > 0)
+        {
+            FPSLimit = (int)refreshRate;
+        }
+
+        return this;
+    }
+
     public static UIOptions LoadOrCreateOptions()
     {
         UIOptions options;
         if (FileAccess.FileExists("user://settings.json"))
         {
-            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Read);
-            options = JsonSerializer.Deserialize<UIOptions>(file.GetAsText()) ?? new();
+            using var readFile = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Read);
+            try
+            {
+                options = JsonSerializer.Deserialize<UIOptions>(readFile.GetAsText()) ?? new();
+                options.Apply();
+                return options;
+            }
+            catch (JsonException) { }
         }
-        else
-        {
-            options = new();
-            options.SaveOverrideFile();
 
-            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
-            file.StoreString(JsonSerializer.Serialize(options));
-        }
+        options = new UIOptions().SetFPSLimitToRefreshRate();
+        options.SaveOverrideFile();
+
+        using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
+        file.StoreString(JsonSerializer.Serialize(options));
         options.Apply();
 
         return options;
-    }
-
-    public UIOptions() { }
-    public UIOptions(UIOptions options)
-    {
-        SetFromOptions(options);
     }
 
     public void SetFromOptions(UIOptions options)
