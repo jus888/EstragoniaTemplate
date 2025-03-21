@@ -4,6 +4,7 @@ using Godot;
 using System;
 using System.Text.Json;
 using EstragoniaTemplate.UI.Models;
+using System.Diagnostics;
 
 namespace EstragoniaTemplate.Main;
 
@@ -42,10 +43,11 @@ public partial class MainScene : Node2D
         UserInterfaceMain.GrabFocus();
     }
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event is InputEventKey key && key.PhysicalKeycode == Key.Escape)
+        if (@event is InputEventKey key && key.PhysicalKeycode == Key.Escape && key.Pressed && !key.Echo)
         {
+            Debug.WriteLine("Unhandled escape");
             GetViewport().SetInputAsHandled();
         }
     }

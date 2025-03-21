@@ -16,6 +16,9 @@ public interface IOptionsTabViewModel
 
 public partial class OptionsViewModel : NavigatorViewModel
 {
+    [ObservableProperty]
+    private int _currentTabIndex = 0;
+
     private ViewModelFactory _viewModelFactory;
 
     /// <summary>
@@ -39,22 +42,14 @@ public partial class OptionsViewModel : NavigatorViewModel
         Controls = 1
     }
 
-    public bool DifferentFromCurrentViewModel(int tabIndex)
-    {
-        switch ((OptionsTab)tabIndex)
-        {
-            case OptionsTab.Graphics:
-                return CurrentViewModel is not OptionsGraphicsViewModel;
-            case OptionsTab.Controls:
-                return CurrentViewModel is not OptionsControlsViewModel;
-        }
-
-        throw new ArgumentException(nameof(tabIndex));
-    }
-
-    [RelayCommand(CanExecute = nameof(DifferentFromCurrentViewModel))]
+    [RelayCommand]
     public void ToOptionsTab(int tabIndex)
     {
+        if (tabIndex == CurrentTabIndex)
+            return;
+
+        CurrentTabIndex = tabIndex;
+
         var tab = (OptionsTab)tabIndex;
         Action action;
         if (tab == OptionsTab.Graphics)

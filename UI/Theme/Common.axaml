@@ -4,7 +4,7 @@
 	xmlns:system="using:System">
 
 	<FontFamily x:Key="StandardFontFamily">sans-serif</FontFamily>
-	<system:Double x:Key="NormalFontSize">18</system:Double>
+	<system:Double x:Key="NormalFontSize">16</system:Double>
 
 	<SolidColorBrush x:Key="ForegroundBrush" Color="#000000" />
 	<SolidColorBrush x:Key="DisabledForegroundBrush" Color="#FF808080" />

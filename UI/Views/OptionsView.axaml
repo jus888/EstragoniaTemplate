@@ -5,6 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="using:EstragoniaTemplate.UI"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
+	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"	
 	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
@@ -13,7 +14,7 @@
 
 	<ui:OptionsView.DataTemplates>
 		<ui:ViewLocator/>
-	</ui:OptionsView.DataTemplates>	
+	</ui:OptionsView.DataTemplates>
 
 	<Design.DataContext>
 		<vm:OptionsViewModel>
@@ -26,6 +27,21 @@
 			</x:Arguments>
 		</vm:OptionsViewModel>
 	</Design.DataContext>
+
+	<UserControl.Resources>
+		<conv:IntEqualConverter x:Key="intEqualConverter" />
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		<Style Selector="Button.currentTab">
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Background" Value="{StaticResource ButtonNormalBackgroundBrush}" />
+			
+			<Style Selector="^:focus-visible, ^:pointerover">
+				<Setter Property="Background" Value="{StaticResource ButtonFocusBackgroundBrush}" />
+			</Style>
+		</Style>
+	</UserControl.Styles>
 
 	<Border BorderBrush="Black"
 			BorderThickness="1"
@@ -49,7 +65,11 @@
 				
 				<!-- Tabs -->
 				<StackPanel Width="100">
-					<Button Theme="{StaticResource TextButton}" 
+					<Button Name="initialFocus0"
+							Theme="{StaticResource TextButton}"
+							Classes.currentTab="{Binding CurrentTabIndex,
+								Converter={StaticResource intEqualConverter},
+								ConverterParameter=0}"
 							Command="{Binding ToOptionsTabCommand}">
 						<Button.CommandParameter>
 							<sys:Int32>0</sys:Int32>
@@ -57,6 +77,9 @@
 						Graphics
 					</Button>
 					<Button Theme="{StaticResource TextButton}"
+							Classes.currentTab="{Binding CurrentTabIndex,
+								Converter={StaticResource intEqualConverter},
+								ConverterParameter=1}"
 							Command="{Binding ToOptionsTabCommand}">
 						<Button.CommandParameter>
 							<sys:Int32>1</sys:Int32>

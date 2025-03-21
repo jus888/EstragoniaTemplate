@@ -9,13 +9,81 @@
 	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
-	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+	mc:Ignorable="d"
+	d:DesignWidth="960"
+	d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.OptionsControlsView"
 	x:DataType="vm:OptionsControlsViewModel">
+
+	<UserControl.Resources>
+		<conv:JoyButtonToImageSourceConverter x:Key="joyButtonImageConverter" />
+
+		<DataTemplate x:Key="inputMapItemTemplate"
+					  DataType="model:InputMapItem">
+			<Grid ColumnDefinitions="*, *, 80, 80"
+				  Margin="0 2"
+				  Height="40">
+				<TextBlock VerticalAlignment="Center"
+						   Text="{Binding InputName}"/>
+
+				<!-- Reserved inputs -->
+				<!--<StackPanel Grid.Column="1"
+							Orientation="Horizontal"
+							HorizontalAlignment="Right">
+					<Button HorizontalAlignment="Right"
+							Classes="inputMapButton">
+						<Image Source="/UI/Images/Keyboard/keyboard_0.png"
+							   Width="32" />
+					</Button>
+					<Button HorizontalAlignment="Right"
+							Classes="inputMapButton">
+						<Image Source="/UI/Images/Keyboard/keyboard_enter.png"
+							   Width="32" />
+					</Button>
+				</StackPanel>-->
+
+				<!-- Keyboard input -->
+				<Button Grid.Column="2"
+						Classes="inputMapButton">
+					<TextBlock FontSize="8"
+							   VerticalAlignment="Center"
+							   HorizontalAlignment="Center"
+							   Foreground="White"
+							   TextWrapping="Wrap"
+							   Text="{Binding KeyName}"/>
+				</Button>
+
+				<!-- Controller input -->
+				<Button Grid.Column="3"
+						Classes="inputMapButton">
+					<Image Source="{Binding ControllerEnumValue,
+										Converter={StaticResource joyButtonImageConverter},
+										ConverterParameter=xbox}"
+						   Width="32" />
+				</Button>
+			</Grid>
+		</DataTemplate>
+	</UserControl.Resources>
 
 	<Design.DataContext>
 		<vm:OptionsControlsViewModel />
 	</Design.DataContext>
+
+	<UserControl.Styles>
+		<Style Selector="Button.inputMapButton">
+			<Setter Property="Padding"
+					Value="6 0" />
+			<Setter Property="Margin"
+					Value="2 0" />
+			<Setter Property="Background"
+					Value="#5a5a5a" />
+
+			<Style Selector="^:pointerover, ^:focus-within">
+				<Setter Property="Background"
+						Value="Black" />
+			</Style>
+		</Style>
+	</UserControl.Styles>
 
 	<Border Padding="15"
 			Width="400"
@@ -23,10 +91,17 @@
 			VerticalAlignment="Center"
 			HorizontalAlignment="Center">
 
-		<StackPanel Spacing="2">
-			<TextBlock>Things here</TextBlock>
+		<StackPanel>
+			<Grid ColumnDefinitions="*, 80, 80">
+				<TextBlock Grid.Column="1">Keyboard</TextBlock>
+				<TextBlock Grid.Column="2">Controller</TextBlock>
+			</Grid>
+
+			<ItemsControl ItemsSource="{Binding InputMapItems}"
+						  ItemTemplate="{StaticResource inputMapItemTemplate}" />
 		</StackPanel>
 	</Border>
 
-	
+
+
 </ui:OptionsControlsView>

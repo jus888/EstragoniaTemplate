@@ -50,8 +50,7 @@
 					  Height="40"
 					  Classes="centerChildrenVertical">
 					<TextBlock>Screen mode</TextBlock>
-					<ComboBox Name="initialFocus0"
-							  Grid.Column="2"
+					<ComboBox Grid.Column="2"
 							  Width="200"
 							  SelectedIndex="{Binding Options.WindowMode,
 								Converter={StaticResource windowModeConverter}}">
@@ -78,6 +77,7 @@
 					<controls:ConfirmableNumericUpDown
 						Grid.Column="2"
 						Target="{Binding #fpsSlider}"
+						MaxWidth="60"
 						BorderBrush="Transparent"
 						HorizontalContentAlignment="Right"
 						XYFocus.NavigationModes="Disabled"
@@ -116,6 +116,7 @@
 						Grid.Column="2"
 						InnerRightContent="x"
 						Target="{Binding #uiScaleSlider}"
+						MaxWidth="60"						
 						BorderBrush="Transparent"
 						HorizontalContentAlignment="Right"
 						XYFocus.NavigationModes="Disabled"

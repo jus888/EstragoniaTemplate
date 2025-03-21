@@ -5,11 +5,18 @@ using System;
 using System.Diagnostics;
 using EstragoniaTemplate.UI;
 using Avalonia.Input;
+using Avalonia.Platform;
+using Avalonia.Media.Imaging;
 
 namespace EstragoniaTemplate.UI;
 
 public static class Utilities
 {
+    public static Avalonia.Media.Imaging.Bitmap LoadImageFromResource(Uri resourceUri)
+    {
+        return new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(resourceUri));
+    }
+
     public static NavigationMethod NavigationMethodBasedOnMouseOrKey
         => AvaloniaLoader.LastPressedInputWasMouseClick ? NavigationMethod.Unspecified : NavigationMethod.Directional;
 

@@ -73,6 +73,12 @@ public partial class UserInterface : AvaloniaControl
 
     public override void _GuiInput(InputEvent @event)
     {
+        if (@event is InputEventKey key && key.PhysicalKeycode == Key.Space)
+        {
+            key.Keycode = Key.Enter;
+            key.PhysicalKeycode = Key.Enter;
+        }
+
         if (_keyRepeater != null && _keyRepeater.Input(@event))
             return;
 
