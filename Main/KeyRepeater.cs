@@ -1,4 +1,3 @@
-using Avalonia.Input;
 using EstragoniaTemplate.UI.Models;
 using Godot;
 using System;
@@ -15,9 +14,16 @@ public class KeyRepeater
 
     readonly StringName[] _directionalInputEventNames = ["ui_left", "ui_right", "ui_up", "ui_down"];
     private HashSet<InputEvent> _directionalInputEvents = new();
+    private readonly InputEventKey[] _reservedInputEvents =
+    [
+        new InputEventKey() { PhysicalKeycode = Key.Up, Keycode = Key.Up },
+        new InputEventKey() { PhysicalKeycode = Key.Down, Keycode = Key.Down },
+        new InputEventKey() { PhysicalKeycode = Key.Left, Keycode = Key.Left },
+        new InputEventKey() { PhysicalKeycode = Key.Right, Keycode = Key.Right }
+    ];
 
     private Dictionary<InputEvent, float> _inputDownDurations = new();
-    private HashSet<Godot.Key> _blockedKeys = new();
+    private HashSet<Key> _blockedKeys = new();
     private HashSet<JoyButton> _blockedJoyButtons = new();
 
     public KeyRepeater()
@@ -107,6 +113,7 @@ public class KeyRepeater
             directionalEvents.AddRange(directionEvents);
         }
 
+        directionalEvents.AddRange(_reservedInputEvents);
         _directionalInputEvents = directionalEvents.ToHashSet();
         ClearRepeatingAndBlockedInput();
     }
@@ -144,6 +151,7 @@ public class KeyRepeater
                 Echo = true,
                 Pressed = true,
                 PhysicalKeycode = keyEvent.PhysicalKeycode,
+                Keycode = keyEvent.Keycode,
             };
         }
 

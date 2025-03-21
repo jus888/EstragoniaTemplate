@@ -20,7 +20,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
-    private bool _canApply = false;
+    private bool _canApply;
 
     private readonly MainViewModel _mainViewModel;
     private readonly UserInterface? _currentUserInterface;
@@ -32,7 +32,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 
         if (e.PropertyName != nameof(CanApply))
         {
-            CanApply = !Options.Equals(_currentlyAppliedOptions);
+            CanApply = true;
         }
     }
 
@@ -58,6 +58,8 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         {
             OnPropertyChanged(e);
         };
+
+        CanApply = false;
     }
 
     [RelayCommand(CanExecute = nameof(CanApply))]
@@ -68,29 +70,15 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         _currentlyAppliedOptions = new(Options);
     }
 
-    [RelayCommand]
-    public void Save()
-    {
-        if (!Options.Equals(_savedOptions))
-        {
-            Options.SaveOverrideFile();
-
-            using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
-            file.StoreString(JsonSerializer.Serialize(Options));
-            _savedOptions = new UIOptions(Options);
-        }
-
-        if (CanApply)
-        {
-            Apply();
-        }
-    }
-
     public void TryClose(Action callOnClose)
     {
         if (!_currentlyAppliedOptions.Equals(_savedOptions))
         {
-            var dialog = new DialogViewModel("You have unsaved applied changes.\nExit without saving or save changes?", "Cancel", "Do not save", "Save applied settings");
+            var dialog = new DialogViewModel(
+                "You have applied changes to the graphics settings.\n" +
+                "Revert the changes or save current settings?", 
+                "Cancel", "Revert changes", "Save current settings"
+                );
             dialog.Responded += OnResponse;
 
             void OnResponse(DialogViewModel.Response response)
@@ -100,14 +88,17 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
                 {
                     case DialogViewModel.Response.Cancel:
                         return;
+
                     case DialogViewModel.Response.Deny:
                         Options.SetFromOptions(_savedOptions);
-                        Apply();
+                        Options.Apply();
                         callOnClose();
                         return;
+
                     case DialogViewModel.Response.Confirm:
                         Options.SetFromOptions(_currentlyAppliedOptions);
-                        Save();
+                        Options.Apply();
+                        Options.Save();
                         callOnClose();
                         return;
                 }

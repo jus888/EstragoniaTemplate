@@ -148,25 +148,18 @@
 			<Separator Margin="10" />
 
 			<!-- Bottom Buttons -->
-			<StackPanel Orientation="Horizontal"
-						HorizontalAlignment="Right"
-						Spacing="8">
-				<Button DockPanel.Dock="Left"
+			<DockPanel>
+				<Button DockPanel.Dock="Right"
 						Name="apply"
 						Content="Apply"
 						Command="{Binding ApplyCommand}">
 					<Interaction.Behaviors>
 						<behaviors:MoveFocusWhenDisabledBehavior
-							Target="{Binding #save}" />
+							Target="{Binding #uiScaleSlider}" />
 					</Interaction.Behaviors>
 				</Button>
-
-				<Button DockPanel.Dock="Right"
-						Name="save"
-						Content="Save"
-						Command="{Binding SaveCommand}" />
 				<Control />
-			</StackPanel>
+			</DockPanel>
 		</StackPanel>
 	</Border>
 

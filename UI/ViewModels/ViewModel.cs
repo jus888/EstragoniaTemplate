@@ -4,14 +4,15 @@ using System;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
-public class NavigatorReturnedFocusEventArgs : EventArgs
-{
-    public bool ChangedUserInterface { get; set; } = false;
-}
-
 public abstract partial class ViewModel : ObservableObject
 {
-    public event EventHandler? NavigatorReturnedFocus;
+    /// <summary>
+    /// Invoked when this view becomes the top of the stack after another view is popped.
+    /// </summary>
+    public event EventHandler? NavigatorFocusReturned;
+
+    public event EventHandler? UserInterfaceFocusReturned;
+    public event EventHandler? UserInterfaceFocusLost;
     public event Action? Closed;
 
     [RelayCommand]
@@ -20,11 +21,18 @@ public abstract partial class ViewModel : ObservableObject
         Closed?.Invoke();
     }
 
-    public virtual void OnNavigatorReturnedFocus(bool changedUserInterface = false)
+    public virtual void OnNavigatorFocusReturned()
     {
-        NavigatorReturnedFocus?.Invoke(this, new NavigatorReturnedFocusEventArgs
-        {
-            ChangedUserInterface = changedUserInterface
-        });
+        NavigatorFocusReturned?.Invoke(this, EventArgs.Empty);
+    }
+
+    public virtual void OnUserInterfaceFocusReturned()
+    {
+        UserInterfaceFocusReturned?.Invoke(this, EventArgs.Empty);
+    }
+
+    public virtual void OnUserInterfaceFocusLost()
+    {
+        UserInterfaceFocusLost?.Invoke(this, EventArgs.Empty);
     }
 }

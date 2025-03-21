@@ -54,6 +54,7 @@ public partial class UserInterface : AvaloniaControl
         from.FocusMode = FocusModeEnum.None;
         this.FocusMode = FocusModeEnum.All;
         GrabFocus();
+        from.CurrentViewModel?.OnUserInterfaceFocusLost();
 
         if (returnWhenCurrentViewModelIsNull && _mainViewModel != null)
         {
@@ -65,7 +66,7 @@ public partial class UserInterface : AvaloniaControl
                 {
                     _mainViewModel.Navigated -= OnNavigated;
                     from.StealFocus(this, false);
-                    from.CurrentViewModel?.OnNavigatorReturnedFocus(true);
+                    from.CurrentViewModel?.OnUserInterfaceFocusReturned();
                 }
             }
         }

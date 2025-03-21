@@ -48,8 +48,6 @@ public partial class OptionsViewModel : NavigatorViewModel
         if (tabIndex == CurrentTabIndex)
             return;
 
-        CurrentTabIndex = tabIndex;
-
         var tab = (OptionsTab)tabIndex;
         Action action;
         if (tab == OptionsTab.Graphics)
@@ -58,6 +56,7 @@ public partial class OptionsViewModel : NavigatorViewModel
             {
                 NavigateTo(_viewModelFactory.CreateOptionsGraphics(), replace: true);
                 ToOptionsTabCommand.NotifyCanExecuteChanged();
+                CurrentTabIndex = tabIndex;
             };
         }
         else/* if (tab == OptionsTab.Controls)*/
@@ -66,6 +65,7 @@ public partial class OptionsViewModel : NavigatorViewModel
             {
                 NavigateTo(new OptionsControlsViewModel(), replace: true);
                 ToOptionsTabCommand.NotifyCanExecuteChanged();
+                CurrentTabIndex = tabIndex;
             };
         }
 

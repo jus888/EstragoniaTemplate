@@ -71,7 +71,7 @@ public abstract partial class NavigatorViewModel : ViewModel
             if (_viewModels.Count > 0)
             {
                 CurrentViewModel = _viewModels.Peek();
-                CurrentViewModel.OnNavigatorReturnedFocus();
+                CurrentViewModel.OnNavigatorFocusReturned();
             }
             else
             {

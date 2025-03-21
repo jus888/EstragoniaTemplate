@@ -63,10 +63,7 @@ public partial class UIOptions : ObservableObject
         }
 
         options = new UIOptions().SetFPSLimitToRefreshRate();
-        options.SaveOverrideFile();
-
-        using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
-        file.StoreString(JsonSerializer.Serialize(options));
+        options.Save();
         options.Apply();
 
         return options;
@@ -102,10 +99,13 @@ public partial class UIOptions : ObservableObject
         }
     }
 
-    public void SaveOverrideFile()
+    public void Save()
     {
-        using var file = FileAccess.Open("user://settings_override.cfg", FileAccess.ModeFlags.Write)!;
-        file.StoreLine($"display/window/size/mode = {(int)WindowMode}");
+        using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
+        file.StoreString(JsonSerializer.Serialize(this));
+
+        using var overrideFile = FileAccess.Open("user://settings_override.cfg", FileAccess.ModeFlags.Write)!;
+        overrideFile.StoreLine($"display/window/size/mode = {(int)WindowMode}");
     }
 
     public override bool Equals(object? obj)

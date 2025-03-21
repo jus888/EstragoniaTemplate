@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Metadata;
 using CommunityToolkit.Mvvm.ComponentModel;
 using EstragoniaTemplate.UI.ViewModels;
 using System;
@@ -17,11 +18,13 @@ public abstract partial class View : UserControl
     protected LinkedList<Control> LastFocussedControls = new();
     protected const int FocussedTrackCount = 2;
 
+    private bool _trackFocussedControls = true;
+
     protected override void OnGotFocus(GotFocusEventArgs e)
     {
         base.OnGotFocus(e);
 
-        if (e.Source is Control control && control.IsFocused)
+        if (_trackFocussedControls && e.Source is Control control && control.IsFocused)
         {
             LastFocussedControls.AddLast(control);
             if (LastFocussedControls.Count > FocussedTrackCount)
@@ -40,19 +43,24 @@ public abstract partial class View : UserControl
             return;
 
         var viewModel = (ViewModel)DataContext;
-        viewModel.NavigatorReturnedFocus += (s, e) =>
+        viewModel.NavigatorFocusReturned += (s, e) => FocusLast();
+
+        viewModel.UserInterfaceFocusReturned += (s, e) =>
+        {
+            FocusLast();
+            _trackFocussedControls = true;
+        };
+        viewModel.UserInterfaceFocusLost += (s, e) =>
+        {
+            FocusLast();
+            _trackFocussedControls = false;
+        };
+
+        void FocusLast()
         {
             var lastNode = LastFocussedControls.Last;
-            var args = (NavigatorReturnedFocusEventArgs)e;
-            if (args.ChangedUserInterface)
-            {
-                lastNode?.Previous?.Value.Focus(NavigationMethodBasedOnMouseOrKey);
-            }
-            else
-            {
-                lastNode?.Value.Focus(NavigationMethodBasedOnMouseOrKey);
-            }
-        };
+            lastNode?.Value.Focus(NavigationMethodBasedOnMouseOrKey);
+        }
     }
     public void FocusNamedControls()
     {
