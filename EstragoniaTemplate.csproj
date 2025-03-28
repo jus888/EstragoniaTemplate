@@ -23,7 +23,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AvaloniaResource Include="UI\Images\**"/>
+		<AvaloniaResource Include="UI\Images\**" />
 	</ItemGroup>
 
 
@@ -37,6 +37,9 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <Compile Update="UI\Views\InputListenerDialogView.axaml.cs">
+	    <DependentUpon>InputListenerDialogView.axaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="UI\Views\DialogView.axaml.cs">
 	    <DependentUpon>DialogView.axaml</DependentUpon>
 	  </Compile>

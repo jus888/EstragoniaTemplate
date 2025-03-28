@@ -9,6 +9,7 @@
 	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"		
 	mc:Ignorable="d"
 	d:DesignWidth="960"
 	d:DesignHeight="540"
@@ -44,7 +45,9 @@
 
 				<!-- Keyboard input -->
 				<Button Grid.Column="2"
-						Classes="inputMapButton">
+						Classes="inputMapButton"
+						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptCommand}"
+						CommandParameter="{Binding .}">
 					<Image Source="{Binding KeyEnumValue,
 										Converter={StaticResource ButtonImageConverter},
 										ConverterParameter=keyboard}"
@@ -53,7 +56,9 @@
 
 				<!-- Controller input -->
 				<Button Grid.Column="3"
-						Classes="inputMapButton">
+						Classes="inputMapButton"
+						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptCommand}"
+						CommandParameter="{Binding .}">						
 					<Image Source="{Binding ControllerEnumValue,
 										Converter={StaticResource ButtonImageConverter},
 										ConverterParameter=xbox}"

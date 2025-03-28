@@ -105,7 +105,6 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
             }
 
             _mainViewModel.NavigateTo(dialog);
-
             if (_currentUserInterface != null && _targetUserInterface != null)
             {
                 _targetUserInterface.StealFocus(_currentUserInterface, true);

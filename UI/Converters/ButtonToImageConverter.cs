@@ -39,7 +39,7 @@ public class ButtonToImageConverter : IValueConverter
             return Utilities.LoadImageFromResource(new Uri($"avares://EstragoniaTemplate/{ImageFolderPath}/{subFolder}/{buttonName}.png"));
         }
 
-        return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
+        return null;
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -40,4 +40,7 @@ public class ViewModelFactory
 
     public virtual OptionsGraphicsViewModel CreateOptionsGraphics(MainViewModel mainViewModel)
         => new(_options, mainViewModel);
+
+    public virtual OptionsControlsViewModel CreateOptionsControls()
+        => new(this, _mainViewModelDialog, _userInterfaceMain, _userInterfaceDialog);
 }

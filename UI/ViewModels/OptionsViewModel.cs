@@ -63,7 +63,7 @@ public partial class OptionsViewModel : NavigatorViewModel
         {
             action = () =>
             {
-                NavigateTo(new OptionsControlsViewModel(), replace: true);
+                NavigateTo(_viewModelFactory.CreateOptionsControls(), replace: true);
                 ToOptionsTabCommand.NotifyCanExecuteChanged();
                 CurrentTabIndex = tabIndex;
             };

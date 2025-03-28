@@ -13,6 +13,8 @@ namespace EstragoniaTemplate.Main;
 
 public partial class UserInterface : AvaloniaControl
 {
+    public event Action<InputEvent>? InputEventReceived;
+
     public ViewModel? CurrentViewModel
     {
         get => _mainViewModel?.CurrentViewModel;
@@ -74,6 +76,8 @@ public partial class UserInterface : AvaloniaControl
 
     public override void _GuiInput(InputEvent @event)
     {
+        InputEventReceived?.Invoke(@event);
+
         if (@event is InputEventKey key && key.PhysicalKeycode == Key.Space)
         {
             key.Keycode = Key.Enter;
@@ -88,6 +92,7 @@ public partial class UserInterface : AvaloniaControl
 
     public void ForceGuiInput(InputEvent @event)
     {
+        InputEventReceived?.Invoke(@event);
         base._GuiInput(@event);
     }
 
