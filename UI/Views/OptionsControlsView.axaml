@@ -16,7 +16,7 @@
 	x:DataType="vm:OptionsControlsViewModel">
 
 	<UserControl.Resources>
-		<conv:JoyButtonToImageSourceConverter x:Key="joyButtonImageConverter" />
+		<conv:ButtonToImageConverter x:Key="ButtonImageConverter" />
 
 		<DataTemplate x:Key="inputMapItemTemplate"
 					  DataType="model:InputMapItem">
@@ -45,19 +45,17 @@
 				<!-- Keyboard input -->
 				<Button Grid.Column="2"
 						Classes="inputMapButton">
-					<TextBlock FontSize="8"
-							   VerticalAlignment="Center"
-							   HorizontalAlignment="Center"
-							   Foreground="White"
-							   TextWrapping="Wrap"
-							   Text="{Binding KeyName}"/>
+					<Image Source="{Binding KeyEnumValue,
+										Converter={StaticResource ButtonImageConverter},
+										ConverterParameter=keyboard}"
+						   Width="32" />
 				</Button>
 
 				<!-- Controller input -->
 				<Button Grid.Column="3"
 						Classes="inputMapButton">
 					<Image Source="{Binding ControllerEnumValue,
-										Converter={StaticResource joyButtonImageConverter},
+										Converter={StaticResource ButtonImageConverter},
 										ConverterParameter=xbox}"
 						   Width="32" />
 				</Button>

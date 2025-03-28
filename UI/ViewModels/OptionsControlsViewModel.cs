@@ -19,15 +19,9 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
     {
         InputMapItems = new()
         {
-            new("", "Confirm"),
-            new("", "Cancel")
+            new("", "Confirm", Key.Enter, JoyButton.A),
+            new("", "Cancel", Key.Escape, JoyButton.X)
         };
-
-        //InputMapItems = new()
-        //{
-        //    new("", "Confirm", Key.Enter, JoyButton.A),
-        //    new("", "Cancel", Key.Escape, JoyButton.X)
-        //};
     }
 
     public void TryClose(Action callOnClose) => callOnClose();
