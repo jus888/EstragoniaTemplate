@@ -20,7 +20,7 @@ public partial class MainScene : Node2D
         if (UserInterfaceMain == null || UserInterfaceDialog == null)
             throw new NullReferenceException();
 
-        var options = UIOptions.LoadOrCreateOptions();
+        var options = GraphicsOptions.LoadOrCreateOptions();
 
         var keyRepeater = new KeyRepeater();
         GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;

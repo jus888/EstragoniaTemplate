@@ -11,14 +11,14 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public class ViewModelFactory
 {
-    private readonly UIOptions _options;
+    private readonly GraphicsOptions _options;
     private readonly MainViewModel _mainViewModel;
     private readonly MainViewModel _mainViewModelDialog;
     private readonly UserInterface _userInterfaceMain;
     private readonly UserInterface _userInterfaceDialog;
     private readonly KeyRepeater _keyRepeater;
 
-    public ViewModelFactory(UIOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog, 
+    public ViewModelFactory(GraphicsOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog, 
         UserInterface userInterfaceMain, UserInterface userInterfaceDialog, KeyRepeater keyRepeater)
     {
         _options = uiOptions;

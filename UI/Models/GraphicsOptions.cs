@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace EstragoniaTemplate.UI.Models;
 
-public partial class UIOptions : ObservableObject
+public partial class GraphicsOptions : ObservableObject
 {
     public int MaxFPSLimit => 300;
     public int MinFPSLimit => 60;
@@ -30,13 +30,13 @@ public partial class UIOptions : ObservableObject
 
     public event EventHandler? Applied;
 
-    public UIOptions() { }
-    public UIOptions(UIOptions options)
+    public GraphicsOptions() { }
+    public GraphicsOptions(GraphicsOptions options)
     {
         SetFromOptions(options);
     }
 
-    public UIOptions SetFPSLimitToRefreshRate()
+    public GraphicsOptions SetFPSLimitToRefreshRate()
     {
         var refreshRate = DisplayServer.ScreenGetRefreshRate();
         if (refreshRate > 0)
@@ -47,29 +47,29 @@ public partial class UIOptions : ObservableObject
         return this;
     }
 
-    public static UIOptions LoadOrCreateOptions()
+    public static GraphicsOptions LoadOrCreateOptions()
     {
-        UIOptions options;
+        GraphicsOptions options;
         if (FileAccess.FileExists("user://settings.json"))
         {
             using var readFile = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Read);
             try
             {
-                options = JsonSerializer.Deserialize<UIOptions>(readFile.GetAsText()) ?? new();
+                options = JsonSerializer.Deserialize<GraphicsOptions>(readFile.GetAsText()) ?? new();
                 options.Apply();
                 return options;
             }
             catch (JsonException) { }
         }
 
-        options = new UIOptions().SetFPSLimitToRefreshRate();
+        options = new GraphicsOptions().SetFPSLimitToRefreshRate();
         options.Save();
         options.Apply();
 
         return options;
     }
 
-    public void SetFromOptions(UIOptions options)
+    public void SetFromOptions(GraphicsOptions options)
     {
         WindowMode = options.WindowMode;
         VSync = options.VSync;
@@ -110,7 +110,7 @@ public partial class UIOptions : ObservableObject
 
     public override bool Equals(object? obj)
     {
-        return obj is UIOptions options &&
+        return obj is GraphicsOptions options &&
                WindowMode == options.WindowMode &&
                VSync == options.VSync &&
                FPSLimit == options.FPSLimit &&

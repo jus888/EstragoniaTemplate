@@ -14,9 +14,9 @@ namespace EstragoniaTemplate.UI.ViewModels;
 public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 {
     [ObservableProperty]
-    private UIOptions _options;
-    private UIOptions _savedOptions;
-    private UIOptions _currentlyAppliedOptions;
+    private GraphicsOptions _options;
+    private GraphicsOptions _savedOptions;
+    private GraphicsOptions _currentlyAppliedOptions;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
@@ -39,7 +39,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     /// <summary>
     /// Set the UserInterface parameters if dialog should open in a different UserInterface (target).
     /// </summary>
-    public OptionsGraphicsViewModel(UIOptions options, MainViewModel mainViewModel, UserInterface? currentUserInterface = null, UserInterface? targetUserInterface = null) : this(options)
+    public OptionsGraphicsViewModel(GraphicsOptions options, MainViewModel mainViewModel, UserInterface? currentUserInterface = null, UserInterface? targetUserInterface = null) : this(options)
     {
         _mainViewModel = mainViewModel;
         _currentUserInterface = currentUserInterface;
@@ -48,7 +48,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     /// <summary>
     /// Intended for designer usage only.
     /// </summary>
-    public OptionsGraphicsViewModel(UIOptions options)
+    public OptionsGraphicsViewModel(GraphicsOptions options)
     {
         _savedOptions = new(options);
         _currentlyAppliedOptions = new(options);
