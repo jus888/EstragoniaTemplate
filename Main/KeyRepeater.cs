@@ -115,7 +115,7 @@ public class KeyRepeater
 
         directionalEvents.AddRange(_reservedInputEvents);
         _directionalInputEvents = directionalEvents.ToHashSet();
-        ClearRepeatingAndBlockedInput();
+        _inputDownDurations.Clear();
     }
 
     /// <summary>

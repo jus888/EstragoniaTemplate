@@ -13,6 +13,7 @@ public partial class InputMapItem : ObservableObject
     public string InputName { get; private init; } = "";
     public string KeyName => KeyEnumValue == null ? "" : ((Key)KeyEnumValue).ToString();
     public string JoyButtonName => ControllerEnumValue == null ? "" : ((JoyButton)ControllerEnumValue).ToString();
+    public HashSet<Key> ReservedKeys => _inputMapGroup.ReservedKeys;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(KeyName))]
@@ -26,11 +27,14 @@ public partial class InputMapItem : ObservableObject
     private InputEventJoypadButton? _inputMapJoypadEvent;
 
     private StringName _inputMapAction;
+    private readonly InputMapGroup _inputMapGroup;
 
-    public InputMapItem(string inputMapAction, string inputName)
+    public InputMapItem(string inputMapAction, string inputName, InputMapGroup inputMapGroup)
     {
         _inputMapAction = inputMapAction;
         InputName = inputName;
+
+        _inputMapGroup = inputMapGroup;
 
         KeyEnumValue = null;
         ControllerEnumValue = null;
@@ -43,11 +47,13 @@ public partial class InputMapItem : ObservableObject
             {
                 _inputMapKeyEvent = inputKey;
                 KeyEnumValue = (int)inputKey.PhysicalKeycode;
+                inputMapGroup.KeyMappings.Add(inputKey.PhysicalKeycode, this);
             }
             else if (inputEvent is InputEventJoypadButton inputJoypad)
             {
                 _inputMapJoypadEvent = inputJoypad;
                 ControllerEnumValue = (int)inputJoypad.ButtonIndex;
+                inputMapGroup.JoypadMappings.Add(inputJoypad.ButtonIndex, this);
             }
         }
     }
@@ -70,32 +76,68 @@ public partial class InputMapItem : ObservableObject
         }
     }
 
-    public void SetKeyboardKey(Key key)
+    public void SetKeyboardKey(Key? newKey)
     {
-        InputMap.ActionEraseEvent(_inputMapAction, _inputMapKeyEvent);
+        Key? oldKey = KeyEnumValue == null ? null : (Key)KeyEnumValue;
+
+        if (oldKey != null)
+        {
+            _inputMapGroup.KeyMappings.Remove(oldKey.Value);
+            InputMap.ActionEraseEvent(_inputMapAction, _inputMapKeyEvent);
+        }
+
+        if (newKey == null)
+        {
+            KeyEnumValue = null;
+            return;
+        }
+
+        if (_inputMapGroup.KeyMappings.TryGetValue(newKey.Value, out var existingInputMapItem))
+        {
+            existingInputMapItem.SetKeyboardKey(oldKey);
+        }
 
         var inputKey = new InputEventKey()
         {
-            PhysicalKeycode = key,
-            Keycode = key
+            PhysicalKeycode = newKey.Value,
+            Keycode = newKey.Value
         };
 
         InputMap.ActionAddEvent(_inputMapAction, inputKey);
+        _inputMapGroup.KeyMappings.Add(newKey.Value, this);
         _inputMapKeyEvent = inputKey;
-        KeyEnumValue = (int)key;
+        KeyEnumValue = (int)newKey;
     }
 
-    public void SetJoypadButton(JoyButton button)
+    public void SetJoypadButton(JoyButton? newButton)
     {
-        InputMap.ActionEraseEvent(_inputMapAction, _inputMapJoypadEvent);
+        JoyButton? oldButton = ControllerEnumValue == null ? null : (JoyButton)ControllerEnumValue;
 
-        var inputButton = new InputEventJoypadButton()
+        if (oldButton != null)
         {
-            ButtonIndex = button
+            _inputMapGroup.JoypadMappings.Remove(oldButton.Value);
+            InputMap.ActionEraseEvent(_inputMapAction, _inputMapJoypadEvent);
+        }
+
+        if (newButton == null)
+        {
+            ControllerEnumValue = null;
+            return;
+        }
+
+        if (_inputMapGroup.JoypadMappings.TryGetValue(newButton.Value, out var existingInputMapItem))
+        {
+            existingInputMapItem.SetJoypadButton(oldButton);
+        }
+
+        var inputJoypad = new InputEventJoypadButton()
+        {
+            ButtonIndex = newButton.Value
         };
 
-        InputMap.ActionAddEvent(_inputMapAction, inputButton);
-        _inputMapJoypadEvent = inputButton;
-        ControllerEnumValue = (int)button;
+        InputMap.ActionAddEvent(_inputMapAction, inputJoypad);
+        _inputMapGroup.JoypadMappings.Add(newButton.Value, this);
+        _inputMapJoypadEvent = inputJoypad;
+        ControllerEnumValue = (int)newButton;
     }
 }

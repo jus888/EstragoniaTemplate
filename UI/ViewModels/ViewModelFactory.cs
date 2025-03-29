@@ -11,19 +11,22 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public class ViewModelFactory
 {
-    private UIOptions _options;
-    private MainViewModel _mainViewModel;
-    private MainViewModel _mainViewModelDialog;
-    private UserInterface _userInterfaceMain;
-    private UserInterface _userInterfaceDialog;
+    private readonly UIOptions _options;
+    private readonly MainViewModel _mainViewModel;
+    private readonly MainViewModel _mainViewModelDialog;
+    private readonly UserInterface _userInterfaceMain;
+    private readonly UserInterface _userInterfaceDialog;
+    private readonly KeyRepeater _keyRepeater;
 
-    public ViewModelFactory(UIOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog, UserInterface userInterfaceMain, UserInterface userInterfaceDialog)
+    public ViewModelFactory(UIOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog, 
+        UserInterface userInterfaceMain, UserInterface userInterfaceDialog, KeyRepeater keyRepeater)
     {
         _options = uiOptions;
         _mainViewModel = mainViewModel;
         _mainViewModelDialog = mainViewModelDialog;
         _userInterfaceMain = userInterfaceMain;
         _userInterfaceDialog = userInterfaceDialog;
+        _keyRepeater = keyRepeater;
     }
 
     public virtual MainMenuViewModel CreateMainMenu(SceneTree sceneTree)
@@ -42,5 +45,5 @@ public class ViewModelFactory
         => new(_options, mainViewModel);
 
     public virtual OptionsControlsViewModel CreateOptionsControls()
-        => new(this, _mainViewModelDialog, _userInterfaceMain, _userInterfaceDialog);
+        => new(this, _mainViewModelDialog, _userInterfaceMain, _userInterfaceDialog, _keyRepeater);
 }

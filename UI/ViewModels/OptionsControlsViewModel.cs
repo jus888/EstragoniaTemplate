@@ -9,6 +9,7 @@ using EstragoniaTemplate.Main;
 using System.Collections.ObjectModel;
 using EstragoniaTemplate.UI.Models;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
@@ -21,6 +22,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
 
     private readonly UserInterface _currentUserInterface;
     private readonly UserInterface _dialogUserInterface;
+    private readonly KeyRepeater _keyRepeater;
 
     /// <summary>
     /// Intended for designer usage only.
@@ -33,28 +35,36 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             new("", "Cancel", Key.Escape, JoyButton.X)
         };
     }
-    public OptionsControlsViewModel(ViewModelFactory viewModelFactory, MainViewModel mainViewModel, UserInterface currentUserInterface, UserInterface dialogUserInterface)
+    public OptionsControlsViewModel(ViewModelFactory viewModelFactory, MainViewModel mainViewModel, UserInterface currentUserInterface, UserInterface dialogUserInterface, KeyRepeater keyRepeater)
     {
         _viewModelFactory = viewModelFactory;
         _mainViewModel = mainViewModel;
         _currentUserInterface = currentUserInterface;
         _dialogUserInterface = dialogUserInterface;
+        _keyRepeater = keyRepeater;
 
+        HashSet<Key> navigationReservedKeys = new()
+        {
+            Key.Escape,
+            Key.Enter,
+            Key.Space
+        };
+        var navigationGroup = new InputMapGroup(navigationReservedKeys);
         InputMapItems = new()
         {
-            new("ui_accept", "Confirm"),
-            new("ui_cancel", "Cancel"),
-            new("ui_left", "Left"),
-            new("ui_right", "Right"),
-            new("ui_up", "Up"),
-            new("ui_down", "Down")
+            new("ui_accept", "Confirm", navigationGroup),
+            new("ui_cancel", "Cancel", navigationGroup),
+            new("ui_left", "Left", navigationGroup),
+            new("ui_right", "Right", navigationGroup),
+            new("ui_up", "Up", navigationGroup),
+            new("ui_down", "Down", navigationGroup)
         };
     }
 
     [RelayCommand]
     public void InputPrompt(InputMapItem inputMapItem)
     {
-        var dialog = new InputListenerDialogViewModel(_dialogUserInterface);
+        var dialog = new InputListenerDialogViewModel(_dialogUserInterface, inputMapItem.ReservedKeys);
         dialog.InputPressed += OnInput;
 
         void OnInput((Key?, JoyButton?) inputTuple)
@@ -69,6 +79,8 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             {
                 inputMapItem.SetJoypadButton(joyButton.Value);
             }
+
+            _keyRepeater.UpdateDirectionalKeys();
         }
 
         _mainViewModel.NavigateTo(dialog);

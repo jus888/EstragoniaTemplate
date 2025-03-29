@@ -22,6 +22,9 @@ public partial class MainScene : Node2D
 
         var options = UIOptions.LoadOrCreateOptions();
 
+        var keyRepeater = new KeyRepeater();
+        GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;
+
         var mainViewModelDialog = new MainViewModel(UserInterfaceDialog);
         var mainViewModel = new MainViewModel(UserInterfaceMain);
         var viewModelFactory = new ViewModelFactory(
@@ -29,10 +32,8 @@ public partial class MainScene : Node2D
             mainViewModel, 
             mainViewModelDialog,
             UserInterfaceMain, 
-            UserInterfaceDialog);
-
-        var keyRepeater = new KeyRepeater();
-        GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;
+            UserInterfaceDialog,
+            keyRepeater);
 
         UserInterfaceDialog.Initialize(mainViewModelDialog, keyRepeater);
         UserInterfaceMain.Initialize(

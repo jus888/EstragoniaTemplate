@@ -8,6 +8,7 @@ using static EstragoniaTemplate.UI.Utilities;
 using Godot;
 using EstragoniaTemplate.Main;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
@@ -17,9 +18,12 @@ public partial class InputListenerDialogViewModel : ViewModel
 
     private UserInterface _userInterface;
     private EventHandler<InputEvent>? _inputEventHandler;
+    private HashSet<Key> _reservedKeys;
 
-    public InputListenerDialogViewModel(UserInterface userInterface)
+    public InputListenerDialogViewModel(UserInterface userInterface, HashSet<Key> reservedKeys)
     {
+        _reservedKeys = reservedKeys;
+
         _userInterface = userInterface;
         _inputEventHandler = null;
         _inputEventHandler = (sender, inputEvent) =>
@@ -42,7 +46,8 @@ public partial class InputListenerDialogViewModel : ViewModel
 
         (Key?, JoyButton?)? inputTuple = null;
         if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed 
-            && ButtonToIconName.TryGetKeyboard(keyEvent.Keycode, out _))
+            && ButtonToIconName.TryGetKeyboard(keyEvent.Keycode, out _)
+            && !_reservedKeys.Contains(keyEvent.Keycode))
         {
             // UserInterface will process the inputEvent after this method:
             // set pressed to false to prevent instant press after this dialog is closed.
