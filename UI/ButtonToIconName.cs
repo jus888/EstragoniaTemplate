@@ -35,8 +35,8 @@ internal static class ButtonToIconName
 
             ((>= Key.A) and (<= Key.Z)) 
                 or Key.Shift or Key.Ctrl
-                or Key.Enter or Key.Backspace 
-                or Key.Escape => key.ToString().ToLower(),
+                or Key.Enter or Key.Space
+                or Key.Backspace or Key.Escape => key.ToString().ToLower(),
 
             _ => null
         };

@@ -7,6 +7,7 @@ using System;
 using static EstragoniaTemplate.UI.Utilities;
 using Godot;
 using EstragoniaTemplate.Main;
+using System.Diagnostics;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
@@ -14,23 +15,44 @@ public partial class InputListenerDialogViewModel : ViewModel
 {
     public event Action<(Key?, JoyButton?)>? InputPressed;
 
+    private UserInterface _userInterface;
+    private EventHandler<InputEvent>? _inputEventHandler;
+
     public InputListenerDialogViewModel(UserInterface userInterface)
     {
-        userInterface.InputEventReceived += OnInputEvent;
+        _userInterface = userInterface;
+        _inputEventHandler = null;
+        _inputEventHandler = (sender, inputEvent) =>
+        {
+            if (OnInputEvent(sender, inputEvent))
+            {
+                userInterface.InputEventReceived -= _inputEventHandler;
+            }
+        };
+
+        userInterface.InputEventReceived += _inputEventHandler;
     }
 
-    private void OnInputEvent(InputEvent inputEvent)
+    /// <summary>
+    /// Returns true if the input was valid.
+    /// </summary>
+    private bool OnInputEvent(object? sender, InputEvent inputEvent)
     {
+        var userInterface = (UserInterface)sender!;
+
         (Key?, JoyButton?)? inputTuple = null;
-        if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed && ButtonToIconName.TryGetKeyboard(keyEvent.Keycode, out _))
+        if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed 
+            && ButtonToIconName.TryGetKeyboard(keyEvent.Keycode, out _))
         {
-            // UserInterface will process the inputEvent after this method: set pressed to false to prevent instant press after this dialog is closed.
-            //keyEvent.Pressed = false;
+            // UserInterface will process the inputEvent after this method:
+            // set pressed to false to prevent instant press after this dialog is closed.
+            keyEvent.Pressed = false;
             inputTuple = (keyEvent.Keycode, null);
         }
-        else if (inputEvent is InputEventJoypadButton joypadEvent && joypadEvent.Pressed && ButtonToIconName.TryGetXbox(joypadEvent.ButtonIndex, out _))
+        else if (inputEvent is InputEventJoypadButton joypadEvent && joypadEvent.Pressed 
+            && ButtonToIconName.TryGetXbox(joypadEvent.ButtonIndex, out _))
         {
-            //joypadEvent.Pressed = false;
+            joypadEvent.Pressed = false;
             inputTuple = (null, joypadEvent.ButtonIndex);
         }
 
@@ -38,12 +60,16 @@ public partial class InputListenerDialogViewModel : ViewModel
         {
             InputPressed?.Invoke(inputTuple.Value);
             Close();
+            return true;
         }
+
+        return false;
     }
 
     [RelayCommand]
     public void Cancel()
     {
+        _userInterface.InputEventReceived -= _inputEventHandler;
         InputPressed?.Invoke((null, null));
         Close();
     }

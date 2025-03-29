@@ -31,7 +31,6 @@
 				Background="White"
 				BorderBrush="Black"
 				BorderThickness="1"
-				CornerRadius="5"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Center">
 

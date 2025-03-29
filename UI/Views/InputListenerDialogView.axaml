@@ -18,24 +18,27 @@
 		<vm:DialogViewModel />
 	</Design.DataContext>
 
-	<Border Background="rgba(0, 0, 0, 0.2)">
-		<Border Padding="20"
+	<Border Background="rgba(0, 0, 0, 0.2)"
+			XYFocus.NavigationModes="Disabled">
+		<Border Name="initialFocus0"
+				Focusable="True"
+				Padding="20"
 				MinWidth="300"
 				Background="White"
 				BorderBrush="Black"
 				BorderThickness="1"
-				CornerRadius="5"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Center">
-			<StackPanel Spacing="10">
-				<TextBlock HorizontalAlignment="Center">
+			<DockPanel>
+				<Button DockPanel.Dock="Right"
+						Command="{Binding CancelCommand}">
+					X
+				</Button>
+				<TextBlock HorizontalAlignment="Center"
+						   VerticalAlignment="Center">
 					Awaiting valid input...
 				</TextBlock>
-				<Button Command="{Binding CancelCommand}"
-						HorizontalAlignment="Center">
-					Cancel
-				</Button>
-			</StackPanel>
+			</DockPanel>
 		</Border>
 	</Border>
 	

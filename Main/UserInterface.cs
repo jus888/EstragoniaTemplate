@@ -8,12 +8,13 @@ using System.Linq;
 using System.Diagnostics;
 using Avalonia.Controls;
 using EstragoniaTemplate.UI.Models;
+using System.Threading;
 
 namespace EstragoniaTemplate.Main;
 
 public partial class UserInterface : AvaloniaControl
 {
-    public event Action<InputEvent>? InputEventReceived;
+    public event EventHandler<InputEvent>? InputEventReceived;
 
     public ViewModel? CurrentViewModel
     {
@@ -76,7 +77,10 @@ public partial class UserInterface : AvaloniaControl
 
     public override void _GuiInput(InputEvent @event)
     {
-        InputEventReceived?.Invoke(@event);
+        if (_keyRepeater != null && _keyRepeater.Input(@event))
+            return;
+
+        InputEventReceived?.Invoke(this, @event);
 
         if (@event is InputEventKey key && key.PhysicalKeycode == Key.Space)
         {
@@ -84,15 +88,13 @@ public partial class UserInterface : AvaloniaControl
             key.PhysicalKeycode = Key.Enter;
         }
 
-        if (_keyRepeater != null && _keyRepeater.Input(@event))
-            return;
-
         base._GuiInput(@event);
     }
 
     public void ForceGuiInput(InputEvent @event)
     {
-        InputEventReceived?.Invoke(@event);
+        InputEventReceived?.Invoke(this, @event);
+
         base._GuiInput(@event);
     }
 
