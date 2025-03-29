@@ -10,13 +10,24 @@
 	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
-	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
+	mc:Ignorable="d"
+	d:DesignWidth="960"
+	d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.InputListenerDialogView"
 	x:DataType="vm:InputListenerDialogViewModel">
 
 	<Design.DataContext>
-		<vm:DialogViewModel />
+		<vm:InputListenerDialogViewModel />
 	</Design.DataContext>
+
+	<UserControl.Styles>
+		<Style Selector="Run.hidden">
+			<Setter Property="FontSize"
+					Value="0.01" />
+			<Setter Property="Foreground"
+					Value="Transparent" />
+		</Style>
+	</UserControl.Styles>
 
 	<Border Background="rgba(0, 0, 0, 0.2)"
 			XYFocus.NavigationModes="Disabled">
@@ -31,15 +42,24 @@
 				HorizontalAlignment="Center">
 			<DockPanel>
 				<Button DockPanel.Dock="Right"
+						VerticalAlignment="Top"
+						Margin="20 0 0 0"
 						Command="{Binding CancelCommand}">
 					X
 				</Button>
-				<TextBlock HorizontalAlignment="Center"
-						   VerticalAlignment="Center">
-					Awaiting valid input...
-				</TextBlock>
+				<StackPanel HorizontalAlignment="Center"
+							VerticalAlignment="Center">
+					<TextBlock HorizontalAlignment="Center">
+						<Run>Awaiting valid</Run>
+						<Run FontWeight="Bold" Classes.hidden="{Binding !ListenToKeyboard}">keyboard</Run><!--
+						--><Run FontWeight="Bold" Classes.hidden="{Binding ListenToKeyboard}">controller</Run>
+						<Run>input for control:</Run>
+					</TextBlock>
+					<TextBlock HorizontalAlignment="Center"
+							   Text="{Binding InputName}"/>
+				</StackPanel>
 			</DockPanel>
 		</Border>
 	</Border>
-	
+
 </ui:InputListenerDialogView>

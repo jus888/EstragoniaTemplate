@@ -46,7 +46,7 @@
 				<!-- Keyboard input -->
 				<Button Grid.Column="2"
 						Classes="inputMapButton"
-						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptCommand}"
+						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptKeyboardCommand}"
 						CommandParameter="{Binding .}">
 					<Image Source="{Binding KeyEnumValue,
 										Converter={StaticResource ButtonImageConverter},
@@ -57,7 +57,7 @@
 				<!-- Controller input -->
 				<Button Grid.Column="3"
 						Classes="inputMapButton"
-						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptCommand}"
+						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptJoypadCommand}"
 						CommandParameter="{Binding .}">						
 					<Image Source="{Binding ControllerEnumValue,
 										Converter={StaticResource ButtonImageConverter},

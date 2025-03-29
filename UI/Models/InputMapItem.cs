@@ -115,6 +115,9 @@ public partial class InputMapItem : ObservableObject
 
         if (oldButton != null)
         {
+            if (oldButton == newButton)
+                return;
+
             _inputMapGroup.JoypadMappings.Remove(oldButton.Value);
             InputMap.ActionEraseEvent(_inputMapAction, _inputMapJoypadEvent);
         }

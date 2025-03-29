@@ -62,9 +62,16 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
     }
 
     [RelayCommand]
-    public void InputPrompt(InputMapItem inputMapItem)
+    public void InputPromptKeyboard(InputMapItem inputMapItem)
+        => InputPrompt(inputMapItem, true);
+
+    [RelayCommand]
+    public void InputPromptJoypad(InputMapItem inputMapItem)
+        => InputPrompt(inputMapItem, false);
+
+    public void InputPrompt(InputMapItem inputMapItem, bool listenToKeyboard)
     {
-        var dialog = new InputListenerDialogViewModel(_dialogUserInterface, inputMapItem.ReservedKeys);
+        var dialog = new InputListenerDialogViewModel(_dialogUserInterface, inputMapItem.ReservedKeys, listenToKeyboard, inputMapItem.InputName);
         dialog.InputPressed += OnInput;
 
         void OnInput((Key?, JoyButton?) inputTuple)
