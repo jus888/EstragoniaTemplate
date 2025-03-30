@@ -11,7 +11,7 @@
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	mc:Ignorable="d"
-	d:DesignWidth="960"
+	d:DesignWidth="500"
 	d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.OptionsControlsView"
 	x:DataType="vm:OptionsControlsViewModel">
@@ -26,6 +26,7 @@
 				  Margin="0 2"
 				  Height="40">
 				<TextBlock VerticalAlignment="Center"
+						   Margin="10 0 0 0"
 						   Text="{Binding InputName}"/>
 
 				<!-- Reserved inputs -->
@@ -80,36 +81,42 @@
 			<Setter Property="Margin"
 					Value="2 0" />
 			<Setter Property="Background"
-					Value="#5a5a5a" />
+					Value="#454545" />
+			<Setter Property="BorderThickness"
+					Value="3" />
 
 			<Style Selector="^:pointerover, ^:focus-within">
 				<Setter Property="Background"
-						Value="Black" />
+						Value="#777777" />
 			</Style>
 		</Style>
 	</UserControl.Styles>
 
-	<ScrollViewer>
-		<Border Padding="15"
-				Width="400"
-				Background="{StaticResource ContainerNormalBackgroundBrush}"
-				VerticalAlignment="Center"
-				HorizontalAlignment="Center">
+	<ScrollViewer Name="scrollViewer">
+		<Border Padding="25"
+				Background="{StaticResource ContainerNormalBackgroundBrush}">
 
 			<StackPanel Spacing="10">
 
-				<!-- Controls -->
-				<StackPanel Margin="0 0 10 0">
+				<!-- Keyboard/controller labels -->
+				<StackPanel>
 					<Grid ColumnDefinitions="*, 80, 80">
-						<TextBlock Grid.Column="1">Keyboard</TextBlock>
-						<TextBlock Grid.Column="2">Controller</TextBlock>
+						<TextBlock Grid.Column="1"
+								   HorizontalAlignment="Center">
+							Keyboard
+						</TextBlock>
+						<TextBlock Grid.Column="2"
+								   HorizontalAlignment="Center">
+							Controller
+						</TextBlock>
 					</Grid>
 
+					<!-- Controls -->
 					<ItemsControl ItemsSource="{Binding InputMapItems}"
 								  ItemTemplate="{StaticResource inputMapItemTemplate}" />
 				</StackPanel>
 
-				<Button HorizontalAlignment="Left"
+				<Button HorizontalAlignment="Left" Margin="0 0 0 0"
 						Command="{Binding ResetToDefaultCommand}">
 					Reset all controls to default
 				</Button>

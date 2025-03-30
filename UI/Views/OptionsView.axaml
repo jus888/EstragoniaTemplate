@@ -51,11 +51,14 @@
 	<Border Margin="0 20">
 		<Border BorderBrush="Black"
 				BorderThickness="1"
+				Width="600"
 				HorizontalAlignment="Center">
 
-			<StackPanel>
+			<Grid RowDefinitions="Auto, *"
+				  ColumnDefinitions="Auto, *">
 				<!-- Top Bar -->
-				<Border BorderBrush="Black"
+				<Border Grid.ColumnSpan="2"
+						BorderBrush="Black"
 						BorderThickness="0,0,0,1">
 					<Button HorizontalAlignment="Right"
 							BorderThickness="1,0,0,0"
@@ -65,40 +68,38 @@
 					</Button>
 				</Border>
 
-				<!-- Main Content-->
-				<StackPanel Orientation="Horizontal">
-
-					<!-- Tabs -->
-					<StackPanel Width="100">
-						<Button Name="initialFocus0"
-								Theme="{StaticResource TextButton}"
-								Classes.currentTab="{Binding CurrentTabIndex,
-									Converter={StaticResource intEqualConverter},
-									ConverterParameter=0}"
-								Command="{Binding ToOptionsTabCommand}">
-							<Button.CommandParameter>
-								<sys:Int32>0</sys:Int32>
-							</Button.CommandParameter>
-							Graphics
-						</Button>
-						<Button Theme="{StaticResource TextButton}"
-								Classes.currentTab="{Binding CurrentTabIndex,
-									Converter={StaticResource intEqualConverter},
-									ConverterParameter=1}"
-								Command="{Binding ToOptionsTabCommand}">
-							<Button.CommandParameter>
-								<sys:Int32>1</sys:Int32>
-							</Button.CommandParameter>
-							Controls
-						</Button>
-					</StackPanel>
-
-					<!-- Content -->
-					<ContentControl MinWidth="200"
-									Height="400"
-									Content="{Binding CurrentViewModel}" />
+				<!-- Tabs -->
+				<StackPanel Grid.Row="1"
+							Grid.Column="0"
+							Width="100">
+					<Button Name="initialFocus0"
+							Theme="{StaticResource TextButton}"
+							Classes.currentTab="{Binding CurrentTabIndex,
+								Converter={StaticResource intEqualConverter},
+								ConverterParameter=0}"
+							Command="{Binding ToOptionsTabCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>0</sys:Int32>
+						</Button.CommandParameter>
+						Graphics
+					</Button>
+					<Button Theme="{StaticResource TextButton}"
+							Classes.currentTab="{Binding CurrentTabIndex,
+								Converter={StaticResource intEqualConverter},
+								ConverterParameter=1}"
+							Command="{Binding ToOptionsTabCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>1</sys:Int32>
+						</Button.CommandParameter>
+						Controls
+					</Button>
 				</StackPanel>
-			</StackPanel>
+
+				<!-- Main Content -->
+				<ContentControl Grid.Row="1"
+								Grid.Column="1"
+								Content="{Binding CurrentViewModel}" />
+			</Grid>
 		</Border>
 	</Border>
 

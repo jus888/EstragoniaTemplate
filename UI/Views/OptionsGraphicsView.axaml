@@ -10,10 +10,12 @@
 	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
 	mc:Ignorable="d"
-	d:DesignWidth="960"
+	d:DesignWidth="500"
 	d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.OptionsGraphicsView"
-	x:DataType="vm:OptionsGraphicsViewModel">
+	x:DataType="vm:OptionsGraphicsViewModel"
+	VerticalAlignment="Stretch"
+	HorizontalAlignment="Stretch">
 
 	<Design.DataContext>
 		<vm:OptionsGraphicsViewModel>
@@ -35,8 +37,7 @@
 		</Style>
 	</UserControl.Styles>
 
-	<Border Padding="15"
-			Width="400"
+	<Border Padding="25"
 			Background="{StaticResource ContainerNormalBackgroundBrush}">
 		<DockPanel>
 
@@ -144,7 +145,6 @@
 
 				</Grid>
 			</StackPanel>
-			<Separator Margin="10" />
 
 			<!-- Bottom Buttons -->
 			<DockPanel DockPanel.Dock="Bottom">
@@ -163,7 +163,7 @@
 				</Button>
 				<Control />
 			</DockPanel>
-			
+		
 			<Control />
 		</DockPanel>
 	</Border>
