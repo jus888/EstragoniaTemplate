@@ -5,6 +5,7 @@ using System;
 using System.Globalization;
 using System.Diagnostics;
 using Godot.Collections;
+using Avalonia.Controls;
 
 namespace EstragoniaTemplate.UI.Converters;
 
@@ -24,7 +25,12 @@ public class ButtonToImageConverter : IValueConverter
         if (type == "keyboard")
         {
             subFolder = "Keyboard";
-            var key = DisplayServer.KeyboardGetKeycodeFromPhysical((Key)valueInt);
+            var key = (Key)valueInt;
+            if (!Design.IsDesignMode)
+            {
+                key = DisplayServer.KeyboardGetKeycodeFromPhysical(key);
+            }
+
             ButtonToIconName.TryGetKeyboard(key, out buttonName);
         }
         else if (type == "xbox")

@@ -62,8 +62,6 @@ public partial class InputListenerDialogViewModel : ViewModel
             // set pressed to false to prevent instant press after this dialog is closed.
             keyEvent.Pressed = false;
             inputTuple = (keyEvent.PhysicalKeycode, null);
-            Debug.WriteLine(DisplayServer.KeyboardGetKeycodeFromPhysical(keyEvent.PhysicalKeycode));
-            Debug.WriteLine(keyEvent.Keycode);
         }
         else if (!ListenToKeyboard && inputEvent is InputEventJoypadButton joypadEvent && joypadEvent.Pressed 
             && ButtonToIconName.TryGetXbox(joypadEvent.ButtonIndex, out _))

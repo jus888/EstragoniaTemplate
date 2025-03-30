@@ -58,9 +58,8 @@ public partial class InputMapItem : ObservableObject
         }
     }
 
-    public InputMapItem(string inputMapAction, string inputName, Key? key = null, JoyButton? joyButton = null)
+    public InputMapItem(string inputName, Key? key = null, JoyButton? joyButton = null)
     {
-        _inputMapAction = inputMapAction;
         InputName = inputName;
 
         KeyEnumValue = null;

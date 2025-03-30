@@ -70,6 +70,34 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         _currentlyAppliedOptions = new(Options);
     }
 
+    [RelayCommand]
+    public void ResetToDefault()
+    {
+        var dialog = new DialogViewModel(
+            "Are you sure you want to reset the graphics settings to their defaults?\n" +
+            "Any made changes will be lost.",
+            "Cancel", confirmText: "Reset to default"
+            );
+        dialog.Responded += OnResponse;
+
+        void OnResponse(DialogViewModel.Response response)
+        {
+            dialog.Responded -= OnResponse;
+            if (response == DialogViewModel.Response.Confirm)
+            {
+                var defaultOptions = new GraphicsOptions();
+                Options.SetFromOptions(defaultOptions);
+                Apply();
+            }
+        }
+
+        _mainViewModel.NavigateTo(dialog);
+        if (_currentUserInterface != null && _targetUserInterface != null)
+        {
+            _targetUserInterface.StealFocus(_currentUserInterface, true);
+        }
+    }
+
     public void TryClose(Action callOnClose)
     {
         if (!_currentlyAppliedOptions.Equals(_savedOptions))

@@ -18,7 +18,7 @@
 	<Design.DataContext>
 		<vm:OptionsGraphicsViewModel>
 			<x:Arguments>
-				<model:UIOptions />
+				<model:GraphicsOptions />
 			</x:Arguments>
 		</vm:OptionsGraphicsViewModel>
 	</Design.DataContext>
@@ -37,13 +37,12 @@
 
 	<Border Padding="15"
 			Width="400"
-			Background="{StaticResource ContainerNormalBackgroundBrush}"
-			VerticalAlignment="Center"
-			HorizontalAlignment="Center">
+			Background="{StaticResource ContainerNormalBackgroundBrush}">
+		<DockPanel>
 
-		<!-- Settings List -->
-		<StackPanel>
-			<StackPanel Spacing="2">
+			<!-- Settings List -->
+			<StackPanel DockPanel.Dock="Top"
+						Spacing="2">
 
 				<!-- Screen mode -->
 				<Grid ColumnDefinitions="Auto, *, Auto"
@@ -53,7 +52,7 @@
 					<ComboBox Grid.Column="2"
 							  Width="200"
 							  SelectedIndex="{Binding Options.WindowMode,
-								Converter={StaticResource windowModeConverter}}">
+									Converter={StaticResource windowModeConverter}}">
 						<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Windowed</ComboBoxItem>
@@ -86,7 +85,7 @@
 						ClipValueToMinMax="True"
 						ShowButtonSpinner="False"
 						Value="{Binding Options.FPSLimit,
-							Converter={StaticResource ignoringNullConverter}}"
+								Converter={StaticResource ignoringNullConverter}}"
 						IsEnabled="{Binding !Options.VSync}" />
 
 					<controls:SliderFocusser Grid.Column="3"
@@ -126,7 +125,7 @@
 						ClipValueToMinMax="True"
 						ShowButtonSpinner="False"
 						Value="{Binding Options.UIScale,
-							Converter={StaticResource ignoringNullConverter}}" />
+								Converter={StaticResource ignoringNullConverter}}" />
 
 					<controls:SliderFocusser Grid.Column="3">
 						<controls:SliderFocusser.Slider>
@@ -148,7 +147,7 @@
 			<Separator Margin="10" />
 
 			<!-- Bottom Buttons -->
-			<DockPanel>
+			<DockPanel DockPanel.Dock="Bottom">
 				<Button DockPanel.Dock="Right"
 						Name="apply"
 						Content="Apply"
@@ -158,9 +157,15 @@
 							Target="{Binding #uiScaleSlider}" />
 					</Interaction.Behaviors>
 				</Button>
+				<Button DockPanel.Dock="Left"
+						Content="Reset to default"
+						Command="{Binding ResetToDefaultCommand}">
+				</Button>
 				<Control />
 			</DockPanel>
-		</StackPanel>
+			
+			<Control />
+		</DockPanel>
 	</Border>
 
 
