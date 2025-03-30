@@ -1,4 +1,4 @@
-<ui:MainView
+<UserControl
 	xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,10 +15,10 @@
 	XYFocus.LeftNavigationStrategy="Projection"
 	XYFocus.RightNavigationStrategy="Projection">
 
-	<ui:MainView.DataTemplates>
+	<UserControl.DataTemplates>
 		<ui:ViewLocator/>
-	</ui:MainView.DataTemplates>
+	</UserControl.DataTemplates>
 
 	<TransitioningContentControl Content="{Binding CurrentViewModel}" 
 								 PageTransition="{Binding Transition}" />
-</ui:MainView>
+</UserControl>

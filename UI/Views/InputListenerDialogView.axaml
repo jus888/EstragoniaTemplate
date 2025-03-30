@@ -1,4 +1,4 @@
-<ui:InputListenerDialogView
+<UserControl
 	xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -62,4 +62,4 @@
 		</Border>
 	</Border>
 
-</ui:InputListenerDialogView>
+</UserControl>

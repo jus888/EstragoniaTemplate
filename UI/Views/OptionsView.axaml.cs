@@ -6,4 +6,6 @@ namespace EstragoniaTemplate.UI.Views;
 
 public partial class OptionsView : View
 {
+    public OptionsView()
+        => InitializeComponent();
 }
