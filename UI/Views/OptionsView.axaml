@@ -48,7 +48,7 @@
 		</Style>
 	</UserControl.Styles>
 
-	<Border Margin="0 20">
+	<Border Margin="20 60">
 		<Border BorderBrush="Black"
 				BorderThickness="1"
 				Width="600"

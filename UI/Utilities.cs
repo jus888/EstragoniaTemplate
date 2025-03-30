@@ -7,6 +7,7 @@ using EstragoniaTemplate.UI;
 using Avalonia.Input;
 using Avalonia.Platform;
 using Avalonia.Media.Imaging;
+using EstragoniaTemplate.Resources;
 
 namespace EstragoniaTemplate.UI;
 

@@ -93,7 +93,7 @@
 	</UserControl.Styles>
 
 	<ScrollViewer Name="scrollViewer">
-		<Border Padding="25"
+		<Border Padding="25 15"
 				Background="{StaticResource ContainerNormalBackgroundBrush}">
 
 			<StackPanel Spacing="10">

@@ -5,6 +5,7 @@ using System;
 using System.Text.Json;
 using EstragoniaTemplate.UI.Models;
 using System.Diagnostics;
+using EstragoniaTemplate.Resources;
 
 namespace EstragoniaTemplate.Main;
 
@@ -21,6 +22,8 @@ public partial class MainScene : Node2D
             throw new NullReferenceException();
 
         var options = GraphicsOptions.LoadOrCreateOptions();
+
+        InputMapResource.LoadSavedInputMap();
 
         var keyRepeater = new KeyRepeater();
         GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;

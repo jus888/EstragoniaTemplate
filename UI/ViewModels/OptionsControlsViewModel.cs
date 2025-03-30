@@ -11,6 +11,7 @@ using EstragoniaTemplate.UI.Models;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Avalonia.Data;
+using EstragoniaTemplate.Resources;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
@@ -75,17 +76,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             new("ui_left", "Left", navigationGroup),
             new("ui_right", "Right", navigationGroup),
             new("ui_up", "Up", navigationGroup),
-            new("ui_down", "Down", navigationGroup),
-            new("A", Key.A),
-            new("B", Key.B),
-            new("C", Key.C),
-            new("D", Key.D),
-            new("E", Key.E),
-            new("F", Key.F),
-            new("G", Key.G),
-            new("H", Key.H),
-            new("I", Key.I),
-            new("J", Key.J)
+            new("ui_down", "Down", navigationGroup)
         };
     }
 
@@ -154,5 +145,9 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
         }
     }
 
-    public void TryClose(Action callOnClose) => callOnClose();
+    public void TryClose(Action callOnClose)
+    {
+        InputMapResource.SaveCurrentInputMap();
+        callOnClose();
+    }
 }
