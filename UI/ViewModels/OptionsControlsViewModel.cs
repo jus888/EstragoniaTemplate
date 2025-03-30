@@ -16,7 +16,8 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
 {
-    public ObservableCollection<InputMapItem> InputMapItems { get; set; }
+    [ObservableProperty]
+    private ObservableCollection<InputMapItem> _inputMapItems;
 
     private readonly ViewModelFactory _viewModelFactory;
     private readonly MainViewModel _mainViewModel;
@@ -106,6 +107,8 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
                 InputMap.LoadFromProjectSettings();
                 SetInputMapItems();
             }
+
+            _keyRepeater.UpdateDirectionalKeys();
         }
 
         _mainViewModel.NavigateTo(dialog);

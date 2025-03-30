@@ -63,7 +63,8 @@
 							IsVisible="{Binding CancelText,
 								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"							
 							Content="{Binding CancelText}"
-							Command="{Binding ButtonResponseCommand}">
+							Command="{Binding ButtonResponseCommand}"
+							IsCancel="True">
 						<Button.CommandParameter>
 							<sys:Int32>0</sys:Int32>
 						</Button.CommandParameter>

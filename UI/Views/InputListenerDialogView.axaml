@@ -31,9 +31,7 @@
 
 	<Border Background="rgba(0, 0, 0, 0.2)"
 			XYFocus.NavigationModes="Disabled">
-		<Border Name="initialFocus0"
-				Focusable="True"
-				Padding="20"
+		<Border Padding="20"
 				MinWidth="300"
 				Background="White"
 				BorderBrush="Black"
@@ -41,10 +39,12 @@
 				VerticalAlignment="Center"
 				HorizontalAlignment="Center">
 			<DockPanel>
-				<Button DockPanel.Dock="Right"
+				<Button Name="initialFocus0"
+						DockPanel.Dock="Right"
 						VerticalAlignment="Top"
 						Margin="20 0 0 0"
-						Command="{Binding CancelCommand}">
+						Command="{Binding CancelCommand}"
+						IsCancel="True">
 					X
 				</Button>
 				<StackPanel HorizontalAlignment="Center"
