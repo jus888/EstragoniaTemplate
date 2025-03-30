@@ -99,8 +99,7 @@ public partial class InputMapItem : ObservableObject
 
         var inputKey = new InputEventKey()
         {
-            PhysicalKeycode = newKey.Value,
-            Keycode = newKey.Value
+            PhysicalKeycode = newKey.Value
         };
 
         InputMap.ActionAddEvent(_inputMapAction, inputKey);

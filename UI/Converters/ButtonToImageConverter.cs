@@ -24,7 +24,7 @@ public class ButtonToImageConverter : IValueConverter
         if (type == "keyboard")
         {
             subFolder = "Keyboard";
-            var key = (Key)valueInt;
+            var key = DisplayServer.KeyboardGetKeycodeFromPhysical((Key)valueInt);
             ButtonToIconName.TryGetKeyboard(key, out buttonName);
         }
         else if (type == "xbox")
