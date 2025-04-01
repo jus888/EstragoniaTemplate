@@ -61,6 +61,10 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 
         CanApply = false;
     }
+    /// <summary>
+    /// Intended for designer usage only.
+    /// </summary>
+    public OptionsGraphicsViewModel() : this(new()) { }
 
     [RelayCommand(CanExecute = nameof(CanApply))]
     public void Apply()

@@ -38,12 +38,16 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
         {
             new("Confirm", Key.Enter, JoyButton.A, ["Keyboard/keyboard_a", "Keyboard/keyboard_b"]),
             new("Cancel", Key.Escape, JoyButton.X),
+            new("A", Key.A),
+            new("B", Key.B)
         };
 
         GameplayInputMapItems = new()
         {
             new("A", Key.A),
-            new("B", Key.B)
+            new("B", Key.B),
+            new("C", Key.C),
+            new("D", Key.D)
         };
     }
 
