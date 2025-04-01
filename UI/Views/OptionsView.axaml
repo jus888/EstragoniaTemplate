@@ -48,12 +48,13 @@
 		</Style>
 	</UserControl.Styles>
 
-	<Border Margin="20 60">
-		<Border BorderBrush="Black"
-				BorderThickness="1"
-				Width="600"
-				HorizontalAlignment="Center">
-
+	<Grid RowDefinitions="5*, 90*, 5*"
+		  ColumnDefinitions="15*, 60*, 15*">
+		<Border Grid.Row="1"
+				Grid.Column="1"
+				BorderBrush="Black"
+				BorderThickness="1">
+			
 			<Grid RowDefinitions="Auto, *"
 				  ColumnDefinitions="Auto, *">
 				<!-- Top Bar -->
@@ -96,11 +97,13 @@
 				</StackPanel>
 
 				<!-- Main Content -->
-				<ContentControl Grid.Row="1"
-								Grid.Column="1"
-								Content="{Binding CurrentViewModel}" />
+				<ScrollViewer Name="scrollViewer"
+							  Grid.Row="1"
+							  Grid.Column="1">
+					<ContentControl Content="{Binding CurrentViewModel}" />
+				</ScrollViewer>
 			</Grid>
 		</Border>
-	</Border>
+	</Grid>
 
 </UserControl>

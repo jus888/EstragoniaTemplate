@@ -90,39 +90,95 @@
 						Value="#777777" />
 			</Style>
 		</Style>
+
+		<Style Selector="HeaderedContentControl">
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+
+						<!-- Header -->
+						<Border
+							ZIndex="1"
+							Padding="5,0,5,0"
+							Margin="30,0,0,0"
+							Background="{TemplateBinding Background}">
+							<TextBlock
+								Text="{TemplateBinding Header}"
+								FontWeight="Bold"/>
+						</Border>
+
+						<!-- Content Area -->
+						<Border
+							Grid.RowSpan="2"
+							Padding="0,5,0,0"
+							Grid.ColumnSpan="2"
+							Margin="0,10,0,0"
+							CornerRadius="5"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}">
+							<ContentPresenter
+								Name="PART_ContentPresenter"
+								Padding="8"
+								Content="{TemplateBinding Content}"/>
+						</Border>
+					</Grid>
+				</ControlTemplate>
+			</Setter>
+		</Style>
 	</UserControl.Styles>
 
-	<ScrollViewer Name="scrollViewer">
-		<Border Padding="25 15"
-				Background="{StaticResource ContainerNormalBackgroundBrush}">
+	<Border Padding="15"
+			Background="{StaticResource ContainerNormalBackgroundBrush}">
 
-			<StackPanel Spacing="10">
+		<StackPanel Spacing="10">
 
-				<!-- Keyboard/controller labels -->
-				<StackPanel>
-					<Grid ColumnDefinitions="*, 80, 80">
-						<TextBlock Grid.Column="1"
-								   HorizontalAlignment="Center">
-							Keyboard
-						</TextBlock>
-						<TextBlock Grid.Column="2"
-								   HorizontalAlignment="Center">
-							Controller
-						</TextBlock>
-					</Grid>
+			<!-- Keyboard/controller labels -->
+			<StackPanel>
+				<Grid ColumnDefinitions="*, 66, 100">
+					<TextBlock Grid.Column="1"
+							   HorizontalAlignment="Center">
+						Keyboard
+					</TextBlock>
+					<TextBlock Grid.Column="2"
+							   HorizontalAlignment="Center">
+						Controller
+					</TextBlock>
+				</Grid>
 
-					<!-- Controls -->
-					<ItemsControl ItemsSource="{Binding InputMapItems}"
+				<!-- Control sections -->
+				<HeaderedContentControl Header="Navigation"
+										Background="White"
+										BorderBrush="#bc6b66"
+										BorderThickness="3"
+										Margin="0 0 0 20">
+					<ItemsControl ItemsSource="{Binding NavigationInputMapItems}"
 								  ItemTemplate="{StaticResource inputMapItemTemplate}" />
-				</StackPanel>
-
-				<Button HorizontalAlignment="Left" Margin="0 0 0 0"
-						Command="{Binding ResetToDefaultCommand}">
-					Reset all controls to default
-				</Button>
+				</HeaderedContentControl>
+				<HeaderedContentControl Header="Gameplay"
+										Background="White"
+										BorderBrush="#6c94bc"
+										BorderThickness="3"
+										Margin="0 0 0 10">
+					<ItemsControl ItemsSource="{Binding GameplayInputMapItems}"
+								  ItemTemplate="{StaticResource inputMapItemTemplate}" />
+				</HeaderedContentControl>
 			</StackPanel>
-		</Border>
-	</ScrollViewer>
+
+			<Button HorizontalAlignment="Left"
+					Margin="10 0 0 0"
+					Command="{Binding ResetToDefaultCommand}">
+				Reset all controls to default
+			</Button>
+		</StackPanel>
+	</Border>
 
 
 

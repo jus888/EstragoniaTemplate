@@ -13,8 +13,8 @@ public class InputMapGroup
     public Dictionary<Key, InputMapItem> KeyMappings { get; } = new();
     public Dictionary<JoyButton, InputMapItem> JoypadMappings { get; } = new();
 
-    public InputMapGroup(HashSet<Key> reservedKeys)
+    public InputMapGroup(HashSet<Key>? reservedKeys = null)
     {
-        ReservedKeys = reservedKeys;
+        ReservedKeys = reservedKeys ?? new();
     }
 }

@@ -18,7 +18,9 @@ namespace EstragoniaTemplate.UI.ViewModels;
 public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
 {
     [ObservableProperty]
-    private ObservableCollection<InputMapItem> _inputMapItems;
+    private ObservableCollection<InputMapItem> _navigationInputMapItems;
+    [ObservableProperty]
+    private ObservableCollection<InputMapItem> _gameplayInputMapItems;
 
     private readonly ViewModelFactory _viewModelFactory;
     private readonly MainViewModel _mainViewModel;
@@ -32,20 +34,16 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
     /// </summary>
     public OptionsControlsViewModel()
     {
-        InputMapItems = new()
+        NavigationInputMapItems = new()
         {
             new("Confirm", Key.Enter, JoyButton.A),
             new("Cancel", Key.Escape, JoyButton.X),
+        };
+
+        GameplayInputMapItems = new()
+        {
             new("A", Key.A),
-            new("B", Key.B),
-            new("C", Key.C),
-            new("D", Key.D),
-            new("E", Key.E),
-            new("F", Key.F),
-            new("G", Key.G),
-            new("H", Key.H),
-            new("I", Key.I),
-            new("J", Key.J)
+            new("B", Key.B)
         };
     }
 
@@ -69,7 +67,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             Key.Space
         };
         var navigationGroup = new InputMapGroup(navigationReservedKeys);
-        InputMapItems = new()
+        NavigationInputMapItems = new()
         {
             new("ui_accept", "Confirm", navigationGroup),
             new("ui_cancel", "Cancel", navigationGroup),
@@ -77,6 +75,13 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             new("ui_right", "Right", navigationGroup),
             new("ui_up", "Up", navigationGroup),
             new("ui_down", "Down", navigationGroup)
+        };
+
+        var gameplayGroup = new InputMapGroup();
+        GameplayInputMapItems = new()
+        {
+            new("game_accept", "Confirm", gameplayGroup),
+            new("game_cancel", "Cancel", gameplayGroup)
         };
     }
 
