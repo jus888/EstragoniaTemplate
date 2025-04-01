@@ -18,6 +18,7 @@
 
 	<UserControl.Resources>
 		<conv:ButtonToImageConverter x:Key="ButtonImageConverter" />
+		<conv:PathToImageConverter x:Key="PathImageConverter" />
 
 		<!-- InputMapItem DataTemplate -->
 		<DataTemplate x:Key="inputMapItemTemplate"
@@ -30,20 +31,29 @@
 						   Text="{Binding InputName}"/>
 
 				<!-- Reserved inputs -->
-				<!--<StackPanel Grid.Column="1"
-							Orientation="Horizontal"
-							HorizontalAlignment="Right">
-					<Button HorizontalAlignment="Right"
-							Classes="inputMapButton">
-						<Image Source="/UI/Images/Keyboard/keyboard_0.png"
-							   Width="32" />
-					</Button>
-					<Button HorizontalAlignment="Right"
-							Classes="inputMapButton">
-						<Image Source="/UI/Images/Keyboard/keyboard_enter.png"
-							   Width="32" />
-					</Button>
-				</StackPanel>-->
+				<Border Grid.Column="1"
+						Background="Gray"
+						HorizontalAlignment="Right"
+						Margin="10 2"
+						Padding="2"
+						IsVisible="{Binding ReservedKeyNames,
+							Converter={x:Static ObjectConverters.IsNotNull}}"
+						ToolTip.Tip="These inputs are reserved for this control and cannot be bound within this group.">
+					<ItemsControl ItemsSource="{Binding ReservedKeyNames}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Image Source="{Binding .,
+										Converter={StaticResource PathImageConverter}}"
+									   Width="32" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+				</Border>
 
 				<!-- Keyboard input -->
 				<Button Grid.Column="2"
@@ -142,12 +152,17 @@
 
 			<!-- Keyboard/controller labels -->
 			<StackPanel>
-				<Grid ColumnDefinitions="*, 66, 100">
+				<Grid ColumnDefinitions="2.8*, *, *, *"
+					  Margin="0 0 10 0">
 					<TextBlock Grid.Column="1"
+							   HorizontalAlignment="Center">
+						Reserved
+					</TextBlock>
+					<TextBlock Grid.Column="2"
 							   HorizontalAlignment="Center">
 						Keyboard
 					</TextBlock>
-					<TextBlock Grid.Column="2"
+					<TextBlock Grid.Column="3"
 							   HorizontalAlignment="Center">
 						Controller
 					</TextBlock>

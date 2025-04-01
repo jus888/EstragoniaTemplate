@@ -36,7 +36,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
     {
         NavigationInputMapItems = new()
         {
-            new("Confirm", Key.Enter, JoyButton.A),
+            new("Confirm", Key.Enter, JoyButton.A, ["Keyboard/keyboard_a", "Keyboard/keyboard_b"]),
             new("Cancel", Key.Escape, JoyButton.X),
         };
 
@@ -69,19 +69,19 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
         var navigationGroup = new InputMapGroup(navigationReservedKeys);
         NavigationInputMapItems = new()
         {
-            new("ui_accept", "Confirm", navigationGroup),
+            new("ui_accept", "Confirm", navigationGroup, ["Keyboard/keyboard_enter", "Keyboard/keyboard_space"]),
             new("ui_cancel", "Cancel", navigationGroup),
-            new("ui_left", "Left", navigationGroup),
-            new("ui_right", "Right", navigationGroup),
-            new("ui_up", "Up", navigationGroup),
-            new("ui_down", "Down", navigationGroup)
+            new("ui_left", "Left", navigationGroup, ["Keyboard/keyboard_arrow_left"]),
+            new("ui_right", "Right", navigationGroup, ["Keyboard/keyboard_arrow_right"]),
+            new("ui_up", "Up", navigationGroup, ["Keyboard/keyboard_arrow_up"]),
+            new("ui_down", "Down", navigationGroup, ["Keyboard/keyboard_arrow_down"])
         };
 
         var gameplayGroup = new InputMapGroup();
         GameplayInputMapItems = new()
         {
             new("game_accept", "Confirm", gameplayGroup),
-            new("game_cancel", "Cancel", gameplayGroup)
+            new("game_cancel", "Cancel", gameplayGroup, ["Mouse/mouse_right"])
         };
     }
 
@@ -124,7 +124,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
 
     public void InputPrompt(InputMapItem inputMapItem, bool listenToKeyboard)
     {
-        var dialog = new InputListenerDialogViewModel(_dialogUserInterface, inputMapItem.ReservedKeys, listenToKeyboard, inputMapItem.InputName);
+        var dialog = new InputListenerDialogViewModel(_dialogUserInterface, inputMapItem.GroupReservedKeys, listenToKeyboard, inputMapItem.InputName);
         dialog.InputPressed += OnInput;
 
         void OnInput((Key?, JoyButton?) inputTuple)
