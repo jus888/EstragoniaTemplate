@@ -28,6 +28,8 @@ public partial class MainScene : Node2D
         var keyRepeater = new KeyRepeater();
         GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;
 
+        var focusStack = new FocusStack();
+
         var mainViewModelDialog = new MainViewModel(UserInterfaceDialog);
         var mainViewModel = new MainViewModel(UserInterfaceMain);
         var viewModelFactory = new ViewModelFactory(
@@ -36,7 +38,8 @@ public partial class MainScene : Node2D
             mainViewModelDialog,
             UserInterfaceMain, 
             UserInterfaceDialog,
-            keyRepeater);
+            keyRepeater,
+            focusStack);
 
         UserInterfaceDialog.Initialize(mainViewModelDialog, keyRepeater);
         UserInterfaceMain.Initialize(
@@ -44,14 +47,14 @@ public partial class MainScene : Node2D
             keyRepeater, 
             viewModelFactory.CreateMainMenu(GetTree()));
 
-        UserInterfaceMain.GrabFocus();
+        focusStack.Push(UserInterfaceMain);
     }
 
-    public override void _UnhandledInput(InputEvent @event)
+    public override void _Input(InputEvent @event)
     {
         if (@event is InputEventKey key && key.PhysicalKeycode == Key.Escape && key.Pressed && !key.Echo)
         {
-            Debug.WriteLine("Unhandled escape");
+            Debug.WriteLine("Escape");
             GetViewport().SetInputAsHandled();
         }
     }

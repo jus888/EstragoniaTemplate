@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace EstragoniaTemplate.Main;
 
-public partial class UserInterface : AvaloniaControl
+public partial class UserInterface : AvaloniaControl, IFocussable
 {
     public event EventHandler<InputEvent>? InputEventReceived;
 
@@ -52,27 +52,18 @@ public partial class UserInterface : AvaloniaControl
         };
     }
 
-    public void StealFocus(UserInterface from, bool returnWhenCurrentViewModelIsNull)
+    public new void GrabFocus()
     {
-        from.FocusMode = FocusModeEnum.None;
-        this.FocusMode = FocusModeEnum.All;
-        GrabFocus();
-        from.CurrentViewModel?.OnUserInterfaceFocusLost();
+        FocusMode = FocusModeEnum.All;
+        base.GrabFocus();
+        CurrentViewModel?.OnUserInterfaceFocusReturned();
+    }
 
-        if (returnWhenCurrentViewModelIsNull && _mainViewModel != null)
-        {
-            _mainViewModel.Navigated += OnNavigated;
-            
-            void OnNavigated(object? sender, ViewModel? viewModel)
-            {
-                if (viewModel == null)
-                {
-                    _mainViewModel.Navigated -= OnNavigated;
-                    from.StealFocus(this, false);
-                    from.CurrentViewModel?.OnUserInterfaceFocusReturned();
-                }
-            }
-        }
+    public new void ReleaseFocus()
+    {
+        FocusMode = FocusModeEnum.None;
+        base.ReleaseFocus();
+        CurrentViewModel?.OnUserInterfaceFocusLost();
     }
 
     public override void _GuiInput(InputEvent @event)

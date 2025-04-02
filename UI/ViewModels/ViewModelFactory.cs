@@ -17,9 +17,10 @@ public class ViewModelFactory
     private readonly UserInterface _userInterfaceMain;
     private readonly UserInterface _userInterfaceDialog;
     private readonly KeyRepeater _keyRepeater;
+    private readonly FocusStack _focusStack;
 
     public ViewModelFactory(GraphicsOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog, 
-        UserInterface userInterfaceMain, UserInterface userInterfaceDialog, KeyRepeater keyRepeater)
+        UserInterface userInterfaceMain, UserInterface userInterfaceDialog, KeyRepeater keyRepeater, FocusStack focusStack)
     {
         _options = uiOptions;
         _mainViewModel = mainViewModel;
@@ -27,6 +28,7 @@ public class ViewModelFactory
         _userInterfaceMain = userInterfaceMain;
         _userInterfaceDialog = userInterfaceDialog;
         _keyRepeater = keyRepeater;
+        _focusStack = focusStack;
     }
 
     public virtual MainMenuViewModel CreateMainMenu(SceneTree sceneTree)
@@ -39,11 +41,8 @@ public class ViewModelFactory
     /// Assumes that this viewModel is created for the main UserInterface.
     /// </summary>
     public virtual OptionsGraphicsViewModel CreateOptionsGraphics()
-        => new(_options, _mainViewModelDialog, _userInterfaceMain, _userInterfaceDialog);
-
-    public virtual OptionsGraphicsViewModel CreateOptionsGraphics(MainViewModel mainViewModel)
-        => new(_options, mainViewModel);
+        => new(_options, _focusStack, _userInterfaceDialog, _mainViewModelDialog);
 
     public virtual OptionsControlsViewModel CreateOptionsControls()
-        => new(this, _mainViewModelDialog, _userInterfaceMain, _userInterfaceDialog, _keyRepeater);
+        => new(_focusStack, _userInterfaceDialog, _mainViewModelDialog, _keyRepeater);
 }

@@ -22,10 +22,9 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
     [ObservableProperty]
     private ObservableCollection<InputMapItem> _gameplayInputMapItems;
 
-    private readonly ViewModelFactory _viewModelFactory;
-    private readonly MainViewModel _mainViewModel;
+    private readonly MainViewModel _mainViewModelDialog;
 
-    private readonly UserInterface _currentUserInterface;
+    private readonly FocusStack _focusStack;
     private readonly UserInterface _dialogUserInterface;
     private readonly KeyRepeater _keyRepeater;
 
@@ -51,12 +50,11 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
         };
     }
 
-    public OptionsControlsViewModel(ViewModelFactory viewModelFactory, MainViewModel mainViewModel, UserInterface currentUserInterface, UserInterface dialogUserInterface, KeyRepeater keyRepeater)
+    public OptionsControlsViewModel(FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog, KeyRepeater keyRepeater)
     {
-        _viewModelFactory = viewModelFactory;
-        _mainViewModel = mainViewModel;
-        _currentUserInterface = currentUserInterface;
+        _focusStack = focusStack;
         _dialogUserInterface = dialogUserInterface;
+        _mainViewModelDialog = mainViewModelDialog;
         _keyRepeater = keyRepeater;
 
         SetInputMapItems();
@@ -85,7 +83,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
         GameplayInputMapItems = new()
         {
             new("game_accept", "Confirm", gameplayGroup),
-            new("game_cancel", "Cancel", gameplayGroup, ["Mouse/mouse_right"])
+            new("game_cancel", "Cancel", gameplayGroup)
         };
     }
 
@@ -111,11 +109,9 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             _keyRepeater.UpdateDirectionalKeys();
         }
 
-        _mainViewModel.NavigateTo(dialog);
-        if (_currentUserInterface != null && _dialogUserInterface != null)
-        {
-            _dialogUserInterface.StealFocus(_currentUserInterface, true);
-        }
+        _mainViewModelDialog.NavigateTo(dialog);
+        _focusStack.Push(_dialogUserInterface);
+        dialog.Closed += _focusStack.Pop;
     }
 
     [RelayCommand]
@@ -147,11 +143,9 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             _keyRepeater.UpdateDirectionalKeys();
         }
 
-        _mainViewModel.NavigateTo(dialog);
-        if (_currentUserInterface != null && _dialogUserInterface != null)
-        {
-            _dialogUserInterface.StealFocus(_currentUserInterface, true);
-        }
+        _mainViewModelDialog.NavigateTo(dialog);
+        _focusStack.Push(_dialogUserInterface);
+        dialog.Closed += _focusStack.Pop;
     }
 
     public void TryClose(Action callOnClose)

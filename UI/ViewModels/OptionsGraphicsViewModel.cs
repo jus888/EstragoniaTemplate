@@ -22,9 +22,9 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
     private bool _canApply;
 
-    private readonly MainViewModel _mainViewModel;
-    private readonly UserInterface? _currentUserInterface;
-    private readonly UserInterface? _targetUserInterface;
+    private readonly MainViewModel _mainViewModelDialog;
+    private readonly FocusStack _focusStack;
+    private readonly UserInterface _dialogUserInterface;
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
@@ -39,11 +39,11 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     /// <summary>
     /// Set the UserInterface parameters if dialog should open in a different UserInterface (target).
     /// </summary>
-    public OptionsGraphicsViewModel(GraphicsOptions options, MainViewModel mainViewModel, UserInterface? currentUserInterface = null, UserInterface? targetUserInterface = null) : this(options)
+    public OptionsGraphicsViewModel(GraphicsOptions options, FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog) : this(options)
     {
-        _mainViewModel = mainViewModel;
-        _currentUserInterface = currentUserInterface;
-        _targetUserInterface = targetUserInterface;
+        _focusStack = focusStack;
+        _dialogUserInterface = dialogUserInterface;
+        _mainViewModelDialog = mainViewModelDialog;
     }
     /// <summary>
     /// Intended for designer usage only.
@@ -95,11 +95,9 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
             }
         }
 
-        _mainViewModel.NavigateTo(dialog);
-        if (_currentUserInterface != null && _targetUserInterface != null)
-        {
-            _targetUserInterface.StealFocus(_currentUserInterface, true);
-        }
+        _mainViewModelDialog.NavigateTo(dialog);
+        _focusStack.Push(_dialogUserInterface);
+        dialog.Closed += _focusStack.Pop;
     }
 
     public void TryClose(Action callOnClose)
@@ -136,11 +134,9 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
                 }
             }
 
-            _mainViewModel.NavigateTo(dialog);
-            if (_currentUserInterface != null && _targetUserInterface != null)
-            {
-                _targetUserInterface.StealFocus(_currentUserInterface, true);
-            }
+            _mainViewModelDialog.NavigateTo(dialog);
+            _focusStack.Push(_dialogUserInterface);
+            dialog.Closed += _focusStack.Pop;
         }
         else
         {
