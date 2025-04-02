@@ -15,7 +15,7 @@ public partial class InputMapItem : ObservableObject
     public string JoyButtonName => ControllerEnumValue == null ? "" : ((JoyButton)ControllerEnumValue).ToString();
 
     public HashSet<Key> GroupReservedKeys => _inputMapGroup.ReservedKeys;
-    public string[]? ReservedKeyNames { get; private init; }
+    public string[]? ReservedKeyPaths { get; private init; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(KeyName))]
@@ -36,7 +36,7 @@ public partial class InputMapItem : ObservableObject
         _inputMapAction = inputMapAction;
         InputName = inputName;
         _inputMapGroup = inputMapGroup;
-        ReservedKeyNames = reservedKeyNames;
+        ReservedKeyPaths = reservedKeyNames;
 
         KeyEnumValue = null;
         ControllerEnumValue = null;
@@ -63,7 +63,7 @@ public partial class InputMapItem : ObservableObject
     public InputMapItem(string inputName, Key? key = null, JoyButton? joyButton = null, string[]? reservedKeyNames = null)
     {
         InputName = inputName;
-        ReservedKeyNames = reservedKeyNames;
+        ReservedKeyPaths = reservedKeyNames;
 
         KeyEnumValue = null;
         ControllerEnumValue = null;

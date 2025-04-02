@@ -36,10 +36,10 @@
 						HorizontalAlignment="Right"
 						Margin="10 2"
 						Padding="2"
-						IsVisible="{Binding ReservedKeyNames,
+						IsVisible="{Binding ReservedKeyPaths,
 							Converter={x:Static ObjectConverters.IsNotNull}}"
 						ToolTip.Tip="These inputs are reserved for this control and cannot be bound within this group.">
-					<ItemsControl ItemsSource="{Binding ReservedKeyNames}">
+					<ItemsControl ItemsSource="{Binding ReservedKeyPaths}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<Image Source="{Binding .,

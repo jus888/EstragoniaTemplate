@@ -7,7 +7,7 @@ namespace EstragoniaTemplate.UI.Views;
 
 public partial class OptionsView : View
 {
-    private const int focusInflation = 30;
+    private const int focusInflation = 100;
 
     public OptionsView()
     {
