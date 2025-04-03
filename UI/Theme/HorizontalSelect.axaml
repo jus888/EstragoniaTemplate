@@ -9,7 +9,8 @@
 		<Border Background="White">
 			<StackPanel Spacing="20"
 						Margin="20"
-						Width="200">
+						Width="150"
+						Height="300">
 				<controls:HorizontalSelect Value="0">
 					<controls:HorizontalSelect.ValueNames>
 						<scg:List x:TypeArguments="x:String">
@@ -40,7 +41,7 @@
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Grid Name="PART_Container"
-					  RowDefinitions="30, 6"
+					  RowDefinitions="Auto, Auto"
 					  ColumnDefinitions="Auto, *, Auto"
 					  Focusable="True">
 
@@ -50,6 +51,7 @@
 
 					<Button Name="PART_ValueDecrementer"
 							Grid.RowSpan="2"
+							VerticalAlignment="Center"
 							Focusable="False">
 						&lt;
 					</Button>
@@ -57,12 +59,14 @@
 					<TextBlock Grid.Column="1"
 							   HorizontalAlignment="Center"
 							   VerticalAlignment="Center"
+							   TextWrapping="Wrap"
 							   Text="{TemplateBinding DisplayedText}"/>
 
 					<ItemsControl Name="PART_ValuesPresenter"
 								  Grid.Column="1"
 								  Grid.Row="1"
 								  Padding="6 0"
+								  Height="8"
 								  ItemsSource="{TemplateBinding Values}">
 
 						<ItemsControl.Styles>
@@ -112,6 +116,7 @@
 					<Button Name="PART_ValueIncrementer"
 							Grid.Column="2"
 							Grid.RowSpan="2"
+							VerticalAlignment="Center"
 							Focusable="False">
 						>
 					</Button>

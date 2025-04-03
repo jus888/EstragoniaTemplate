@@ -47,12 +47,10 @@
 						Spacing="2">
 
 				<!-- Screen mode -->
-				<Grid ColumnDefinitions="Auto, *, Auto"
-					  Height="40"
+				<Grid ColumnDefinitions="Auto, *, 2*"
 					  Classes="centerChildrenVertical">
 					<TextBlock>Screen mode</TextBlock>
 					<controls:HorizontalSelect Grid.Column="2"
-											   Width="250"
 											   Value="{Binding Options.WindowMode,
 												Converter={StaticResource windowModeConverter}}">
 						<controls:HorizontalSelect.ValueNames>
