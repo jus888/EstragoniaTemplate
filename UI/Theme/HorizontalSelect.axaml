@@ -32,13 +32,25 @@
 			<conv:IntAdderConverter x:Key="intAdderConverter" />
 		</ControlTheme.Resources>
 
+		<Style Selector="^ /template/ Grid.engaged">
+			<Setter Property="Background"
+					Value="{StaticResource ButtonNormalBackgroundBrush}" />
+		</Style>
+
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Grid RowDefinitions="30, 6"
-					  ColumnDefinitions="Auto, *, Auto">
+				<Grid Name="PART_Container"
+					  RowDefinitions="30, 6"
+					  ColumnDefinitions="Auto, *, Auto"
+					  Focusable="True">
+
+					<Border Grid.RowSpan="2"
+							Grid.ColumnSpan="3"
+							BoxShadow="{StaticResource InsetBackgroundFade}"/>
 
 					<Button Name="PART_ValueDecrementer"
-							Grid.RowSpan="2">
+							Grid.RowSpan="2"
+							Focusable="False">
 						&lt;
 					</Button>
 
@@ -56,7 +68,7 @@
 						<ItemsControl.Styles>
 							<Style Selector="Border.current">
 								<Setter Property="Background"
-										Value="Orange" />
+										Value="{StaticResource AccentBrush}" />
 							</Style>
 							<Style Selector="Border.last">
 								<Setter Property="BorderThickness"
@@ -74,7 +86,8 @@
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<Border BorderBrush="Black"
-										BorderThickness="1 1 0 1">
+										BorderThickness="1 1 0 1"
+										Background="White">
 									<Classes.current>
 										<MultiBinding Converter="{StaticResource intEqualMultiConverter}">
 											<Binding />
@@ -98,7 +111,8 @@
 
 					<Button Name="PART_ValueIncrementer"
 							Grid.Column="2"
-							Grid.RowSpan="2">
+							Grid.RowSpan="2"
+							Focusable="False">
 						>
 					</Button>
 				</Grid>

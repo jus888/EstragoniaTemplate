@@ -10,11 +10,13 @@ using Avalonia.Utilities;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Input;
 
 namespace EstragoniaTemplate.UI.Controls;
 
 [TemplatePart("PART_ValueDecrementer", typeof(Button))]
 [TemplatePart("PART_ValueIncrementer", typeof(Button))]
+[TemplatePart("PART_Container", typeof(Control))]
 internal class HorizontalSelect : TemplatedControl
 {
     public static readonly DirectProperty<HorizontalSelect, IEnumerable<int>> ValuesProperty =
@@ -75,6 +77,28 @@ internal class HorizontalSelect : TemplatedControl
 
     private Button? _valueDecrementer;
     private Button? _valueIncrementer;
+    private Control? _container;
+
+    private bool _focusEngaged = false;
+    private bool FocusEngaged
+    {
+        get => _focusEngaged;
+        set
+        {
+            if (_focusEngaged != value)
+            {
+                if (_focusEngaged)
+                {
+                    _container?.Classes.Remove("engaged");
+                }
+                else
+                {
+                    _container?.Classes.Add("engaged");
+                }
+            }
+            _focusEngaged = value;
+        }
+    }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
@@ -88,6 +112,7 @@ internal class HorizontalSelect : TemplatedControl
 
         _valueDecrementer = e.NameScope.Find("PART_ValueDecrementer") as Button;
         _valueIncrementer = e.NameScope.Find("PART_ValueIncrementer") as Button;
+        _container = e.NameScope.Find("PART_Container") as Control;
 
         if (_valueDecrementer != null && _valueIncrementer != null)
         {
@@ -119,8 +144,43 @@ internal class HorizontalSelect : TemplatedControl
         }
     }
 
-    private void DecrementValue(object? sender, RoutedEventArgs e)
+    private void DecrementValue()
         => Value = MathUtilities.Clamp(Value - 1, 0, ValueNames.Count - 1);
-    private void IncrementValue(object? sender, RoutedEventArgs e)
+    private void DecrementValue(object? sender, RoutedEventArgs e)
+        => DecrementValue();
+
+    private void IncrementValue()
         => Value = MathUtilities.Clamp(Value + 1, 0, ValueNames.Count - 1);
+    private void IncrementValue(object? sender, RoutedEventArgs e)
+        => IncrementValue();
+
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        FocusEngaged = false;
+        base.OnLostFocus(e);
+    }
+
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (e is { KeyModifiers: KeyModifiers.None, Key: Key.Up or Key.Down })
+            return;
+
+        if (e.Key == Key.Enter)
+        {
+            FocusEngaged = !FocusEngaged;
+        }
+
+        if (!_focusEngaged)
+            return;
+
+        if (e.Key == Key.Left)
+        {
+            DecrementValue();
+        }
+        else if (e.Key == Key.Right)
+        {
+            IncrementValue();
+        }
+        e.Handled = true;
+    }
 }
