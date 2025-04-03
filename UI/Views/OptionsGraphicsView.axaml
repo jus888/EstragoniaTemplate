@@ -5,6 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="using:EstragoniaTemplate.UI"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
+	xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
 	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
 	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
 	xmlns:behaviors="using:EstragoniaTemplate.UI.Behaviors"
@@ -50,14 +51,26 @@
 					  Height="40"
 					  Classes="centerChildrenVertical">
 					<TextBlock>Screen mode</TextBlock>
-					<ComboBox Grid.Column="2"
+					<controls:HorizontalSelect Grid.Column="2"
+											   Width="250"
+											   Value="{Binding Options.WindowMode,
+												Converter={StaticResource windowModeConverter}}">
+						<controls:HorizontalSelect.ValueNames>
+							<scg:List x:TypeArguments="x:String">
+								<x:String>Exclusive Fullscreen</x:String>
+								<x:String>Borderless Fullscreen</x:String>
+								<x:String>Windowed</x:String>
+							</scg:List>
+						</controls:HorizontalSelect.ValueNames>
+					</controls:HorizontalSelect>
+					<!--<ComboBox Grid.Column="2"
 							  Width="200"
 							  SelectedIndex="{Binding Options.WindowMode,
 									Converter={StaticResource windowModeConverter}}">
 						<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
 						<ComboBoxItem>Windowed</ComboBoxItem>
-					</ComboBox>
+					</ComboBox>-->
 				</Grid>
 
 				<!-- VSync -->
@@ -163,7 +176,7 @@
 				</Button>
 				<Control />
 			</DockPanel>
-		
+
 			<Control />
 		</DockPanel>
 	</Border>

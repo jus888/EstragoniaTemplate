@@ -2,21 +2,25 @@
 	xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
-	xmlns:controls="using:EstragoniaTemplate.UI.Controls">
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls"
+	xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard">
 
 	<Design.PreviewWith>
 		<Border Background="White">
 			<StackPanel Spacing="20"
-						Margin="20">
-				<controls:HorizontalSelect NumberOfValues="5"
-										   Value="1"
-										   Text="Test Value"/>
-				<controls:HorizontalSelect NumberOfValues="3"
-										   Value="2"
-										   Text="Test Value"/>
-				<controls:HorizontalSelect NumberOfValues="10"
-										   Value="6"
-										   Text="Test Value ... Test Value"/>
+						Margin="20"
+						Width="200">
+				<controls:HorizontalSelect Value="0">
+					<controls:HorizontalSelect.ValueNames>
+						<scg:List x:TypeArguments="x:String">
+							<x:String>Option 1</x:String>
+							<x:String>Option B</x:String>
+							<x:String>Option III</x:String>
+							<x:String>Option Four</x:String>
+							<x:String>Option Penta</x:String>
+						</scg:List>
+					</controls:HorizontalSelect.ValueNames>
+				</controls:HorizontalSelect>
 			</StackPanel>
 		</Border>
 	</Design.PreviewWith>
@@ -25,42 +29,52 @@
 				  TargetType="controls:HorizontalSelect">
 		<ControlTheme.Resources>
 			<conv:IntEqualMultiConverter x:Key="intEqualMultiConverter" />
+			<conv:IntAdderConverter x:Key="intAdderConverter" />
 		</ControlTheme.Resources>
 
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Grid RowDefinitions="Auto, Auto"
+				<Grid RowDefinitions="30, 6"
 					  ColumnDefinitions="Auto, *, Auto">
+
 					<Button Name="PART_ValueDecrementer"
 							Grid.RowSpan="2">
 						&lt;
 					</Button>
 
-					<TextBlock Name="PART_TextPresenter"
-							   Grid.Column="1"
+					<TextBlock Grid.Column="1"
 							   HorizontalAlignment="Center"
-							   Margin="20 0"
-							   Text="{TemplateBinding Text}"/>
+							   VerticalAlignment="Center"
+							   Text="{TemplateBinding DisplayedText}"/>
 
 					<ItemsControl Name="PART_ValuesPresenter"
 								  Grid.Column="1"
 								  Grid.Row="1"
+								  Padding="6 0"
 								  ItemsSource="{TemplateBinding Values}">
+
 						<ItemsControl.Styles>
 							<Style Selector="Border.current">
-								<Setter Property="Background" Value="Orange" />
+								<Setter Property="Background"
+										Value="Orange" />
+							</Style>
+							<Style Selector="Border.last">
+								<Setter Property="BorderThickness"
+										Value="1" />
 							</Style>
 						</ItemsControl.Styles>
+
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
-								<UniformGrid Columns="{Binding NumberOfValues, 
+								<UniformGrid Columns="{Binding ValueNames.Count, 
 											 RelativeSource={RelativeSource AncestorType=controls:HorizontalSelect}}" />
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
+
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<Border BorderBrush="Black"
-										BorderThickness="1">
+										BorderThickness="1 1 0 1">
 									<Classes.current>
 										<MultiBinding Converter="{StaticResource intEqualMultiConverter}">
 											<Binding />
@@ -68,6 +82,15 @@
 													 Path="Value" />
 										</MultiBinding>
 									</Classes.current>
+									<Classes.last>
+										<MultiBinding Converter="{StaticResource intEqualMultiConverter}">
+											<Binding />
+											<Binding RelativeSource="{RelativeSource AncestorType=controls:HorizontalSelect}"
+													 Path="ValueNames.Count"
+													 Converter="{StaticResource intAdderConverter}"
+													 ConverterParameter="-1" />
+										</MultiBinding>
+									</Classes.last>
 								</Border>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
