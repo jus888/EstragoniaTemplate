@@ -9,8 +9,7 @@
 		<Border Background="White">
 			<StackPanel Spacing="20"
 						Margin="20"
-						Width="150"
-						Height="300">
+						Width="250">
 				<controls:HorizontalSelect Value="0">
 					<controls:HorizontalSelect.ValueNames>
 						<scg:List x:TypeArguments="x:String">
@@ -35,7 +34,7 @@
 
 		<Style Selector="^ /template/ Grid.engaged">
 			<Setter Property="Background"
-					Value="{StaticResource ButtonNormalBackgroundBrush}" />
+					Value="{StaticResource EngagedGradientBrush}" />
 		</Style>
 
 		<Setter Property="Template">
@@ -46,8 +45,7 @@
 					  Focusable="True">
 
 					<Border Grid.RowSpan="2"
-							Grid.ColumnSpan="3"
-							BoxShadow="{StaticResource InsetBackgroundFade}"/>
+							Grid.ColumnSpan="3"/>
 
 					<Button Name="PART_ValueDecrementer"
 							Grid.RowSpan="2"

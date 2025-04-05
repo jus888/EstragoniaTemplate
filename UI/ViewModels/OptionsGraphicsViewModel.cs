@@ -30,6 +30,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     {
         base.OnPropertyChanged(e);
 
+        Debug.WriteLine(e.PropertyName);
         if (e.PropertyName != nameof(CanApply))
         {
             CanApply = true;

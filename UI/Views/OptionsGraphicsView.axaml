@@ -29,6 +29,7 @@
 	<UserControl.Resources>
 		<conv:GodotWindowModeConverter x:Key="windowModeConverter" />
 		<conv:IgnoringNullConverter x:Key="ignoringNullConverter" />
+		<conv:BoolToIntConverter x:Key="boolToIntConverter" />
 	</UserControl.Resources>
 
 	<UserControl.Styles>
@@ -47,7 +48,7 @@
 						Spacing="2">
 
 				<!-- Screen mode -->
-				<Grid ColumnDefinitions="Auto, *, 2*"
+				<Grid ColumnDefinitions="Auto, *, 250"
 					  Classes="centerChildrenVertical">
 					<TextBlock>Screen mode</TextBlock>
 					<controls:HorizontalSelect Grid.Column="2"
@@ -72,12 +73,20 @@
 				</Grid>
 
 				<!-- VSync -->
-				<Grid ColumnDefinitions="Auto, *, Auto"
+				<Grid ColumnDefinitions="Auto, *, 250"
 					  Height="40"
 					  Classes="centerChildrenVertical">
 					<TextBlock>VSync</TextBlock>
-					<CheckBox Grid.Column="2"
-							  IsChecked="{Binding Options.VSync}" />
+					<controls:HorizontalSelect Grid.Column="2"
+											   Value="{Binding Options.VSync,
+												Converter={StaticResource boolToIntConverter}}">
+						<controls:HorizontalSelect.ValueNames>
+							<scg:List x:TypeArguments="x:String">
+								<x:String>Disabled</x:String>
+								<x:String>Enabled</x:String>
+							</scg:List>
+						</controls:HorizontalSelect.ValueNames>
+					</controls:HorizontalSelect>
 				</Grid>
 
 				<!-- FPS Limit -->

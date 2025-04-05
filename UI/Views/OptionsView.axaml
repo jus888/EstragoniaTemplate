@@ -21,8 +21,8 @@
 	<Design.DataContext>
 		<vm:OptionsViewModel>
 			<x:Arguments>
-				<!--<vm:OptionsGraphicsViewModel />-->
-				<vm:OptionsControlsViewModel />
+				<vm:OptionsGraphicsViewModel />
+				<!--<vm:OptionsControlsViewModel />-->
 			</x:Arguments>
 		</vm:OptionsViewModel>
 	</Design.DataContext>
