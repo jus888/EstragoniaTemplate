@@ -2,11 +2,8 @@
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EstragoniaTemplate.UI.Controls;
 
@@ -35,6 +32,12 @@ public class FocusableSlider : Slider
             }
             _focusEngaged = value;
         }
+    }
+
+    protected override void OnLostFocus(RoutedEventArgs e)
+    {
+        FocusEngaged = false;
+        base.OnLostFocus(e);
     }
 
     protected override void OnKeyDown(KeyEventArgs e)

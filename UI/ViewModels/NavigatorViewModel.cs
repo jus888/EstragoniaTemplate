@@ -1,6 +1,5 @@
 using Avalonia.Animation;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using EstragoniaTemplate.Main;
 using System;
 using System.Collections.Generic;

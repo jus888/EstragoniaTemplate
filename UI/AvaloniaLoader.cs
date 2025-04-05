@@ -2,7 +2,6 @@ using Avalonia;
 using Godot;
 using JLeb.Estragonia;
 using System;
-using System.Diagnostics;
 
 namespace EstragoniaTemplate.UI;
 

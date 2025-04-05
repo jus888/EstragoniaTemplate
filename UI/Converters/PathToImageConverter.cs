@@ -1,11 +1,7 @@
-using Avalonia.Data.Converters;
 using Avalonia.Data;
-using Godot;
+using Avalonia.Data.Converters;
 using System;
 using System.Globalization;
-using System.Diagnostics;
-using Godot.Collections;
-using Avalonia.Controls;
 
 namespace EstragoniaTemplate.UI.Converters;
 
@@ -19,7 +15,7 @@ public class PathToImageConverter : IValueConverter
     {
         if (value is not string path)
             return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
-        
+
         return Utilities.LoadImageFromResource(new Uri($"avares://EstragoniaTemplate/{ImageFolderPath}/{path}.png"));
     }
 

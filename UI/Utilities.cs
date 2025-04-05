@@ -1,13 +1,9 @@
 using Avalonia.Animation;
+using Avalonia.Input;
+using Avalonia.Platform;
 using EstragoniaTemplate.UI.Controls;
 using Godot;
 using System;
-using System.Diagnostics;
-using EstragoniaTemplate.UI;
-using Avalonia.Input;
-using Avalonia.Platform;
-using Avalonia.Media.Imaging;
-using EstragoniaTemplate.Resources;
 
 namespace EstragoniaTemplate.UI;
 
@@ -42,12 +38,12 @@ public static class Utilities
         switch (transitionType)
         {
             case TransitionType.Fade:
-                transition = new CompositePageTransition() 
-                { 
-                    PageTransitions = new() 
-                    { 
-                        new SequentialFade(duration), 
-                        new TransitionDisableFromControl(duration) 
+                transition = new CompositePageTransition()
+                {
+                    PageTransitions = new()
+                    {
+                        new SequentialFade(duration),
+                        new TransitionDisableFromControl(duration)
                     }
                 };
                 break;

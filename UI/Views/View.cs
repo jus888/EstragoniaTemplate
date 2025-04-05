@@ -1,12 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Metadata;
-using CommunityToolkit.Mvvm.ComponentModel;
 using EstragoniaTemplate.UI.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using static EstragoniaTemplate.UI.Utilities;
 
 namespace EstragoniaTemplate.UI.Views;
@@ -115,6 +112,7 @@ public abstract partial class View : UserControl
         {
             nextFocus.Focus(NavigationMethodBasedOnMouseOrKey);
             AudioManager.Instance?.Play(AudioManager.Sound.UISelect);
+            e.Handled = true;
         }
     }
 }

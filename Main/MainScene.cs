@@ -1,11 +1,9 @@
-using EstragoniaTemplate.Main;
+using EstragoniaTemplate.Resources;
+using EstragoniaTemplate.UI.Models;
 using EstragoniaTemplate.UI.ViewModels;
 using Godot;
 using System;
-using System.Text.Json;
-using EstragoniaTemplate.UI.Models;
 using System.Diagnostics;
-using EstragoniaTemplate.Resources;
 
 namespace EstragoniaTemplate.Main;
 
@@ -33,18 +31,18 @@ public partial class MainScene : Node2D
         var mainViewModelDialog = new MainViewModel(UserInterfaceDialog);
         var mainViewModel = new MainViewModel(UserInterfaceMain);
         var viewModelFactory = new ViewModelFactory(
-            options, 
-            mainViewModel, 
+            options,
+            mainViewModel,
             mainViewModelDialog,
-            UserInterfaceMain, 
+            UserInterfaceMain,
             UserInterfaceDialog,
             keyRepeater,
             focusStack);
 
         UserInterfaceDialog.Initialize(mainViewModelDialog, keyRepeater);
         UserInterfaceMain.Initialize(
-            mainViewModel, 
-            keyRepeater, 
+            mainViewModel,
+            keyRepeater,
             viewModelFactory.CreateMainMenu(GetTree()));
 
         focusStack.Push(UserInterfaceMain);

@@ -1,13 +1,7 @@
-using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Avalonia.Animation;
-using EstragoniaTemplate.UI.Controls;
-using System;
-using static EstragoniaTemplate.UI.Utilities;
-using Godot;
 using EstragoniaTemplate.Main;
-using System.Diagnostics;
+using Godot;
+using System;
 using System.Collections.Generic;
 
 namespace EstragoniaTemplate.UI.ViewModels;
@@ -54,7 +48,7 @@ public partial class InputListenerDialogViewModel : ViewModel
         var userInterface = (UserInterface)sender!;
 
         (Key?, JoyButton?)? inputTuple = null;
-        if (ListenToKeyboard && inputEvent is InputEventKey keyEvent && keyEvent.Pressed 
+        if (ListenToKeyboard && inputEvent is InputEventKey keyEvent && keyEvent.Pressed
             && ButtonToIconName.TryGetKeyboard(keyEvent.Keycode, out var name)
             && !_reservedKeys.Contains(keyEvent.PhysicalKeycode))
         {
@@ -63,7 +57,7 @@ public partial class InputListenerDialogViewModel : ViewModel
             keyEvent.Pressed = false;
             inputTuple = (keyEvent.PhysicalKeycode, null);
         }
-        else if (!ListenToKeyboard && inputEvent is InputEventJoypadButton joypadEvent && joypadEvent.Pressed 
+        else if (!ListenToKeyboard && inputEvent is InputEventJoypadButton joypadEvent && joypadEvent.Pressed
             && ButtonToIconName.TryGetXbox(joypadEvent.ButtonIndex, out _))
         {
             joypadEvent.Pressed = false;

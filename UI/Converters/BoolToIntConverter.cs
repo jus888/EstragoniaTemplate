@@ -1,6 +1,5 @@
-using Avalonia.Data.Converters;
 using Avalonia.Data;
-using Godot;
+using Avalonia.Data.Converters;
 using System;
 using System.Globalization;
 
@@ -8,7 +7,7 @@ namespace EstragoniaTemplate.UI.Converters;
 
 public class BoolToIntConverter : IValueConverter
 {
-    public static readonly BoolToIntConverter Instance = new ();
+    public static readonly BoolToIntConverter Instance = new();
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

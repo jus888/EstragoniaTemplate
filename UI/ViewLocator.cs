@@ -1,7 +1,7 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using EstragoniaTemplate.UI.ViewModels;
+using System;
 
 namespace EstragoniaTemplate.UI;
 

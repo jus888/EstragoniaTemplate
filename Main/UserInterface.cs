@@ -1,14 +1,9 @@
-using Godot;
-using System;
 using EstragoniaTemplate.UI;
-using EstragoniaTemplate.UI.Views;
 using EstragoniaTemplate.UI.ViewModels;
+using EstragoniaTemplate.UI.Views;
+using Godot;
 using JLeb.Estragonia;
-using System.Linq;
-using System.Diagnostics;
-using Avalonia.Controls;
-using EstragoniaTemplate.UI.Models;
-using System.Threading;
+using System;
 
 namespace EstragoniaTemplate.Main;
 
@@ -26,9 +21,9 @@ public partial class UserInterface : AvaloniaControl, IFocussable
     private KeyRepeater? _keyRepeater;
 
     public override void _Ready()
-    {   
+    {
         RenderScaling = AvaloniaLoader.Instance.UIScaling;
-        AvaloniaLoader.Instance.UIScaleChanged += (_, scale) => 
+        AvaloniaLoader.Instance.UIScaleChanged += (_, scale) =>
         {
             RenderScaling = scale;
         };

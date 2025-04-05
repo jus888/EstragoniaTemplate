@@ -1,9 +1,8 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
-using System;
 using Avalonia.Interactivity;
-using Avalonia;
-
+using System;
 using static EstragoniaTemplate.UI.Utilities;
 
 namespace EstragoniaTemplate.UI.Controls;

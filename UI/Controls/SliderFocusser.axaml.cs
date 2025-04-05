@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using EstragoniaTemplate.UI.Controls;
 using static EstragoniaTemplate.UI.Utilities;
 
 namespace EstragoniaTemplate.UI.Controls;

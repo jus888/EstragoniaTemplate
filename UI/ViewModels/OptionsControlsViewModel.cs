@@ -1,17 +1,12 @@
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Avalonia.Animation;
-using EstragoniaTemplate.UI.Controls;
+using EstragoniaTemplate.Main;
+using EstragoniaTemplate.Resources;
+using EstragoniaTemplate.UI.Models;
 using Godot;
 using System;
-using EstragoniaTemplate.Main;
-using System.Collections.ObjectModel;
-using EstragoniaTemplate.UI.Models;
-using System.Diagnostics;
 using System.Collections.Generic;
-using Avalonia.Data;
-using EstragoniaTemplate.Resources;
+using System.Collections.ObjectModel;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 

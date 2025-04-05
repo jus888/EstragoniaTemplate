@@ -1,11 +1,9 @@
-using Avalonia.Data.Converters;
+using Avalonia.Controls;
 using Avalonia.Data;
+using Avalonia.Data.Converters;
 using Godot;
 using System;
 using System.Globalization;
-using System.Diagnostics;
-using Godot.Collections;
-using Avalonia.Controls;
 
 namespace EstragoniaTemplate.UI.Converters;
 

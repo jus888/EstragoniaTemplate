@@ -1,10 +1,5 @@
 ﻿using Godot;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EstragoniaTemplate.UI;
 
@@ -33,7 +28,7 @@ internal static class ButtonToIconName
         {
             (>= Key.Key0) and (<= Key.Key9) => ((int)key - 48).ToString(),
 
-            ((>= Key.A) and (<= Key.Z)) 
+            ((>= Key.A) and (<= Key.Z))
                 or Key.Shift or Key.Ctrl
                 or Key.Enter or Key.Space
                 or Key.Backspace

@@ -1,13 +1,9 @@
-using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EstragoniaTemplate.Main;
 using EstragoniaTemplate.UI.Models;
-using Godot;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text.Json;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
@@ -106,7 +102,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         {
             var dialog = new DialogViewModel(
                 "You have applied changes to the graphics settings.\n" +
-                "Revert the changes or save current settings?", 
+                "Revert the changes or save current settings?",
                 "Cancel", "Revert changes", "Save current settings"
                 );
             dialog.Responded += OnResponse;

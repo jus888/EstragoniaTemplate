@@ -1,11 +1,6 @@
 ﻿using EstragoniaTemplate.Main;
 using EstragoniaTemplate.UI.Models;
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
@@ -19,7 +14,7 @@ public class ViewModelFactory
     private readonly KeyRepeater _keyRepeater;
     private readonly FocusStack _focusStack;
 
-    public ViewModelFactory(GraphicsOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog, 
+    public ViewModelFactory(GraphicsOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog,
         UserInterface userInterfaceMain, UserInterface userInterfaceDialog, KeyRepeater keyRepeater, FocusStack focusStack)
     {
         _options = uiOptions;

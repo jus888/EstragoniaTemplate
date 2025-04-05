@@ -1,7 +1,7 @@
 #if DEBUG
 
-using System;
 using Avalonia;
+using System;
 
 namespace EstragoniaTemplate.UI;
 

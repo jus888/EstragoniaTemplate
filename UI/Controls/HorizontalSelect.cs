@@ -1,16 +1,13 @@
 ﻿using Avalonia;
-using Avalonia.Data;
+using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using System;
+using Avalonia.Data;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Utilities;
-using Avalonia.Controls.Metadata;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Input;
 
 namespace EstragoniaTemplate.UI.Controls;
 
@@ -131,7 +128,7 @@ internal class HorizontalSelect : TemplatedControl
         {
             Values = Enumerable.Range(0, ValueNames.Count);
         }
-        
+
         if (change.Property == ValueProperty || change.Property == ValueNamesProperty)
         {
             if (_valueDecrementer != null && _valueIncrementer != null)

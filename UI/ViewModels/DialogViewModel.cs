@@ -1,11 +1,5 @@
-using Avalonia.Controls;
-using Avalonia.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Avalonia.Animation;
-using EstragoniaTemplate.UI.Controls;
 using System;
-using static EstragoniaTemplate.UI.Utilities;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 

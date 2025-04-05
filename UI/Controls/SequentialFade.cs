@@ -4,8 +4,8 @@ using Avalonia.Animation.Easings;
 using Avalonia.Styling;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace EstragoniaTemplate.UI.Controls;
 
@@ -150,7 +150,7 @@ public class SequentialFade : IPageTransition
         if (to != null)
         {
             to.IsVisible = true;
-            tasks.Add(_fadeInAnimation.RunAsync(to,  cancellationToken));
+            tasks.Add(_fadeInAnimation.RunAsync(to, cancellationToken));
         }
 
         await Task.WhenAll(tasks);

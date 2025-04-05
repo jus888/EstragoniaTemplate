@@ -1,12 +1,7 @@
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Input;
-using Avalonia.LogicalTree;
-using Avalonia.Styling;
-using Avalonia.VisualTree;
-using EstragoniaTemplate.UI.Views;
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
