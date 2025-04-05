@@ -30,7 +30,6 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     {
         base.OnPropertyChanged(e);
 
-        Debug.WriteLine(e.PropertyName);
         if (e.PropertyName != nameof(CanApply))
         {
             CanApply = true;
@@ -55,10 +54,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         _currentlyAppliedOptions = new(options);
 
         Options = options;
-        Options.PropertyChanged += (s, e) =>
-        {
-            OnPropertyChanged(e);
-        };
+        Options.PropertyChanged += OptionsPropertyChangedHandler;
 
         CanApply = false;
     }
@@ -66,6 +62,9 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     /// Intended for designer usage only.
     /// </summary>
     public OptionsGraphicsViewModel() : this(new()) { }
+
+    private void OptionsPropertyChangedHandler(object? s, PropertyChangedEventArgs e)
+        => OnPropertyChanged(e);
 
     [RelayCommand(CanExecute = nameof(CanApply))]
     public void Apply()
@@ -123,6 +122,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
                     case DialogViewModel.Response.Deny:
                         Options.SetFromOptions(_savedOptions);
                         Options.Apply();
+                        Options.PropertyChanged -= OptionsPropertyChangedHandler;
                         callOnClose();
                         return;
 
@@ -130,6 +130,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
                         Options.SetFromOptions(_currentlyAppliedOptions);
                         Options.Apply();
                         Options.Save();
+                        Options.PropertyChanged -= OptionsPropertyChangedHandler;
                         callOnClose();
                         return;
                 }

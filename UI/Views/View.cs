@@ -114,6 +114,7 @@ public abstract partial class View : UserControl
         if (nextFocus != null && nextFocus.Focusable)
         {
             nextFocus.Focus(NavigationMethodBasedOnMouseOrKey);
+            AudioManager.Instance?.Play(AudioManager.Sound.UISelect);
         }
     }
 }

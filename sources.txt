@@ -1,0 +1,14 @@
+select.wav (CC0)
+StavSounds
+https://freesound.org/people/StavSounds/sounds/546079/
+
+Estragonia (MIT)
+Julien Lebosquain
+https://github.com/MrJul/Estragonia
+
+Avalonia (MIT)
+https://github.com/AvaloniaUI/Avalonia/tree/master
+
+Input Prompts (CC0)
+Kenney
+https://kenney.nl/assets/input-prompts
