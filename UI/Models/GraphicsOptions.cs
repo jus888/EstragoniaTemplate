@@ -67,6 +67,15 @@ public partial class GraphicsOptions : ObservableObject
         return options;
     }
 
+    public void Save()
+    {
+        using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
+        file.StoreString(JsonSerializer.Serialize(this));
+
+        using var overrideFile = FileAccess.Open("user://settings_override.cfg", FileAccess.ModeFlags.Write)!;
+        overrideFile.StoreLine($"display/window/size/mode = {(int)WindowMode}");
+    }
+
     public void SetFromOptions(GraphicsOptions options)
     {
         WindowMode = options.WindowMode;
@@ -95,15 +104,6 @@ public partial class GraphicsOptions : ObservableObject
         {
             Engine.MaxFps = FPSLimit;
         }
-    }
-
-    public void Save()
-    {
-        using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
-        file.StoreString(JsonSerializer.Serialize(this));
-
-        using var overrideFile = FileAccess.Open("user://settings_override.cfg", FileAccess.ModeFlags.Write)!;
-        overrideFile.StoreLine($"display/window/size/mode = {(int)WindowMode}");
     }
 
     public override bool Equals(object? obj)

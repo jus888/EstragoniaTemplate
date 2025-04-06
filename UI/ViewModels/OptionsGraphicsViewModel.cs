@@ -32,9 +32,6 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         }
     }
 
-    /// <summary>
-    /// Set the UserInterface parameters if dialog should open in a different UserInterface (target).
-    /// </summary>
     public OptionsGraphicsViewModel(GraphicsOptions options, FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog) : this(options)
     {
         _focusStack = focusStack;

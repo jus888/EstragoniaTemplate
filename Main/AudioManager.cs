@@ -12,9 +12,10 @@ public partial class AudioManager : Node
 
     public enum Bus
     {
-        Master,
-        SFX,
-        UI
+        Master = 0,
+        Music = 1,
+        SFX = 2,
+        UI = 3
     }
 
     public enum Sound
@@ -28,6 +29,12 @@ public partial class AudioManager : Node
     };
 
     private readonly Dictionary<Bus, StringName> _busStringNames = new();
+
+    public static int GetBusLinearEnergyPercentage(Bus bus)
+        => Mathf.RoundToInt(100 * Mathf.DbToLinear(AudioServer.GetBusVolumeDb((int)bus)));
+
+    public static void UpdateBusDbLevel(Bus bus, int linearEnergyPercentage)
+        => AudioServer.SetBusVolumeDb((int)bus, Mathf.LinearToDb(linearEnergyPercentage / 100f));
 
     private void AddAudioPlayers(int count)
     {

@@ -35,7 +35,8 @@ public partial class OptionsViewModel : NavigatorViewModel
     public enum OptionsTab
     {
         Graphics = 0,
-        Controls = 1
+        Controls = 1,
+        Audio = 2
     }
 
     [RelayCommand]
@@ -45,29 +46,22 @@ public partial class OptionsViewModel : NavigatorViewModel
             return;
 
         var tab = (OptionsTab)tabIndex;
-        Action action;
-        if (tab == OptionsTab.Graphics)
+        ViewModel newViewModel = tab switch
         {
-            action = () =>
-            {
-                NavigateTo(_viewModelFactory.CreateOptionsGraphics(), replace: true);
-                ToOptionsTabCommand.NotifyCanExecuteChanged();
-                CurrentTabIndex = tabIndex;
-            };
-        }
-        else/* if (tab == OptionsTab.Controls)*/
-        {
-            action = () =>
-            {
-                NavigateTo(_viewModelFactory.CreateOptionsControls(), replace: true);
-                ToOptionsTabCommand.NotifyCanExecuteChanged();
-                CurrentTabIndex = tabIndex;
-            };
-        }
+            OptionsTab.Graphics => _viewModelFactory.CreateOptionsGraphics(),
+            OptionsTab.Controls => _viewModelFactory.CreateOptionsControls(),
+            OptionsTab.Audio => _viewModelFactory.CreateOptionsAudio(),
+            _ => _viewModelFactory.CreateOptionsAudio()
+        };
 
-        if (CurrentViewModel is IOptionsTabViewModel viewModel)
+        if (CurrentViewModel is IOptionsTabViewModel currentViewModel)
         {
-            viewModel.TryClose(action);
+            currentViewModel.TryClose(callOnClose: () =>
+            {
+                NavigateTo(newViewModel, replace: true);
+                ToOptionsTabCommand.NotifyCanExecuteChanged();
+                CurrentTabIndex = tabIndex;
+            });
         }
     }
 

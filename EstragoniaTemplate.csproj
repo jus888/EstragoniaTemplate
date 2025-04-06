@@ -49,6 +49,9 @@
 	  <Compile Update="UI\Views\OptionsControlsView.axaml.cs">
 	    <DependentUpon>OptionsControlsView.axaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="UI\Views\OptionsAudioView.axaml.cs">
+	    <DependentUpon>OptionsAudioView.axaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="UI\Views\OptionsView.axaml.cs">
 	    <SubType>Code</SubType>
 	    <DependentUpon>OptionsView.axaml</DependentUpon>

@@ -62,14 +62,6 @@
 							</scg:List>
 						</controls:HorizontalSelect.ValueNames>
 					</controls:HorizontalSelect>
-					<!--<ComboBox Grid.Column="2"
-							  Width="200"
-							  SelectedIndex="{Binding Options.WindowMode,
-									Converter={StaticResource windowModeConverter}}">
-						<ComboBoxItem>Exclusive Fullscreen</ComboBoxItem>
-						<ComboBoxItem>Borderless Fullscreen</ComboBoxItem>
-						<ComboBoxItem>Windowed</ComboBoxItem>
-					</ComboBox>-->
 				</Grid>
 
 				<!-- VSync -->
@@ -114,7 +106,7 @@
 						<controls:SliderFocusser.Slider>
 							<controls:FocusableSlider
 								Name="fpsSlider"
-								Width="100"
+								Width="150"
 								VerticalAlignment="Center"
 								Minimum="{Binding Options.MinFPSLimit}"
 								Maximum="{Binding Options.MaxFPSLimit}"
@@ -152,7 +144,7 @@
 						<controls:SliderFocusser.Slider>
 							<controls:FocusableSlider
 								Name="uiScaleSlider"
-								Width="100"
+								Width="150"
 								Minimum="0.5"
 								Maximum="2"
 								TickFrequency="0.1"

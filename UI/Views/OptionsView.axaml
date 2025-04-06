@@ -54,6 +54,7 @@
 			
 			<Grid RowDefinitions="Auto, *"
 				  ColumnDefinitions="Auto, *">
+				
 				<!-- Top Bar -->
 				<Border Grid.ColumnSpan="2"
 						BorderBrush="Black"
@@ -90,6 +91,16 @@
 							<sys:Int32>1</sys:Int32>
 						</Button.CommandParameter>
 						Controls
+					</Button>
+					<Button Theme="{StaticResource TextButton}"
+							Classes.currentTab="{Binding CurrentTabIndex,
+								Converter={StaticResource intEqualConverter},
+								ConverterParameter=2}"
+							Command="{Binding ToOptionsTabCommand}">
+						<Button.CommandParameter>
+							<sys:Int32>2</sys:Int32>
+						</Button.CommandParameter>
+						Audio
 					</Button>
 				</StackPanel>
 

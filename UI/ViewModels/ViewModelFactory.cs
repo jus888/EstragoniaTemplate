@@ -40,4 +40,7 @@ public class ViewModelFactory
 
     public virtual OptionsControlsViewModel CreateOptionsControls()
         => new(_focusStack, _userInterfaceDialog, _mainViewModelDialog, _keyRepeater);
+
+    public virtual OptionsAudioViewModel CreateOptionsAudio()
+        => new(_focusStack, _userInterfaceDialog, _mainViewModelDialog);
 }
