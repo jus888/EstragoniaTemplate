@@ -31,7 +31,7 @@ public partial class SliderFocusser : UserControl
     {
         base.OnKeyDown(e);
 
-        if (e.Handled || e is not { KeyModifiers: KeyModifiers.None, Key: Key.Down or Key.Up })
+        if (e.Handled)
             return;
 
         IInputElement? nextFocus = null;
