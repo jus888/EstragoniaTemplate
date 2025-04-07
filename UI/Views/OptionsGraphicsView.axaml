@@ -45,7 +45,7 @@
 
 			<!-- Settings List -->
 			<StackPanel DockPanel.Dock="Top"
-						Spacing="2">
+						Spacing="6">
 
 				<!-- Screen mode -->
 				<Grid ColumnDefinitions="Auto, *, 250"
@@ -82,26 +82,11 @@
 				</Grid>
 
 				<!-- FPS Limit -->
-				<Grid ColumnDefinitions="Auto, *, Auto, Auto"
+				<Grid ColumnDefinitions="Auto, *, Auto, 60"
 					  Height="40"
 					  Classes="centerChildrenVertical">
 					<TextBlock Grid.Row="2">FPS Limit</TextBlock>
-					<controls:ConfirmableNumericUpDown
-						Grid.Column="2"
-						Target="{Binding #fpsSlider}"
-						MaxWidth="60"
-						BorderBrush="Transparent"
-						HorizontalContentAlignment="Right"
-						XYFocus.NavigationModes="Disabled"
-						Minimum="{Binding Options.MinFPSLimit}"
-						Maximum="{Binding Options.MaxFPSLimit}"
-						ClipValueToMinMax="True"
-						ShowButtonSpinner="False"
-						Value="{Binding Options.FPSLimit,
-								Converter={StaticResource ignoringNullConverter}}"
-						IsEnabled="{Binding !Options.VSync}" />
-
-					<controls:SliderFocusser Grid.Column="3"
+					<controls:SliderFocusser Grid.Column="2"
 											 IsEnabled="{Binding !Options.VSync}">
 						<controls:SliderFocusser.Slider>
 							<controls:FocusableSlider
@@ -117,32 +102,33 @@
 						</controls:SliderFocusser.Slider>
 					</controls:SliderFocusser>
 
-				</Grid>
-
-				<!-- UI Scale -->
-				<Grid ColumnDefinitions="Auto, *, Auto, Auto"
-					  Height="40"
-					  Classes="centerChildrenVertical">
-					<TextBlock Grid.Row="3">UI Scale</TextBlock>
 					<controls:ConfirmableNumericUpDown
-						Grid.Column="2"
-						InnerRightContent="x"
-						Target="{Binding #uiScaleSlider}"
-						MaxWidth="60"
+						Grid.Column="3"
+						Target="{Binding #fpsSlider}"
 						BorderBrush="Transparent"
 						HorizontalContentAlignment="Right"
 						XYFocus.NavigationModes="Disabled"
-						FormatString="0.0"
-						Minimum="0.5"
-						Maximum="2"
+						Minimum="{Binding Options.MinFPSLimit}"
+						Maximum="{Binding Options.MaxFPSLimit}"
 						ClipValueToMinMax="True"
 						ShowButtonSpinner="False"
-						Value="{Binding Options.UIScale,
-								Converter={StaticResource ignoringNullConverter}}" />
+						Value="{Binding Options.FPSLimit,
+								Converter={StaticResource ignoringNullConverter}}"
+						IsEnabled="{Binding !Options.VSync}" />
 
-					<controls:SliderFocusser Grid.Column="3">
+				</Grid>
+
+				<!-- UI Scale -->
+				<Grid ColumnDefinitions="Auto, *, Auto, 60"
+					  Height="40"
+					  Classes="centerChildrenVertical">
+					<TextBlock Grid.Row="3">UI Scale</TextBlock>
+
+					<controls:SliderFocusser Grid.Column="2"
+											 IsEnabled="{Binding !Options.VSync}">
 						<controls:SliderFocusser.Slider>
 							<controls:FocusableSlider
+								Grid.Column="2"
 								Name="uiScaleSlider"
 								Width="150"
 								Minimum="0.5"
@@ -154,6 +140,21 @@
 								Value="{Binding Options.UIScale}" />
 						</controls:SliderFocusser.Slider>
 					</controls:SliderFocusser>
+
+					<controls:ConfirmableNumericUpDown
+						Grid.Column="3"
+						InnerRightContent="x"
+						Target="{Binding #uiScaleSlider}"
+						BorderBrush="Transparent"
+						HorizontalContentAlignment="Right"
+						XYFocus.NavigationModes="Disabled"
+						FormatString="0.0"
+						Minimum="0.5"
+						Maximum="2"
+						ClipValueToMinMax="True"
+						ShowButtonSpinner="False"
+						Value="{Binding Options.UIScale,
+								Converter={StaticResource ignoringNullConverter}}" />
 
 				</Grid>
 			</StackPanel>
