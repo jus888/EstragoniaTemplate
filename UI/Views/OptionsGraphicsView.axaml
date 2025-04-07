@@ -124,8 +124,7 @@
 					  Classes="centerChildrenVertical">
 					<TextBlock Grid.Row="3">UI Scale</TextBlock>
 
-					<controls:SliderFocusser Grid.Column="2"
-											 IsEnabled="{Binding !Options.VSync}">
+					<controls:SliderFocusser Grid.Column="2">
 						<controls:SliderFocusser.Slider>
 							<controls:FocusableSlider
 								Grid.Column="2"
