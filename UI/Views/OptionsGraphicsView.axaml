@@ -160,7 +160,7 @@
 
 			<!-- Bottom Buttons -->
 			<DockPanel DockPanel.Dock="Bottom">
-				<Button DockPanel.Dock="Right"
+				<controls:AudioButton DockPanel.Dock="Right"
 						Name="apply"
 						Content="Apply"
 						Command="{Binding ApplyCommand}">
@@ -168,11 +168,11 @@
 						<behaviors:MoveFocusWhenDisabledBehavior
 							Target="{Binding #uiScaleSlider}" />
 					</Interaction.Behaviors>
-				</Button>
-				<Button DockPanel.Dock="Left"
+				</controls:AudioButton>
+				<controls:AudioButton DockPanel.Dock="Left"
 						Content="Reset to default"
 						Command="{Binding ResetToDefaultCommand}">
-				</Button>
+				</controls:AudioButton>
 				<Control />
 			</DockPanel>
 

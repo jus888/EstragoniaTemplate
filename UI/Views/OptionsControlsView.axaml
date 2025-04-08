@@ -56,7 +56,7 @@
 				</Border>
 
 				<!-- Keyboard input -->
-				<Button Grid.Column="2"
+				<controls:AudioButton Grid.Column="2"
 						Classes="inputMapButton"
 						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptKeyboardCommand}"
 						CommandParameter="{Binding .}">
@@ -64,10 +64,10 @@
 										Converter={StaticResource ButtonImageConverter},
 										ConverterParameter=keyboard}"
 						   Width="32" />
-				</Button>
+				</controls:AudioButton>
 
 				<!-- Controller input -->
-				<Button Grid.Column="3"
+				<controls:AudioButton Grid.Column="3"
 						Classes="inputMapButton"
 						Command="{Binding $parent[ItemsControl].((vm:OptionsControlsViewModel)DataContext).InputPromptJoypadCommand}"
 						CommandParameter="{Binding .}">
@@ -75,7 +75,7 @@
 										Converter={StaticResource ButtonImageConverter},
 										ConverterParameter=xbox}"
 						   Width="32" />
-				</Button>
+				</controls:AudioButton>
 			</Grid>
 		</DataTemplate>
 	</UserControl.Resources>
@@ -85,7 +85,7 @@
 	</Design.DataContext>
 
 	<UserControl.Styles>
-		<Style Selector="Button.inputMapButton">
+		<Style Selector="controls|AudioButton.inputMapButton">
 			<Setter Property="Padding"
 					Value="6 0" />
 			<Setter Property="Margin"
@@ -187,11 +187,11 @@
 				</HeaderedContentControl>
 			</StackPanel>
 
-			<Button HorizontalAlignment="Left"
+			<controls:AudioButton HorizontalAlignment="Left"
 					Margin="10 0 0 0"
 					Command="{Binding ResetToDefaultCommand}">
 				Reset all controls to default
-			</Button>
+			</controls:AudioButton>
 		</StackPanel>
 	</Border>
 

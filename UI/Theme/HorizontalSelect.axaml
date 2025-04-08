@@ -47,12 +47,12 @@
 					<Border Grid.RowSpan="2"
 							Grid.ColumnSpan="3"/>
 
-					<Button Name="PART_ValueDecrementer"
+					<controls:AudioButton Name="PART_ValueDecrementer"
 							Grid.RowSpan="2"
 							VerticalAlignment="Center"
 							Focusable="False">
 						&lt;
-					</Button>
+					</controls:AudioButton>
 
 					<TextBlock Grid.Column="1"
 							   HorizontalAlignment="Center"
@@ -111,13 +111,13 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 
-					<Button Name="PART_ValueIncrementer"
+					<controls:AudioButton Name="PART_ValueIncrementer"
 							Grid.Column="2"
 							Grid.RowSpan="2"
 							VerticalAlignment="Center"
 							Focusable="False">
 						>
-					</Button>
+					</controls:AudioButton>
 				</Grid>
 			</ControlTemplate>
 		</Setter>

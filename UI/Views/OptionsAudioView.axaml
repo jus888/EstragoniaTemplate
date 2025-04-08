@@ -173,11 +173,11 @@
 				</Grid>
 			</StackPanel>
 
-			<Button DockPanel.Dock="Bottom"
+			<controls:AudioButton DockPanel.Dock="Bottom"
 					HorizontalAlignment="Right"
 					Content="Reset to default"
 					Command="{Binding ResetToDefaultCommand}">
-			</Button>
+			</controls:AudioButton>
 
 			<Control />
 		</DockPanel>

@@ -39,36 +39,36 @@
 						   Text="{Binding Message}"
 						   Margin="0,0,0,16" />
 				<DockPanel>
-					<Button DockPanel.Dock="Left"
+					<controls:AudioButton DockPanel.Dock="Left"
 							IsVisible="{Binding ConfirmText,
 								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
 							Content="{Binding ConfirmText}"
 							Command="{Binding ButtonResponseCommand}">
-						<Button.CommandParameter>
+						<controls:AudioButton.CommandParameter>
 							<sys:Int32>2</sys:Int32>
-						</Button.CommandParameter>
-					</Button>
-					<Button DockPanel.Dock="Left"
+						</controls:AudioButton.CommandParameter>
+					</controls:AudioButton>
+					<controls:AudioButton DockPanel.Dock="Left"
 							Margin="4,0,0,0"
 							IsVisible="{Binding DenyText,
 								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"							
 							Content="{Binding DenyText}"
 							Command="{Binding ButtonResponseCommand}">
-						<Button.CommandParameter>
+						<controls:AudioButton.CommandParameter>
 							<sys:Int32>1</sys:Int32>
-						</Button.CommandParameter>
-					</Button>
-					<Button DockPanel.Dock="Right"
+						</controls:AudioButton.CommandParameter>
+					</controls:AudioButton>
+					<controls:AudioButton DockPanel.Dock="Right"
 							Name="initialFocus0"
 							IsVisible="{Binding CancelText,
 								Converter={x:Static StringConverters.IsNotNullOrEmpty}}"							
 							Content="{Binding CancelText}"
 							Command="{Binding ButtonResponseCommand}"
 							IsCancel="True">
-						<Button.CommandParameter>
+						<controls:AudioButton.CommandParameter>
 							<sys:Int32>0</sys:Int32>
-						</Button.CommandParameter>
-					</Button>
+						</controls:AudioButton.CommandParameter>
+					</controls:AudioButton>
 					<Control Width="32" />
 				</DockPanel>
 			</StackPanel>

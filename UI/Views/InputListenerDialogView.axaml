@@ -39,14 +39,14 @@
 				VerticalAlignment="Center"
 				HorizontalAlignment="Center">
 			<DockPanel>
-				<Button Name="initialFocus0"
+				<controls:AudioButton Name="initialFocus0"
 						DockPanel.Dock="Right"
 						VerticalAlignment="Top"
 						Margin="20 0 0 0"
 						Command="{Binding CancelCommand}"
 						IsCancel="True">
 					X
-				</Button>
+				</controls:AudioButton>
 				<StackPanel HorizontalAlignment="Center"
 							VerticalAlignment="Center">
 					<TextBlock HorizontalAlignment="Center">

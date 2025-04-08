@@ -7,6 +7,7 @@
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
 	xmlns:conv="using:EstragoniaTemplate.UI.Converters"
 	xmlns:model="using:EstragoniaTemplate.UI.Models"
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls"	
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	mc:Ignorable="d"
 	d:DesignWidth="960"
@@ -32,7 +33,7 @@
 	</UserControl.Resources>
 
 	<UserControl.Styles>
-		<Style Selector="Button.currentTab">
+		<Style Selector="controls|AudioButton.currentTab">
 			<Setter Property="BorderThickness"
 					Value="0" />
 			<Setter Property="Background"
@@ -59,49 +60,49 @@
 				<Border Grid.ColumnSpan="2"
 						BorderBrush="Black"
 						BorderThickness="0,0,0,1">
-					<Button HorizontalAlignment="Right"
+					<controls:AudioButton HorizontalAlignment="Right"
 							BorderThickness="1,0,0,0"
 							Command="{Binding CloseCommand}"
 							IsCancel="True">
 						Exit
-					</Button>
+					</controls:AudioButton>
 				</Border>
 
 				<!-- Tabs -->
 				<StackPanel Grid.Row="1"
 							Grid.Column="0"
 							Width="100">
-					<Button Name="initialFocus0"
+					<controls:AudioButton Name="initialFocus0"
 							Theme="{StaticResource TextButton}"
 							Classes.currentTab="{Binding CurrentTabIndex,
 								Converter={StaticResource intEqualConverter},
 								ConverterParameter=0}"
 							Command="{Binding ToOptionsTabCommand}">
-						<Button.CommandParameter>
+						<controls:AudioButton.CommandParameter>
 							<sys:Int32>0</sys:Int32>
-						</Button.CommandParameter>
+						</controls:AudioButton.CommandParameter>
 						Graphics
-					</Button>
-					<Button Theme="{StaticResource TextButton}"
+					</controls:AudioButton>
+					<controls:AudioButton Theme="{StaticResource TextButton}"
 							Classes.currentTab="{Binding CurrentTabIndex,
 								Converter={StaticResource intEqualConverter},
 								ConverterParameter=1}"
 							Command="{Binding ToOptionsTabCommand}">
-						<Button.CommandParameter>
+						<controls:AudioButton.CommandParameter>
 							<sys:Int32>1</sys:Int32>
-						</Button.CommandParameter>
+						</controls:AudioButton.CommandParameter>
 						Controls
-					</Button>
-					<Button Theme="{StaticResource TextButton}"
+					</controls:AudioButton>
+					<controls:AudioButton Theme="{StaticResource TextButton}"
 							Classes.currentTab="{Binding CurrentTabIndex,
 								Converter={StaticResource intEqualConverter},
 								ConverterParameter=2}"
 							Command="{Binding ToOptionsTabCommand}">
-						<Button.CommandParameter>
+						<controls:AudioButton.CommandParameter>
 							<sys:Int32>2</sys:Int32>
-						</Button.CommandParameter>
+						</controls:AudioButton.CommandParameter>
 						Audio
-					</Button>
+					</controls:AudioButton>
 				</StackPanel>
 
 				<!-- Main Content -->

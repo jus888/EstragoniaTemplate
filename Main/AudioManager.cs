@@ -5,7 +5,7 @@ public partial class AudioManager : Node
 {
     public static AudioManager? Instance { get; private set; }
 
-    private const int InitialAudioPlayerCount = 1;
+    private const int InitialAudioPlayerCount = 20;
 
     private Queue<AudioStreamPlayer> _audioPlayerQueue = new();
     private int _availableAudioPlayers = 0;

@@ -5,6 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="using:EstragoniaTemplate.UI"
 	xmlns:vm="using:EstragoniaTemplate.UI.ViewModels"
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls"	
 	mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="540"
 	x:Class="EstragoniaTemplate.UI.Views.MainMenuView"
 	x:DataType="vm:MainMenuViewModel">
@@ -21,17 +22,17 @@
 			Title Of Titles
 		</TextBlock>
 		
-		<Button Name="initialFocus0"
+		<controls:AudioButton Name="initialFocus0"
 				Theme="{StaticResource TextButton}"
 				HorizontalAlignment="Center"
 				Command="{Binding ToOptionsCommand}">
 			Options
-		</Button>
-		<Button Theme="{StaticResource TextButton}"
+		</controls:AudioButton>
+		<controls:AudioButton Theme="{StaticResource TextButton}"
 				HorizontalAlignment="Center"
 				Command="{Binding QuitCommand}">
 			Quit
-		</Button>
+		</controls:AudioButton>
 	</StackPanel>
 
 </UserControl>

@@ -1,17 +1,21 @@
 <ResourceDictionary
 	xmlns="https://github.com/avaloniaui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:EstragoniaTemplate.UI.Controls">
 
 	<Design.PreviewWith>
 		<Border Background="White">
 			<StackPanel Spacing="20" Margin="20">
-				<Button Content="Button 1" />
-				<Button Content="Button 2" IsEnabled="False" />
+				<controls:AudioButton Content="Button 1" />
+				<controls:AudioButton Content="Button 2" IsEnabled="False" />
 			</StackPanel>
 		</Border>
 	</Design.PreviewWith>
 
-	<ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+	<ControlTheme x:Key="{x:Type controls:AudioButton}" TargetType="controls:AudioButton">
+		
+		<Setter Property="ClickSound" Value="UISelect" />
+		
 		<Setter Property="Background" Value="{StaticResource ButtonNormalBackgroundBrush}" />
 		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorderBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
