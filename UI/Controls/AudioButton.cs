@@ -25,7 +25,7 @@ public class AudioButton : Button
     {
         if (!string.IsNullOrEmpty(ClickSound) && Enum.TryParse<AudioManager.Sound>(ClickSound, out var sound))
         {
-            AudioManager.Instance?.Play(sound, AudioManager.Bus.UI);
+            AudioManager.Instance?.Play(this, sound, AudioManager.Bus.UI);
         }
 
         base.OnClick();

@@ -1,9 +1,12 @@
 using Godot;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class AudioManager : Node
 {
     public static AudioManager? Instance { get; private set; }
+
+    public bool DebugWriteAudioPlayback { get; set; } = false;
 
     private const int InitialAudioPlayerCount = 20;
 
@@ -59,8 +62,14 @@ public partial class AudioManager : Node
         AddAudioPlayers(InitialAudioPlayerCount);
     }
 
-    public void Play(Sound sound, Bus bus = Bus.Master, float volumeDbOffset = 0, float pitchScale = 1)
+    public void Play(object sender, Sound sound, Bus bus = Bus.Master, float volumeDbOffset = 0, float pitchScale = 1)
     {
+        if (DebugWriteAudioPlayback)
+        {
+            Debug.WriteLine($"AudioManager playing sound \"{sound}\", {bus} bus\n" +
+                $"Sender: {sender} - {Time.GetTicksMsec()}ms\n");
+        }
+
         if (_availableAudioPlayers == 0)
         {
             AddAudioPlayers(1);
