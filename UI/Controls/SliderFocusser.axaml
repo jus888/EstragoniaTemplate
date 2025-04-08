@@ -9,6 +9,6 @@
 	x:Class="EstragoniaTemplate.UI.Controls.SliderFocusser">
 	
 	<ContentControl Name="sliderContentControl"
-					XYFocus.NavigationModes="Disabled"
+					XYFocus.NavigationModes="{Binding #root.XYFocusMode}"
 					Content="{Binding #root.Slider}"/>
 </UserControl>

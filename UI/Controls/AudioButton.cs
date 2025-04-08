@@ -12,8 +12,6 @@ namespace EstragoniaTemplate.UI.Controls;
 
 public class AudioButton : Button
 {
-    private int count = 0;
-
     public static readonly StyledProperty<string> ClickSoundProperty =
         AvaloniaProperty.Register<AudioButton, string>(nameof(ClickSound), defaultValue: string.Empty);
 
@@ -28,8 +26,6 @@ public class AudioButton : Button
         if (!string.IsNullOrEmpty(ClickSound) && Enum.TryParse<AudioManager.Sound>(ClickSound, out var sound))
         {
             AudioManager.Instance?.Play(sound, AudioManager.Bus.UI);
-            count++;
-            Debug.WriteLine(count);
         }
 
         base.OnClick();

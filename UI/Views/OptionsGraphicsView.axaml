@@ -124,7 +124,8 @@
 					  Classes="centerChildrenVertical">
 					<TextBlock Grid.Row="3">UI Scale</TextBlock>
 
-					<controls:SliderFocusser Grid.Column="2">
+					<controls:SliderFocusser Grid.Column="2"
+											 XYFocus.Down="{Binding #apply}">
 						<controls:SliderFocusser.Slider>
 							<controls:FocusableSlider
 								Grid.Column="2"
@@ -161,17 +162,18 @@
 			<!-- Bottom Buttons -->
 			<DockPanel DockPanel.Dock="Bottom">
 				<controls:AudioButton DockPanel.Dock="Right"
-						Name="apply"
-						Content="Apply"
-						Command="{Binding ApplyCommand}">
+									  XYFocus.Up="{Binding #uiScaleSlider}"
+									  Name="apply"
+									  Content="Apply"
+									  Command="{Binding ApplyCommand}">
 					<Interaction.Behaviors>
 						<behaviors:MoveFocusWhenDisabledBehavior
 							Target="{Binding #uiScaleSlider}" />
 					</Interaction.Behaviors>
 				</controls:AudioButton>
 				<controls:AudioButton DockPanel.Dock="Left"
-						Content="Reset to default"
-						Command="{Binding ResetToDefaultCommand}">
+									  Content="Reset to default"
+									  Command="{Binding ResetToDefaultCommand}">
 				</controls:AudioButton>
 				<Control />
 			</DockPanel>
