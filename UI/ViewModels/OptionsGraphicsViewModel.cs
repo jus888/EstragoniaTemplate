@@ -10,9 +10,11 @@ namespace EstragoniaTemplate.UI.ViewModels;
 public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 {
     [ObservableProperty]
-    private GraphicsOptions _options;
-    private GraphicsOptions _savedOptions;
-    private GraphicsOptions _currentlyAppliedOptions;
+    private GraphicsOptions _graphicsOptions;
+    private GraphicsOptions _savedGraphicsOptions;
+    private GraphicsOptions _currentlyAppliedGraphicsOptions;
+
+    private Options _options;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
@@ -32,7 +34,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         }
     }
 
-    public OptionsGraphicsViewModel(GraphicsOptions options, FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog) : this(options)
+    public OptionsGraphicsViewModel(Options options, FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog) : this(options)
     {
         _focusStack = focusStack;
         _dialogUserInterface = dialogUserInterface;
@@ -41,13 +43,14 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     /// <summary>
     /// Intended for designer usage only.
     /// </summary>
-    public OptionsGraphicsViewModel(GraphicsOptions options)
+    public OptionsGraphicsViewModel(Options options)
     {
-        _savedOptions = new(options);
-        _currentlyAppliedOptions = new(options);
+        _options = options;
+        _savedGraphicsOptions = new(options.GraphicsOptions);
+        _currentlyAppliedGraphicsOptions = new(options.GraphicsOptions);
 
-        Options = options;
-        Options.PropertyChanged += OptionsPropertyChangedHandler;
+        GraphicsOptions = options.GraphicsOptions;
+        GraphicsOptions.PropertyChanged += OptionsPropertyChangedHandler;
 
         CanApply = false;
     }
@@ -62,9 +65,9 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     [RelayCommand(CanExecute = nameof(CanApply))]
     public void Apply()
     {
-        Options.Apply();
+        GraphicsOptions.Apply();
         CanApply = false;
-        _currentlyAppliedOptions = new(Options);
+        _currentlyAppliedGraphicsOptions = new(GraphicsOptions);
     }
 
     [RelayCommand]
@@ -83,7 +86,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
             if (response == DialogViewModel.Response.Confirm)
             {
                 var defaultOptions = new GraphicsOptions();
-                Options.SetFromOptions(defaultOptions);
+                GraphicsOptions.SetFromOptions(defaultOptions);
                 Apply();
             }
         }
@@ -95,7 +98,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 
     public void TryClose(Action callOnClose)
     {
-        if (!_currentlyAppliedOptions.Equals(_savedOptions))
+        if (!_currentlyAppliedGraphicsOptions.Equals(_savedGraphicsOptions))
         {
             var dialog = new DialogViewModel(
                 "You have applied changes to the graphics settings.\n" +
@@ -113,17 +116,17 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
                         return;
 
                     case DialogViewModel.Response.Deny:
-                        Options.SetFromOptions(_savedOptions);
-                        Options.Apply();
-                        Options.PropertyChanged -= OptionsPropertyChangedHandler;
+                        GraphicsOptions.SetFromOptions(_savedGraphicsOptions);
+                        GraphicsOptions.Apply();
+                        GraphicsOptions.PropertyChanged -= OptionsPropertyChangedHandler;
                         callOnClose();
                         return;
 
                     case DialogViewModel.Response.Confirm:
-                        Options.SetFromOptions(_currentlyAppliedOptions);
-                        Options.Apply();
-                        Options.Save();
-                        Options.PropertyChanged -= OptionsPropertyChangedHandler;
+                        GraphicsOptions.SetFromOptions(_currentlyAppliedGraphicsOptions);
+                        GraphicsOptions.Apply();
+                        GraphicsOptions.PropertyChanged -= OptionsPropertyChangedHandler;
+                        _options.Save();
                         callOnClose();
                         return;
                 }
@@ -135,7 +138,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         }
         else
         {
-            Options.SetFromOptions(_savedOptions);
+            GraphicsOptions.SetFromOptions(_savedGraphicsOptions);
             callOnClose();
         }
     }

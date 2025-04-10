@@ -45,37 +45,6 @@ public partial class GraphicsOptions : ObservableObject
         return this;
     }
 
-    public static GraphicsOptions LoadOrCreateOptions()
-    {
-        GraphicsOptions options;
-        if (FileAccess.FileExists("user://settings.json"))
-        {
-            using var readFile = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Read);
-            try
-            {
-                options = JsonSerializer.Deserialize<GraphicsOptions>(readFile.GetAsText()) ?? new();
-                options.Apply();
-                return options;
-            }
-            catch (JsonException) { }
-        }
-
-        options = new GraphicsOptions().SetFPSLimitToRefreshRate();
-        options.Save();
-        options.Apply();
-
-        return options;
-    }
-
-    public void Save()
-    {
-        using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
-        file.StoreString(JsonSerializer.Serialize(this));
-
-        using var overrideFile = FileAccess.Open("user://settings_override.cfg", FileAccess.ModeFlags.Write)!;
-        overrideFile.StoreLine($"display/window/size/mode = {(int)WindowMode}");
-    }
-
     public void SetFromOptions(GraphicsOptions options)
     {
         WindowMode = options.WindowMode;

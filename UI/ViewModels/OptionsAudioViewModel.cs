@@ -24,6 +24,8 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
     [ObservableProperty]
     private int _interfaceLevel;
 
+    private Options _options;
+
     private readonly MainViewModel _mainViewModelDialog;
     private readonly FocusStack _focusStack;
     private readonly UserInterface _dialogUserInterface;
@@ -56,8 +58,9 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
     /// Intended for designer usage only.
     /// </summary>
     public OptionsAudioViewModel() { }
-    public OptionsAudioViewModel(FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog)
+    public OptionsAudioViewModel(Options options, FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog)
     {
+        _options = options;
         _focusStack = focusStack;
         _dialogUserInterface = dialogUserInterface;
         _mainViewModelDialog = mainViewModelDialog;
@@ -97,13 +100,14 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
 
     public void TryClose(Action callOnClose)
     {
-        new AudioOptions()
+        _options.AudioOptions = new AudioOptions()
         {
             MasterLevel = MasterLevel,
             MusicLevel = MusicLevel,
             SoundEffectsLevel = SoundEffectsLevel,
             InterfaceLevel = InterfaceLevel
-        }.Save();
+        };
+        _options.Save();
 
         callOnClose();
     }

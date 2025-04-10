@@ -21,7 +21,7 @@
 	<Design.DataContext>
 		<vm:OptionsGraphicsViewModel>
 			<x:Arguments>
-				<model:GraphicsOptions />
+				<model:Options />
 			</x:Arguments>
 		</vm:OptionsGraphicsViewModel>
 	</Design.DataContext>
@@ -52,7 +52,7 @@
 					  Classes="centerChildrenVertical">
 					<TextBlock>Screen mode</TextBlock>
 					<controls:HorizontalSelect Grid.Column="2"
-											   Value="{Binding Options.WindowMode,
+											   Value="{Binding GraphicsOptions.WindowMode,
 												Converter={StaticResource windowModeConverter}}">
 						<controls:HorizontalSelect.ValueNames>
 							<scg:List x:TypeArguments="x:String">
@@ -70,7 +70,7 @@
 					  Classes="centerChildrenVertical">
 					<TextBlock>VSync</TextBlock>
 					<controls:HorizontalSelect Grid.Column="2"
-											   Value="{Binding Options.VSync,
+											   Value="{Binding GraphicsOptions.VSync,
 												Converter={StaticResource boolToIntConverter}}">
 						<controls:HorizontalSelect.ValueNames>
 							<scg:List x:TypeArguments="x:String">
@@ -87,18 +87,18 @@
 					  Classes="centerChildrenVertical">
 					<TextBlock Grid.Row="2">FPS Limit</TextBlock>
 					<controls:SliderFocusser Grid.Column="2"
-											 IsEnabled="{Binding !Options.VSync}">
+											 IsEnabled="{Binding !GraphicsOptions.VSync}">
 						<controls:SliderFocusser.Slider>
 							<controls:FocusableSlider
 								Name="fpsSlider"
 								Width="150"
 								VerticalAlignment="Center"
-								Minimum="{Binding Options.MinFPSLimit}"
-								Maximum="{Binding Options.MaxFPSLimit}"
+								Minimum="{Binding GraphicsOptions.MinFPSLimit}"
+								Maximum="{Binding GraphicsOptions.MaxFPSLimit}"
 								SmallChange="10"
 								LargeChange="40"
-								Value="{Binding Options.FPSLimit}"
-								IsEnabled="{Binding !Options.VSync}" />
+								Value="{Binding GraphicsOptions.FPSLimit}"
+								IsEnabled="{Binding !GraphicsOptions.VSync}" />
 						</controls:SliderFocusser.Slider>
 					</controls:SliderFocusser>
 
@@ -108,13 +108,13 @@
 						BorderBrush="Transparent"
 						HorizontalContentAlignment="Right"
 						XYFocus.NavigationModes="Disabled"
-						Minimum="{Binding Options.MinFPSLimit}"
-						Maximum="{Binding Options.MaxFPSLimit}"
+						Minimum="{Binding GraphicsOptions.MinFPSLimit}"
+						Maximum="{Binding GraphicsOptions.MaxFPSLimit}"
 						ClipValueToMinMax="True"
 						ShowButtonSpinner="False"
-						Value="{Binding Options.FPSLimit,
+						Value="{Binding GraphicsOptions.FPSLimit,
 								Converter={StaticResource ignoringNullConverter}}"
-						IsEnabled="{Binding !Options.VSync}" />
+						IsEnabled="{Binding !GraphicsOptions.VSync}" />
 
 				</Grid>
 
@@ -137,7 +137,7 @@
 								IsSnapToTickEnabled="True"
 								SmallChange="0.1"
 								LargeChange="0.2"
-								Value="{Binding Options.UIScale}" />
+								Value="{Binding GraphicsOptions.UIScale}" />
 						</controls:SliderFocusser.Slider>
 					</controls:SliderFocusser>
 
@@ -153,7 +153,7 @@
 						Maximum="2"
 						ClipValueToMinMax="True"
 						ShowButtonSpinner="False"
-						Value="{Binding Options.UIScale,
+						Value="{Binding GraphicsOptions.UIScale,
 								Converter={StaticResource ignoringNullConverter}}" />
 
 				</Grid>

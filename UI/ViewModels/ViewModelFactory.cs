@@ -6,7 +6,7 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public class ViewModelFactory
 {
-    private readonly GraphicsOptions _options;
+    private readonly Options _options;
     private readonly MainViewModel _mainViewModel;
     private readonly MainViewModel _mainViewModelDialog;
     private readonly UserInterface _userInterfaceMain;
@@ -14,10 +14,10 @@ public class ViewModelFactory
     private readonly KeyRepeater _keyRepeater;
     private readonly FocusStack _focusStack;
 
-    public ViewModelFactory(GraphicsOptions uiOptions, MainViewModel mainViewModel, MainViewModel mainViewModelDialog,
+    public ViewModelFactory(Options options, MainViewModel mainViewModel, MainViewModel mainViewModelDialog,
         UserInterface userInterfaceMain, UserInterface userInterfaceDialog, KeyRepeater keyRepeater, FocusStack focusStack)
     {
-        _options = uiOptions;
+        _options = options;
         _mainViewModel = mainViewModel;
         _mainViewModelDialog = mainViewModelDialog;
         _userInterfaceMain = userInterfaceMain;
@@ -42,5 +42,5 @@ public class ViewModelFactory
         => new(_focusStack, _userInterfaceDialog, _mainViewModelDialog, _keyRepeater);
 
     public virtual OptionsAudioViewModel CreateOptionsAudio()
-        => new(_focusStack, _userInterfaceDialog, _mainViewModelDialog);
+        => new(_options, _focusStack, _userInterfaceDialog, _mainViewModelDialog);
 }

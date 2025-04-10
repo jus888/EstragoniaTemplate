@@ -19,10 +19,8 @@ public partial class MainScene : Node2D
         if (UserInterfaceMain == null || UserInterfaceDialog == null)
             throw new NullReferenceException();
 
-        AudioOptions.LoadOrCreateOptions();
         InputMapResource.LoadSavedInputMap();
-
-        var graphicsOptions = GraphicsOptions.LoadOrCreateOptions();
+        var options = Options.LoadOrCreate();
 
         var keyRepeater = new KeyRepeater();
         GetWindow().FocusExited += keyRepeater.ClearRepeatingAndBlockedInput;
@@ -32,7 +30,7 @@ public partial class MainScene : Node2D
         var mainViewModelDialog = new MainViewModel(UserInterfaceDialog);
         var mainViewModel = new MainViewModel(UserInterfaceMain);
         var viewModelFactory = new ViewModelFactory(
-            graphicsOptions,
+            options,
             mainViewModel,
             mainViewModelDialog,
             UserInterfaceMain,

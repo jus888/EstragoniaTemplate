@@ -10,37 +10,32 @@ namespace EstragoniaTemplate.UI.Models;
 
 public partial class AudioOptions : ObservableObject
 {
-    public int MasterLevel { get; set; }
-    public int MusicLevel { get; set; }
-    public int SoundEffectsLevel { get; set; }
-    public int InterfaceLevel { get; set; }
-
-    public static AudioOptions LoadOrCreateOptions()
+    private int _masterLevel = 100;
+    public int MasterLevel
     {
-        AudioOptions options;
-        if (FileAccess.FileExists("user://audioSettings.json"))
-        {
-            using var readFile = FileAccess.Open("user://audioSettings.json", FileAccess.ModeFlags.Read);
-            try
-            {
-                options = JsonSerializer.Deserialize<AudioOptions>(readFile.GetAsText()) ?? new();
-                options.Apply();
-                return options;
-            }
-            catch (JsonException) { }
-        }
-
-        options = new AudioOptions();
-        options.Save();
-        options.Apply();
-
-        return options;
+        get => _masterLevel;
+        set => _masterLevel = Mathf.Clamp(0, value, 100);
     }
 
-    public void Save()
+    private int _musicLevel = 100;
+    public int MusicLevel
     {
-        using var file = FileAccess.Open("user://audioSettings.json", FileAccess.ModeFlags.Write);
-        file.StoreString(JsonSerializer.Serialize(this));
+        get => _musicLevel;
+        set => _musicLevel = Mathf.Clamp(0, value, 100);
+    }
+
+    private int _soundEffectsLevel = 100;
+    public int SoundEffectsLevel
+    {
+        get => _soundEffectsLevel;
+        set => _soundEffectsLevel = Mathf.Clamp(0, value, 100);
+    }
+
+    private int _interfaceLevel = 100;
+    public int InterfaceLevel
+    {
+        get => _interfaceLevel;
+        set => _interfaceLevel = Mathf.Clamp(0, value, 100);
     }
 
     public void Apply()
