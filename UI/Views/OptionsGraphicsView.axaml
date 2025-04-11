@@ -108,6 +108,7 @@
 						BorderBrush="Transparent"
 						HorizontalContentAlignment="Right"
 						XYFocus.NavigationModes="Disabled"
+						FormatString="0"						
 						Minimum="{Binding GraphicsOptions.MinFPSLimit}"
 						Maximum="{Binding GraphicsOptions.MaxFPSLimit}"
 						ClipValueToMinMax="True"
