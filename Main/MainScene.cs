@@ -16,6 +16,8 @@ public partial class MainScene : Node2D
 
     public override void _Ready()
     {
+        MusicManager.Instance?.PlayMusic(this, MusicManager.Music.MainMenu);
+
         if (UserInterfaceMain == null || UserInterfaceDialog == null)
             throw new NullReferenceException();
 

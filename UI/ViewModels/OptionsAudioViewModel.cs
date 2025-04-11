@@ -40,16 +40,16 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
         switch (e.PropertyName)
         {
             case nameof(MasterLevel):
-                UpdateBusDbLevel(Bus.Master, MasterLevel);
+                UpdateBusDbLevelFromLinear(Bus.Master, MasterLevel);
                 break;
             case nameof(MusicLevel):
-                UpdateBusDbLevel(Bus.Music, MusicLevel);
+                UpdateBusDbLevelFromLinear(Bus.Music, MusicLevel);
                 break;
             case nameof(SoundEffectsLevel):
-                UpdateBusDbLevel(Bus.SFX, SoundEffectsLevel);
+                UpdateBusDbLevelFromLinear(Bus.SFX, SoundEffectsLevel);
                 break;
             case nameof(InterfaceLevel):
-                UpdateBusDbLevel(Bus.UI, InterfaceLevel);
+                UpdateBusDbLevelFromLinear(Bus.UI, InterfaceLevel);
                 break;
         }
     }

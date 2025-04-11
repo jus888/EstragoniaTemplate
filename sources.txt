@@ -1,6 +1,22 @@
+- Audio -
+
 select.wav (CC0)
 StavSounds
 https://freesound.org/people/StavSounds/sounds/546079/
+
+Lobby Time.mp3 (CC BY 4.0)
+Kevin MacLeod
+https://incompetech.com/music/royalty-free/music.html
+
+
+- Images -
+
+Input Prompts (CC0)
+Kenney
+https://kenney.nl/assets/input-prompts
+
+
+- Libraries -
 
 Estragonia (MIT)
 Julien Lebosquain
@@ -9,6 +25,5 @@ https://github.com/MrJul/Estragonia
 Avalonia (MIT)
 https://github.com/AvaloniaUI/Avalonia/tree/master
 
-Input Prompts (CC0)
-Kenney
-https://kenney.nl/assets/input-prompts
+Godot (various)
+https://docs.godotengine.org/en/stable/about/complying_with_licenses.html

@@ -40,9 +40,9 @@ public partial class AudioOptions : ObservableObject
 
     public void Apply()
     {
-        UpdateBusDbLevel(Bus.Master, MasterLevel);
-        UpdateBusDbLevel(Bus.Music, MusicLevel);
-        UpdateBusDbLevel(Bus.SFX, SoundEffectsLevel);
-        UpdateBusDbLevel(Bus.UI, InterfaceLevel);
+        UpdateBusDbLevelFromLinear(Bus.Master, MasterLevel);
+        UpdateBusDbLevelFromLinear(Bus.Music, MusicLevel);
+        UpdateBusDbLevelFromLinear(Bus.SFX, SoundEffectsLevel);
+        UpdateBusDbLevelFromLinear(Bus.UI, InterfaceLevel);
     }
 }

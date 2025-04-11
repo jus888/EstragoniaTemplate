@@ -10,9 +10,6 @@ public partial class AudioManager : Node
 
     private const int InitialAudioPlayerCount = 20;
 
-    private Queue<AudioStreamPlayer> _audioPlayerQueue = new();
-    private int _availableAudioPlayers = 0;
-
     public enum Bus
     {
         Master = 0,
@@ -31,13 +28,21 @@ public partial class AudioManager : Node
         {Sound.UISelect, ResourceLoader.Load<AudioStream>("res://Audio/select.wav")}
     };
 
+    private Queue<AudioStreamPlayer> _audioPlayerQueue = new();
+    private int _availableAudioPlayers = 0;
+
+
     private readonly Dictionary<Bus, StringName> _busStringNames = new();
 
     public static int GetBusLinearEnergyPercentage(Bus bus)
-        => Mathf.RoundToInt(100 * Mathf.DbToLinear(AudioServer.GetBusVolumeDb((int)bus)));
+        => Mathf.RoundToInt(100 * GetBusLinearEnergy(bus));
+    public static float GetBusLinearEnergy(Bus bus)
+        => Mathf.DbToLinear(AudioServer.GetBusVolumeDb((int)bus));
 
-    public static void UpdateBusDbLevel(Bus bus, int linearEnergyPercentage)
+    public static void UpdateBusDbLevelFromLinear(Bus bus, int linearEnergyPercentage)
         => AudioServer.SetBusVolumeDb((int)bus, Mathf.LinearToDb(linearEnergyPercentage / 100f));
+    public static void UpdateBusDbLevelFromLinear(Bus bus, float linearEnergy)
+        => AudioServer.SetBusVolumeDb((int)bus, Mathf.LinearToDb(linearEnergy));
 
     private void AddAudioPlayers(int count)
     {
