@@ -1,9 +1,9 @@
-using EstragoniaTemplate.Resources;
 using EstragoniaTemplate.UI.Models;
 using EstragoniaTemplate.UI.ViewModels;
 using Godot;
 using System;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace EstragoniaTemplate.Main;
 
@@ -21,7 +21,7 @@ public partial class MainScene : Node2D
         if (UserInterfaceMain == null || UserInterfaceDialog == null)
             throw new NullReferenceException();
 
-        InputMapResource.LoadSavedInputMap();
+        SerializableInputMap.LoadAndApplyInputMap();
         var options = Options.LoadOrCreate();
 
         var keyRepeater = new KeyRepeater();

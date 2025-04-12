@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EstragoniaTemplate.Main;
-using EstragoniaTemplate.Resources;
 using EstragoniaTemplate.UI.Models;
 using Godot;
 using System;
@@ -145,7 +144,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
 
     public void TryClose(Action callOnClose)
     {
-        InputMapResource.SaveCurrentInputMap();
+        SerializableInputMap.SaveCurrentInputMap();
         callOnClose();
     }
 }
