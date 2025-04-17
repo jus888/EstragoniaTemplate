@@ -23,10 +23,16 @@ public partial class MainMenuViewModel : ViewModel
     }
 
     [RelayCommand]
+    public void ToGame()
+    {
+        _navigatorViewModel.NavigateTo(new GameViewModel());
+    }
+
+    [RelayCommand]
     public void ToOptions()
     {
         _navigatorViewModel.NavigateTo(_viewModelFactory.CreateOptions(),
-            CreateCommonPageTransition(TransitionType.Fade, 0.5f));
+            CreatePageTransition(TransitionType.Fade, 0.5f));
     }
 
     [RelayCommand]

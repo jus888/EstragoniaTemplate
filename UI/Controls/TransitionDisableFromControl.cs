@@ -26,13 +26,9 @@ public class TransitionDisableFromControl : IPageTransition
 
         void OnTransitionEnd()
         {
-            fromElement.IsEnabled = true;
-            toElement.IsHitTestVisible = true;
+            fromElement.IsHitTestVisible = true;
         }
-
-        fromElement.IsEnabled = false;
-        toElement.IsHitTestVisible = false;
-        toElement.IsEnabled = true;
+        fromElement.IsHitTestVisible = false;
 
         if (cancellationToken.IsCancellationRequested)
         {

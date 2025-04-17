@@ -15,7 +15,6 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
 		<PackageReference Include="Avalonia.Themes.Simple" Version="11.2.5" />
 		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.2.0.9" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
@@ -45,6 +44,9 @@
 	  </Compile>
 	  <Compile Update="UI\Controls\SliderFocusser.axaml.cs">
 	    <DependentUpon>SliderFocusser.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="UI\Views\GameView.axaml.cs">
+	    <DependentUpon>GameView.axaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="UI\Views\OptionsControlsView.axaml.cs">
 	    <DependentUpon>OptionsControlsView.axaml</DependentUpon>

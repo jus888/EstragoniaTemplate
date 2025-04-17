@@ -11,6 +11,20 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 {
     public event EventHandler<InputEvent>? InputEventReceived;
 
+    private bool _inputEnabled = true;
+    public bool InputEnabled
+    {
+        get => _inputEnabled;
+        set
+        {
+            _inputEnabled = value;
+            if (value == false)
+            {
+                _keyRepeater?.ClearRepeatingAndBlockedInput();
+            }
+        }
+    }
+
     public ViewModel? CurrentViewModel
     {
         get => _mainViewModel?.CurrentViewModel;
@@ -63,7 +77,7 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 
     public override void _GuiInput(InputEvent @event)
     {
-        if (_keyRepeater != null && _keyRepeater.Input(@event))
+        if (!InputEnabled || _keyRepeater != null && _keyRepeater.Input(@event))
             return;
 
         InputEventReceived?.Invoke(this, @event);

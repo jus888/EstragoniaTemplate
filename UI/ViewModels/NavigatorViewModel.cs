@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using EstragoniaTemplate.Main;
 using System;
 using System.Collections.Generic;
+using EstragoniaTemplate.UI;
+using System.Transactions;
 
 namespace EstragoniaTemplate.UI.ViewModels;
 
@@ -16,11 +18,12 @@ public abstract partial class NavigatorViewModel : ViewModel
     [ObservableProperty]
     private IPageTransition? _transition = null;
 
+    private Utilities.PageTransitionWithDuration? _pageTransition;
     private readonly Stack<ViewModel> _viewModels = new();
 
-    protected readonly UserInterface? _userInterface;
+    protected readonly UserInterface _userInterface;
 
-    public NavigatorViewModel(UserInterface? userInterface)
+    public NavigatorViewModel(UserInterface userInterface)
     {
         _userInterface = userInterface;
     }
@@ -43,8 +46,17 @@ public abstract partial class NavigatorViewModel : ViewModel
         Navigated?.Invoke(this, CurrentViewModel);
     }
 
-    public void NavigateTo(ViewModel viewModel, IPageTransition? transition = null, bool replace = false, bool clearStack = false)
+    public async void DisableInputForTransitionDuration(Utilities.PageTransitionWithDuration transition)
     {
+        _userInterface.InputEnabled = false;
+
+        await transition.StartToEnd();
+        _userInterface.InputEnabled = true;
+    }
+
+    public void NavigateTo(ViewModel viewModel, Utilities.PageTransitionWithDuration? transition = null, bool replace = false, bool clearStack = false)
+    {
+        _pageTransition = transition;
         this.Transition = transition;
 
         if (clearStack)
@@ -63,6 +75,12 @@ public abstract partial class NavigatorViewModel : ViewModel
         OnViewModelsAddedOrRemoved();
         OnNavigated();
 
+        if (_pageTransition != null)
+        {
+            DisableInputForTransitionDuration(_pageTransition);
+        }
+
+
         void OnViewModelClosed()
         {
             viewModel.Closed -= OnViewModelClosed;
@@ -79,6 +97,11 @@ public abstract partial class NavigatorViewModel : ViewModel
 
             OnViewModelsAddedOrRemoved();
             OnNavigated();
+
+            if (_pageTransition != null)
+            {
+                DisableInputForTransitionDuration(_pageTransition);
+            }
         }
     }
 }

@@ -1,9 +1,12 @@
+using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Input;
 using Avalonia.Platform;
 using EstragoniaTemplate.UI.Controls;
 using Godot;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EstragoniaTemplate.UI;
 
@@ -20,7 +23,7 @@ public static class Utilities
     /// <summary>
     /// Note: rounds to milliseconds.
     /// </summary>
-    public static TimeSpan CreateTimeSpanSeconds(float seconds)
+    public static TimeSpan TimeSpanFromSeconds(float seconds)
     {
         return new TimeSpan(0, 0, 0, 0, Mathf.RoundToInt(seconds * 1000));
     }
@@ -30,13 +33,35 @@ public static class Utilities
         Fade
     }
 
-    public static IPageTransition? CreateCommonPageTransition(TransitionType transitionType, float durationSeconds)
+    public class PageTransitionWithDuration : IPageTransition
     {
-        var duration = CreateTimeSpanSeconds(durationSeconds);
+        public IPageTransition PageTransition { get; set; }
+        public float Duration { get; set; }
 
-        IPageTransition? transition = null;
+        public PageTransitionWithDuration(IPageTransition pageTransition, float durationSeconds)
+        {
+            PageTransition = pageTransition;
+            Duration = durationSeconds;
+        }
+
+        public async Task StartToEnd()
+        {
+            await Task.Delay(TimeSpanFromSeconds(Duration));
+            return;
+        }
+
+        public Task Start(Visual? from, Visual? to, bool forward, CancellationToken cancellationToken)
+            => PageTransition.Start(from, to, forward, cancellationToken);
+    }
+
+    public static PageTransitionWithDuration CreatePageTransition(TransitionType transitionType, float durationSeconds)
+    {
+        var duration = TimeSpanFromSeconds(durationSeconds);
+
+        IPageTransition transition;
         switch (transitionType)
         {
+            default:
             case TransitionType.Fade:
                 transition = new CompositePageTransition()
                 {
@@ -49,6 +74,6 @@ public static class Utilities
                 break;
         }
 
-        return transition;
+        return new(transition, durationSeconds);
     }
 }
