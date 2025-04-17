@@ -36,6 +36,9 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <Compile Update="UI\Views\EscapeMenuView.axaml.cs">
+	    <DependentUpon>EscapeMenuView.axaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="UI\Views\InputListenerDialogView.axaml.cs">
 	    <DependentUpon>InputListenerDialogView.axaml</DependentUpon>
 	  </Compile>

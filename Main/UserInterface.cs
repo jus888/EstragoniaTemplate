@@ -27,10 +27,10 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 
     public ViewModel? CurrentViewModel
     {
-        get => _mainViewModel?.CurrentViewModel;
+        get => MainViewModel?.CurrentViewModel;
     }
 
-    private MainViewModel? _mainViewModel;
+    public MainViewModel? MainViewModel { get; private set; }
 
     private KeyRepeater? _keyRepeater;
 
@@ -47,7 +47,7 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 
     public void Initialize(MainViewModel mainViewModel, KeyRepeater keyRepeater, ViewModel? initialViewModel = null)
     {
-        _mainViewModel = mainViewModel;
+        MainViewModel = mainViewModel;
         _keyRepeater = keyRepeater;
 
         if (initialViewModel != null)

@@ -14,6 +14,8 @@ public partial class MainScene : Node2D
     [Export]
     private UserInterface? UserInterfaceDialog { get; set; }
 
+    private ViewModelFactory _viewModelFactory;
+
     public override void _Ready()
     {
         MusicManager.Instance?.PlayMusic(this, MusicManager.Music.MainMenu);
@@ -38,13 +40,15 @@ public partial class MainScene : Node2D
             UserInterfaceMain,
             UserInterfaceDialog,
             keyRepeater,
-            focusStack);
+            focusStack,
+            GetTree());
+        _viewModelFactory = viewModelFactory;
 
         UserInterfaceDialog.Initialize(mainViewModelDialog, keyRepeater);
         UserInterfaceMain.Initialize(
             mainViewModel,
             keyRepeater,
-            viewModelFactory.CreateMainMenu(GetTree()));
+            viewModelFactory.CreateMainMenu());
 
         focusStack.Push(UserInterfaceMain);
     }
@@ -53,8 +57,17 @@ public partial class MainScene : Node2D
     {
         if (@event is InputEventKey key && key.PhysicalKeycode == Key.Escape && key.Pressed && !key.Echo)
         {
-            Debug.WriteLine("Escape");
-            GetViewport().SetInputAsHandled();
+            if (UserInterfaceMain != null && 
+                UserInterfaceMain is not { 
+                    CurrentViewModel: MainMenuViewModel
+                    or EscapeMenuViewModel
+                    or OptionsViewModel
+                    or IOptionsTabViewModel
+                })
+            {
+                UserInterfaceMain.MainViewModel?.NavigateTo(_viewModelFactory.CreateEscapeMenu());
+                GetViewport().SetInputAsHandled();
+            }
         }
     }
 }
