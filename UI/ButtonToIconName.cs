@@ -14,10 +14,10 @@ internal static class ButtonToIconName
         {JoyButton.B, "xbox_button_b"},
         {JoyButton.X, "xbox_button_x"},
         {JoyButton.Y, "xbox_button_y"},
-        {JoyButton.DpadUp, "xbox_dpad_up"},
-        {JoyButton.DpadDown, "xbox_dpad_down"},
-        {JoyButton.DpadLeft, "xbox_dpad_left"},
-        {JoyButton.DpadRight, "xbox_dpad_right"},
+        {JoyButton.DpadUp, "xbox_dpad_up_outline"},
+        {JoyButton.DpadDown, "xbox_dpad_down_outline"},
+        {JoyButton.DpadLeft, "xbox_dpad_left_outline"},
+        {JoyButton.DpadRight, "xbox_dpad_right_outline"},
         {JoyButton.LeftShoulder, "xbox_lb"},
         {JoyButton.RightShoulder, "xbox_rb"}
     };

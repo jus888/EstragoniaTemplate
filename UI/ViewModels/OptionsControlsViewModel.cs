@@ -66,7 +66,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
         NavigationInputMapItems = new()
         {
             new("ui_accept", "Confirm", navigationGroup, ["Keyboard/keyboard_enter", "Keyboard/keyboard_space"]),
-            new("ui_cancel", "Cancel", navigationGroup),
+            new("ui_cancel", "Cancel", navigationGroup, ["Keyboard/keyboard_escape"]),
             new("ui_left", "Left", navigationGroup, ["Keyboard/keyboard_arrow_left"]),
             new("ui_right", "Right", navigationGroup, ["Keyboard/keyboard_arrow_right"]),
             new("ui_up", "Up", navigationGroup, ["Keyboard/keyboard_arrow_up"]),
