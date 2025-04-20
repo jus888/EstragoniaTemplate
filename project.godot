@@ -14,7 +14,7 @@ config/name="EstragoniaTemplate"
 run/main_scene="res://Scenes/main_scene.tscn"
 config/project_settings_override="user://settings_override.cfg"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
 
 [autoload]
 
