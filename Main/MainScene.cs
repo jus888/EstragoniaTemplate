@@ -55,18 +55,22 @@ public partial class MainScene : Node2D
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventKey key && key.PhysicalKeycode == Key.Escape && key.Pressed && !key.Echo)
+        using (@event)
         {
-            if (UserInterfaceMain != null && 
-                UserInterfaceMain is not { 
-                    CurrentViewModel: MainMenuViewModel
-                    or EscapeMenuViewModel
-                    or OptionsViewModel
-                    or IOptionsTabViewModel
-                })
+            if (@event is InputEventKey key && key.PhysicalKeycode == Key.Escape && key.Pressed && !key.Echo)
             {
-                UserInterfaceMain.MainViewModel?.NavigateTo(_viewModelFactory.CreateEscapeMenu());
-                GetViewport().SetInputAsHandled();
+                if (UserInterfaceMain != null &&
+                    UserInterfaceMain is not
+                    {
+                        CurrentViewModel: MainMenuViewModel
+                        or EscapeMenuViewModel
+                        or OptionsViewModel
+                        or IOptionsTabViewModel
+                    })
+                {
+                    UserInterfaceMain.MainViewModel?.NavigateTo(_viewModelFactory.CreateEscapeMenu());
+                    GetViewport().SetInputAsHandled();
+                }
             }
         }
     }

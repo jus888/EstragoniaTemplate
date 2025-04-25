@@ -81,13 +81,16 @@ public partial class AvaloniaLoader : Node
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
+        using (@event)
         {
-            LastPressedInputWasMouseClick = true;
-        }
-        else if ((@event is InputEventKey key && key.Pressed) || (@event is InputEventJoypadButton joypadButton && joypadButton.Pressed))
-        {
-            LastPressedInputWasMouseClick = false;
+            if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
+            {
+                LastPressedInputWasMouseClick = true;
+            }
+            else if ((@event is InputEventKey key && key.Pressed) || (@event is InputEventJoypadButton joypadButton && joypadButton.Pressed))
+            {
+                LastPressedInputWasMouseClick = false;
+            }
         }
     }
 }

@@ -77,25 +77,31 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 
     public override void _GuiInput(InputEvent @event)
     {
-        if (!InputEnabled || _keyRepeater != null && _keyRepeater.Input(@event))
-            return;
-
-        InputEventReceived?.Invoke(this, @event);
-
-        if (@event is InputEventKey key && key.PhysicalKeycode == Key.Space)
+        using (@event)
         {
-            key.Keycode = Key.Enter;
-            key.PhysicalKeycode = Key.Enter;
-        }
+            if (!InputEnabled || _keyRepeater != null && _keyRepeater.Input(@event))
+                return;
 
-        base._GuiInput(@event);
+            InputEventReceived?.Invoke(this, @event);
+
+            if (@event is InputEventKey key && key.PhysicalKeycode == Key.Space)
+            {
+                key.Keycode = Key.Enter;
+                key.PhysicalKeycode = Key.Enter;
+            }
+
+            base._GuiInput(@event);
+        }
     }
 
     public void ForceGuiInput(InputEvent @event)
     {
-        InputEventReceived?.Invoke(this, @event);
+        using (@event)
+        {
+            InputEventReceived?.Invoke(this, @event);
 
-        base._GuiInput(@event);
+            base._GuiInput(@event);
+        }
     }
 
     public override void _Process(double delta)
