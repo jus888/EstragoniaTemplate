@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static Godot.DisplayServer;
 
 namespace EstragoniaTemplate.UI.Models;
 
@@ -56,5 +57,8 @@ public class Options
     {
         using var file = FileAccess.Open("user://settings.json", FileAccess.ModeFlags.Write);
         file.StoreString(JsonSerializer.Serialize(this, _jsonOptions));
+
+        using var overrideFile = FileAccess.Open("user://settings_override.cfg", FileAccess.ModeFlags.Write)!;
+        overrideFile.StoreLine($"display/window/size/mode = {(int)GraphicsOptions.WindowMode}");
     }
 }
