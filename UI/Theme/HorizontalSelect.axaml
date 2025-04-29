@@ -41,8 +41,7 @@
 			<ControlTemplate>
 				<Grid Name="PART_Container"
 					  RowDefinitions="Auto, Auto"
-					  ColumnDefinitions="Auto, *, Auto"
-					  Focusable="True">
+					  ColumnDefinitions="Auto, *, Auto">
 
 					<Border Grid.RowSpan="2"
 							Grid.ColumnSpan="3"/>

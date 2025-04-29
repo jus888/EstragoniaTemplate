@@ -97,6 +97,11 @@ internal class HorizontalSelect : TemplatedControl
         }
     }
 
+    static HorizontalSelect()
+    {
+        FocusableProperty.OverrideDefaultValue(typeof(HorizontalSelect), true);
+    }
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
