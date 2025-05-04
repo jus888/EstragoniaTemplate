@@ -54,6 +54,15 @@ public abstract partial class NavigatorViewModel : ViewModel
         _userInterface.InputEnabled = true;
     }
 
+    public override void Close()
+    {
+        while (CurrentViewModel != null)
+        {
+            CurrentViewModel.Close();
+        }
+        base.Close();
+    }
+
     public void NavigateTo(ViewModel viewModel, Utilities.PageTransitionWithDuration? transition = null, bool replace = false, bool clearStack = false)
     {
         _pageTransition = transition;
