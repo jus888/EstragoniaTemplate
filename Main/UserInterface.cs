@@ -106,7 +106,10 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 
     public override void _Process(double delta)
     {
-        _keyRepeater?.Process((float)delta, this);
+        if (HasFocus())
+        {
+            _keyRepeater?.Process((float)delta, this);
+        }
 
         base._Process(delta);
     }
