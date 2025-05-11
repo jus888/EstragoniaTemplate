@@ -58,7 +58,7 @@ public abstract partial class NavigatorViewModel : ViewModel
     {
         while (CurrentViewModel != null)
         {
-            CurrentViewModel.Close();
+            CurrentViewModel.ForcedClose();
         }
         base.Close();
     }
@@ -70,11 +70,14 @@ public abstract partial class NavigatorViewModel : ViewModel
 
         if (clearStack)
         {
-            _viewModels.Clear();
+            while (CurrentViewModel != null)
+            {
+                CurrentViewModel.ForcedClose();
+            }
         }
         else if (replace)
         {
-            _viewModels.Pop();
+            CurrentViewModel?.ForcedClose();
         }
 
         viewModel.Closed += OnViewModelClosed;
@@ -90,20 +93,24 @@ public abstract partial class NavigatorViewModel : ViewModel
         }
 
 
-        void OnViewModelClosed()
+        void OnViewModelClosed(bool forced)
         {
             viewModel.Closed -= OnViewModelClosed;
             _viewModels.Pop();
+
             if (_viewModels.Count > 0)
             {
                 CurrentViewModel = _viewModels.Peek();
-                CurrentViewModel.OnNavigatorFocusReturned();
             }
             else
             {
                 CurrentViewModel = null;
             }
 
+            if (forced)
+                return;
+
+            CurrentViewModel?.OnNavigatorFocusReturned();
             OnViewModelsAddedOrRemoved();
             OnNavigated();
 

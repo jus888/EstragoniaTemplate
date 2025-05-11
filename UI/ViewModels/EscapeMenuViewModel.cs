@@ -53,6 +53,6 @@ public partial class EscapeMenuViewModel : ViewModel
 
         _mainViewModelDialog.NavigateTo(dialog);
         _focusStack.Push(_dialogUserInterface);
-        dialog.Closed += _focusStack.Pop;
+        dialog.Closed += (_) => _focusStack.Pop();
     }
 }

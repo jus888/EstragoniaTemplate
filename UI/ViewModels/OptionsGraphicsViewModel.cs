@@ -93,7 +93,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 
         _mainViewModelDialog.NavigateTo(dialog);
         _focusStack.Push(_dialogUserInterface);
-        dialog.Closed += _focusStack.Pop;
+        dialog.Closed += (_) => _focusStack.Pop();
     }
 
     public void TryClose(Action callOnClose)
@@ -134,7 +134,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
 
             _mainViewModelDialog.NavigateTo(dialog);
             _focusStack.Push(_dialogUserInterface);
-            dialog.Closed += _focusStack.Pop;
+            dialog.Closed += (_) => _focusStack.Pop();
         }
         else
         {

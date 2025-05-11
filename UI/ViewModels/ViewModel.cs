@@ -13,12 +13,24 @@ public abstract partial class ViewModel : ObservableObject
 
     public event EventHandler? UserInterfaceFocusReturned;
     public event EventHandler? UserInterfaceFocusLost;
-    public event Action? Closed;
+
+    /// <summary>
+    /// If argument is true: closed forcefully (by the navigator).
+    /// </summary>
+    public event Action<bool>? Closed;
+
+    private bool _forcedClose = false;
 
     [RelayCommand]
     public virtual void Close()
     {
-        Closed?.Invoke();
+        Closed?.Invoke(_forcedClose);
+    }
+
+    public void ForcedClose()
+    {
+        _forcedClose = true;
+        Close();
     }
 
     public virtual void OnNavigatorFocusReturned()
