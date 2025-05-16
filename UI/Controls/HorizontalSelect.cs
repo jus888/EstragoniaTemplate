@@ -120,8 +120,8 @@ internal class HorizontalSelect : TemplatedControl
         {
             _valueDecrementer.Click += DecrementValue;
             _valueIncrementer.Click += IncrementValue;
-            _valueDecrementer.IsEnabled = Value == 0 ? false : true;
-            _valueIncrementer.IsEnabled = Value == ValueNames.Count - 1 ? false : true;
+            _valueDecrementer.IsEnabled = Value != 0;
+            _valueIncrementer.IsEnabled = Value != ValueNames.Count - 1;
         }
     }
 
@@ -164,7 +164,7 @@ internal class HorizontalSelect : TemplatedControl
 
     protected override void OnKeyDown(KeyEventArgs e)
     {
-        if (e is { KeyModifiers: KeyModifiers.None, Key: Key.Up or Key.Down })
+        if (e.Handled || e is { KeyModifiers: KeyModifiers.None, Key: Key.Up or Key.Down })
             return;
 
         if (e.Key == Key.Enter)
@@ -178,11 +178,12 @@ internal class HorizontalSelect : TemplatedControl
         if (e.Key == Key.Left)
         {
             DecrementValue();
+            e.Handled = true;
         }
         else if (e.Key == Key.Right)
         {
             IncrementValue();
+            e.Handled = true;
         }
-        e.Handled = true;
     }
 }
