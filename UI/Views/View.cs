@@ -1,8 +1,14 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
 using EstragoniaTemplate.UI.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using static EstragoniaTemplate.UI.Utilities;
 
 namespace EstragoniaTemplate.UI.Views;
@@ -106,6 +112,12 @@ public abstract partial class View : UserControl
         }
         else
         {
+            var topLevel = TopLevel.GetTopLevel(_lastFocussedControl);
+            if (_lastFocussedControl == topLevel?.FocusManager?.GetFocusedElement())
+            {
+                topLevel?.FocusManager?.ClearFocus();
+            }
+
             _lastFocussedControl?.Focus(NavigationMethodBasedOnMouseOrKey);
         }
     }

@@ -6,6 +6,7 @@ namespace EstragoniaTemplate.UI.ViewModels;
 
 public class ViewModelFactory
 {
+    private readonly MainNode _mainNode;
     private readonly Options _options;
     private readonly MainViewModel _mainViewModel;
     private readonly MainViewModel _mainViewModelDialog;
@@ -15,9 +16,10 @@ public class ViewModelFactory
     private readonly FocusStack _focusStack;
     private readonly SceneTree _sceneTree;
 
-    public ViewModelFactory(Options options, MainViewModel mainViewModel, MainViewModel mainViewModelDialog,
+    public ViewModelFactory(MainNode mainNode, Options options, MainViewModel mainViewModel, MainViewModel mainViewModelDialog,
         UserInterface userInterfaceMain, UserInterface userInterfaceDialog, KeyRepeater keyRepeater, FocusStack focusStack, SceneTree sceneTree)
     {
+        _mainNode = mainNode;
         _options = options;
         _mainViewModel = mainViewModel;
         _mainViewModelDialog = mainViewModelDialog;

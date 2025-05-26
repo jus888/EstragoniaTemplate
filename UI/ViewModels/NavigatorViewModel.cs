@@ -61,6 +61,7 @@ public abstract partial class NavigatorViewModel : ViewModel
         CurrentViewModel = viewModel;
 
         OnViewModelsAddedOrRemoved();
+        CurrentViewModel.FirstNavigationByNavigator();
 
         if (_pageTransition != null)
         {

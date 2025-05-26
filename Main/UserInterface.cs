@@ -9,6 +9,9 @@ namespace EstragoniaTemplate.Main;
 
 public partial class UserInterface : AvaloniaControl, IFocussable
 {
+    [Export(hintString: "Determines whether or not this control will block or allow mouse clicks through it's transparent areas (see https://github.com/MrJul/Estragonia/issues/14).")]
+    public bool AllowTransparentClickThrough { get; set; } = true;
+
     public event EventHandler<InputEvent>? InputEventReceived;
 
     private bool _inputEnabled = true;
@@ -34,6 +37,14 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 
     private KeyRepeater? _keyRepeater;
 
+    public override bool _HasPoint(Vector2 point)
+    {
+        if (!AllowTransparentClickThrough)
+            return true;
+
+        return base._HasPoint(point);
+    }
+
     public override void _Ready()
     {
         RenderScaling = AvaloniaLoader.Instance.UIScaling;
@@ -41,7 +52,6 @@ public partial class UserInterface : AvaloniaControl, IFocussable
         {
             RenderScaling = scale;
         };
-
         base._Ready();
     }
 
@@ -73,6 +83,7 @@ public partial class UserInterface : AvaloniaControl, IFocussable
         FocusMode = FocusModeEnum.None;
         base.ReleaseFocus();
         CurrentViewModel?.OnUserInterfaceFocusLost();
+        _keyRepeater?.ClearRepeatingAndBlockedInput();
     }
 
     public override void _GuiInput(InputEvent @event)

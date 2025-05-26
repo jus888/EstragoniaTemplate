@@ -15,7 +15,7 @@ public abstract partial class ViewModel : ObservableObject
     public event EventHandler? UserInterfaceFocusLost;
 
     /// <summary>
-    /// If argument is true: closed forcefully (by the navigator).
+    /// If argument is true: was closed forcefully (by the navigator).
     /// </summary>
     public event Action<bool>? Closed;
 
@@ -32,6 +32,8 @@ public abstract partial class ViewModel : ObservableObject
         _forcedClose = true;
         Close();
     }
+
+    public virtual void FirstNavigationByNavigator() { }
 
     public virtual void OnNavigatorFocusReturned()
     {

@@ -7,10 +7,12 @@ namespace EstragoniaTemplate.UI;
 
 public partial class AvaloniaLoader : Node
 {
-    public static bool LastPressedInputWasMouseClick = true;
-
     public static AvaloniaLoader Instance { get; set; } = null!;
+
     public event EventHandler<double>? UIScaleChanged;
+
+    public static bool LastPressedInputWasMouseClick { get; private set; } = true;
+    public static bool MouseMovedSinceLastButtonPress { get; private set; } = false;
 
     private double _uiScalingOption = 1;
     public double UIScalingOption
@@ -40,6 +42,9 @@ public partial class AvaloniaLoader : Node
     private float _resolutionTargetHeight = 540;
     private double _resizeGracePeriod = 0.1;
     private double _elapsedSinceLastResize = 0;
+    private double _elapsedMouseUntouchedSinceButtonPress = 0;
+
+    private const double MouseHidingDelay = 3;
 
     private double ComputeUIScale(Window window)
     {
@@ -66,12 +71,30 @@ public partial class AvaloniaLoader : Node
         UIScaling = ComputeUIScale(window);
         _pendingUIScaling = UIScaling;
 
+        ProcessMode = ProcessModeEnum.Always;
         Instance = this;
     }
 
     public override void _Process(double delta)
     {
         _elapsedSinceLastResize += delta;
+        if (!MouseMovedSinceLastButtonPress)
+        {
+            _elapsedMouseUntouchedSinceButtonPress += delta;
+
+            if (_elapsedMouseUntouchedSinceButtonPress > MouseHidingDelay)
+            {
+                DisplayServer.MouseSetMode(DisplayServer.MouseMode.Hidden);
+
+                // So that the mouse no longer causes hover style on UI
+                var ie = new InputEventMouseButton()
+                {
+                    ButtonIndex = MouseButton.Left,
+                    Position = -Vector2I.One
+                };
+                Input.ParseInputEvent(ie);
+            }
+        }
 
         if (UIScaling != _pendingUIScaling && _elapsedSinceLastResize > _resizeGracePeriod)
         {
@@ -83,13 +106,29 @@ public partial class AvaloniaLoader : Node
     {
         using (@event)
         {
-            if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
+            if (@event is InputEventMouseMotion mouseMotion)
+            {
+                if (mouseMotion.Velocity.Length() < 50)
+                    return;
+
+                MouseMovedSinceLastButtonPress = true;
+                DisplayServer.MouseSetMode(DisplayServer.MouseMode.Visible);
+            }
+            else if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
             {
                 LastPressedInputWasMouseClick = true;
+                MouseMovedSinceLastButtonPress = true;
+                DisplayServer.MouseSetMode(DisplayServer.MouseMode.Visible);
             }
             else if ((@event is InputEventKey key && key.Pressed) || (@event is InputEventJoypadButton joypadButton && joypadButton.Pressed))
             {
+                if (LastPressedInputWasMouseClick || MouseMovedSinceLastButtonPress)
+                {
+                    _elapsedMouseUntouchedSinceButtonPress = 0;
+                }
+
                 LastPressedInputWasMouseClick = false;
+                MouseMovedSinceLastButtonPress = false;
             }
         }
     }

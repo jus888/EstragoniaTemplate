@@ -35,6 +35,7 @@ public partial class MusicManager : Node
 
     public override void _Ready()
     {
+        ProcessMode = ProcessModeEnum.Always;
         Instance = this;
         AddChild(_musicPlayer);
     }
@@ -47,7 +48,10 @@ public partial class MusicManager : Node
         var originalMusicLevel = GetBusLinearEnergy(Bus.Music);
         var tween = GetTree().CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Quad);
         tween.TweenMethod(Callable.From((float linearEnergy) =>
-        { UpdateBusDbLevelFromLinear(Bus.Music, linearEnergy); }), originalMusicLevel, 0, durationSeconds);
+        {
+            UpdateBusDbLevelFromLinear(Bus.Music, linearEnergy);
+        }), originalMusicLevel, 0, durationSeconds);
+
         _musicTween = tween;
 
         tween.Finished += async () =>

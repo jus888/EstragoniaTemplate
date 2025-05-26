@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -28,9 +29,9 @@ public partial class AudioManager : Node
         {Sound.UISelect, ResourceLoader.Load<AudioStream>("res://Audio/select.wav")}
     };
 
+    private HashSet<AudioStreamPlayer> _activeAudioPlayers = new();
     private Queue<AudioStreamPlayer> _audioPlayerQueue = new();
     private int _availableAudioPlayers = 0;
-
 
     private readonly Dictionary<Bus, StringName> _busStringNames = new();
 
@@ -55,6 +56,7 @@ public partial class AudioManager : Node
 
             audioPlayer.Finished += () =>
             {
+                _activeAudioPlayers.Remove(audioPlayer);
                 _audioPlayerQueue.Enqueue(audioPlayer);
                 _availableAudioPlayers++;
             };
@@ -63,8 +65,23 @@ public partial class AudioManager : Node
 
     public override void _Ready()
     {
+        ProcessMode = ProcessModeEnum.Always;
         Instance = this;
         AddAudioPlayers(InitialAudioPlayerCount);
+    }
+
+    public void ResumeAllAudio()
+        => PauseOrResumeAudioPlayersBus(false, [Bus.Master, Bus.Music, Bus.UI, Bus.SFX]);
+    public void PauseOrResumeAudioPlayersBus(bool pause, HashSet<Bus> busses)
+    {
+        foreach (var audioPlayer in _activeAudioPlayers)
+        {
+            if (Enum.TryParse(audioPlayer.Bus.ToString(), out Bus bus)
+                && busses.Contains(bus))
+            {
+                audioPlayer.StreamPaused = pause;
+            }
+        }
     }
 
     public void Play(object sender, Sound sound, Bus bus = Bus.Master, float volumeDbOffset = 0, float pitchScale = 1)
@@ -81,6 +98,7 @@ public partial class AudioManager : Node
         }
 
         var audioPlayer = _audioPlayerQueue.Dequeue();
+        _activeAudioPlayers.Add(audioPlayer);
         _availableAudioPlayers--;
 
         if (!_busStringNames.TryGetValue(bus, out var busName))
