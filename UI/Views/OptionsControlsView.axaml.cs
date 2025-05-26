@@ -1,6 +1,6 @@
 namespace EstragoniaTemplate.UI.Views;
 
-public partial class OptionsControlsView : View
+public partial class OptionsControlsView : NestedView
 {
     public OptionsControlsView()
     {

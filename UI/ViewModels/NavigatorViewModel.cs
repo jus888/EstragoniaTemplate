@@ -16,10 +16,10 @@ public abstract partial class NavigatorViewModel : ViewModel
     [ObservableProperty]
     private IPageTransition? _transition = null;
 
-    private Utilities.PageTransitionWithDuration? _pageTransition;
-    private readonly Stack<ViewModel> _viewModels = new();
-
+    protected readonly Stack<ViewModel> _viewModels = new();
     protected readonly UserInterface _userInterface;
+
+    private Utilities.PageTransitionWithDuration? _pageTransition;
 
     public NavigatorViewModel(UserInterface userInterface)
     {
@@ -37,23 +37,6 @@ public abstract partial class NavigatorViewModel : ViewModel
             _userInterface.FocusMode = Godot.Control.FocusModeEnum.None;
             _userInterface.ReleaseFocus();
         }
-    }
-
-    public async void DisableInputForTransitionDuration(Utilities.PageTransitionWithDuration transition)
-    {
-        _userInterface.InputEnabled = false;
-
-        await transition.StartToEnd();
-        _userInterface.InputEnabled = true;
-    }
-
-    public override void Close()
-    {
-        while (CurrentViewModel != null)
-        {
-            CurrentViewModel.ForcedClose();
-        }
-        base.Close();
     }
 
     public void NavigateTo(ViewModel viewModel, Utilities.PageTransitionWithDuration? transition = null, bool replace = false, bool clearStack = false)
@@ -110,5 +93,40 @@ public abstract partial class NavigatorViewModel : ViewModel
                 DisableInputForTransitionDuration(_pageTransition);
             }
         }
+    }
+
+    public async void DisableInputForTransitionDuration(Utilities.PageTransitionWithDuration transition)
+    {
+        _userInterface.InputEnabled = false;
+
+        await transition.StartToEnd();
+        _userInterface.InputEnabled = true;
+    }
+
+    public override void Close()
+    {
+        while (CurrentViewModel != null)
+        {
+            CurrentViewModel.ForcedClose();
+        }
+        base.Close();
+    }
+
+    public override void OnNavigatorFocusReturned()
+    {
+        base.OnNavigatorFocusReturned();
+        CurrentViewModel?.OnNavigatorFocusReturned();
+    }
+
+    public override void OnUserInterfaceFocusReturned()
+    {
+        base.OnUserInterfaceFocusReturned();
+        CurrentViewModel?.OnUserInterfaceFocusReturned();
+    }
+
+    public override void OnUserInterfaceFocusLost()
+    {
+        base.OnUserInterfaceFocusLost();
+        CurrentViewModel?.OnUserInterfaceFocusLost();
     }
 }
