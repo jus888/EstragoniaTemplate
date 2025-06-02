@@ -30,7 +30,16 @@ public partial class UserInterface : AvaloniaControl, IFocussable
 
     public ViewModel? CurrentViewModel
     {
-        get => MainViewModel?.CurrentViewModel;
+        get
+        {
+            var viewModel = MainViewModel?.CurrentViewModel;
+            while (viewModel is NavigatorViewModel navigator)
+            {
+                viewModel = navigator.CurrentViewModel;
+            }
+
+            return viewModel;
+        }
     }
 
     public MainViewModel? MainViewModel { get; private set; }
