@@ -72,10 +72,11 @@ public partial class MainNode : Node2D
                     leafViewModel = navigator.CurrentViewModel;
                 }
 
-                if (leafViewModel is not MainMenuViewModel
+                if (leafViewModel is not (
+                    MainMenuViewModel
                     or EscapeMenuViewModel
                     or OptionsViewModel
-                    or IOptionsTabViewModel)
+                    or IOptionsTabViewModel))
                 {
                     _sceneTree.Paused = true;
                     AudioManager.Instance?.PauseOrResumeAudioPlayersBus(true, [Bus.SFX]);
