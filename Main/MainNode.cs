@@ -66,14 +66,16 @@ public partial class MainNode : Node2D
             if ((@event is InputEventKey key && key.PhysicalKeycode == Key.Escape && key.Pressed && !key.Echo)
                 || (@event is InputEventJoypadButton button && button.ButtonIndex == JoyButton.Start))
             {
-                if (UserInterfaceMain != null &&
-                    UserInterfaceMain is not
-                    {
-                        CurrentViewModel: MainMenuViewModel
-                        or EscapeMenuViewModel
-                        or OptionsViewModel
-                        or IOptionsTabViewModel
-                    })
+                var leafViewModel = UserInterfaceMain?.MainViewModel?.CurrentViewModel;
+                while (leafViewModel is NavigatorViewModel navigator)
+                {
+                    leafViewModel = navigator.CurrentViewModel;
+                }
+
+                if (leafViewModel is not MainMenuViewModel
+                    or EscapeMenuViewModel
+                    or OptionsViewModel
+                    or IOptionsTabViewModel)
                 {
                     _sceneTree.Paused = true;
                     AudioManager.Instance?.PauseOrResumeAudioPlayersBus(true, [Bus.SFX]);
