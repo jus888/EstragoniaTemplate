@@ -20,7 +20,6 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     [NotifyCanExecuteChangedFor(nameof(ApplyCommand))]
     private bool _canApply;
 
-    private readonly MainViewModel _mainViewModelDialog;
     private readonly FocusStack _focusStack;
     private readonly UserInterface _dialogUserInterface;
 
@@ -38,7 +37,6 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
     {
         _focusStack = focusStack;
         _dialogUserInterface = dialogUserInterface;
-        _mainViewModelDialog = mainViewModelDialog;
     }
     /// <summary>
     /// Intended for designer usage only.
@@ -78,22 +76,16 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
             "Any made changes will be lost.",
             "Cancel", confirmText: "Reset to default"
             );
-        dialog.Responded += OnResponse;
 
-        void OnResponse(DialogViewModel.Response response)
+        DialogViewModel.OpenDialog(_dialogUserInterface, _focusStack, dialog, response =>
         {
-            dialog.Responded -= OnResponse;
             if (response == DialogViewModel.Response.Confirm)
             {
                 var defaultOptions = new GraphicsOptions();
                 GraphicsOptions.SetFromOptions(defaultOptions);
                 Apply();
             }
-        }
-
-        _mainViewModelDialog.NavigateTo(dialog);
-        _focusStack.Push(_dialogUserInterface);
-        dialog.Closed += (_) => _focusStack.Pop();
+        });
     }
 
     public void TryClose(Action callOnClose)
@@ -105,11 +97,9 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
                 "Revert the changes or save current settings?",
                 "Cancel", "Revert changes", "Save current settings"
                 );
-            dialog.Responded += OnResponse;
 
-            void OnResponse(DialogViewModel.Response response)
+            DialogViewModel.OpenDialog(_dialogUserInterface, _focusStack, dialog, response =>
             {
-                dialog.Responded -= OnResponse;
                 switch (response)
                 {
                     case DialogViewModel.Response.Cancel:
@@ -130,11 +120,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
                         callOnClose();
                         return;
                 }
-            }
-
-            _mainViewModelDialog.NavigateTo(dialog);
-            _focusStack.Push(_dialogUserInterface);
-            dialog.Closed += (_) => _focusStack.Pop();
+            });
         }
         else
         {

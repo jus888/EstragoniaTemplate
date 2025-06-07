@@ -89,11 +89,9 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             "Any made changes will be lost.",
             "Cancel", confirmText: "Reset to default"
             );
-        dialog.Responded += OnResponse;
 
-        void OnResponse(DialogViewModel.Response response)
+        DialogViewModel.OpenDialog(_dialogUserInterface, _focusStack, dialog, response =>
         {
-            dialog.Responded -= OnResponse;
             if (response == DialogViewModel.Response.Confirm)
             {
                 InputMap.LoadFromProjectSettings();
@@ -101,11 +99,7 @@ public partial class OptionsControlsViewModel : ViewModel, IOptionsTabViewModel
             }
 
             _keyRepeater.UpdateDirectionalKeys();
-        }
-
-        _mainViewModelDialog.NavigateTo(dialog);
-        _focusStack.Push(_dialogUserInterface);
-        dialog.Closed += (_) => _focusStack.Pop();
+        });
     }
 
     [RelayCommand]

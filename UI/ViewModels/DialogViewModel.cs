@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using EstragoniaTemplate.Main;
 using System;
 
 namespace EstragoniaTemplate.UI.ViewModels;
@@ -26,6 +27,21 @@ public partial class DialogViewModel : ViewModel
         CancelText = cancelText;
         DenyText = denyText;
         ConfirmText = confirmText;
+    }
+
+    public static void OpenDialog(UserInterface dialogUserInterface, FocusStack focusStack, DialogViewModel dialog, Action<Response> onResponse)
+    {
+        dialog.Responded += OnResponse;
+
+        void OnResponse(Response response)
+        {
+            dialog.Responded -= OnResponse;
+            onResponse(response);
+        }
+
+        dialogUserInterface.MainViewModel.NavigateTo(dialog);
+        focusStack.Push(dialogUserInterface);
+        dialog.Closed += (_) => focusStack.Pop();
     }
 
     [RelayCommand]

@@ -11,7 +11,6 @@ public partial class EscapeMenuViewModel : ViewModel
     private readonly NavigatorViewModel _navigatorViewModel;
     private readonly FocusStack _focusStack;
     private readonly UserInterface _dialogUserInterface;
-    private readonly MainViewModel _mainViewModelDialog;
 
     /// <summary>
     /// Intended for designer usage only.
@@ -24,7 +23,6 @@ public partial class EscapeMenuViewModel : ViewModel
         _navigatorViewModel = navigatorViewModel;
         _focusStack = focusStack;
         _dialogUserInterface = dialogUserInterface;
-        _mainViewModelDialog = mainViewModelDialog;
     }
 
     [RelayCommand]
@@ -40,19 +38,13 @@ public partial class EscapeMenuViewModel : ViewModel
             "Are you sure you want to exit to the main menu?",
             "Cancel", confirmText: "Exit"
             );
-        dialog.Responded += OnResponse;
 
-        void OnResponse(DialogViewModel.Response response)
+        DialogViewModel.OpenDialog(_dialogUserInterface, _focusStack, dialog, response =>
         {
-            dialog.Responded -= OnResponse;
             if (response == DialogViewModel.Response.Confirm)
             {
                 _navigatorViewModel.NavigateTo(_viewModelFactory.CreateMainMenu(), clearStack: true);
             }
-        }
-
-        _mainViewModelDialog.NavigateTo(dialog);
-        _focusStack.Push(_dialogUserInterface);
-        dialog.Closed += (_) => _focusStack.Pop();
+        });
     }
 }

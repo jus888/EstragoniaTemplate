@@ -26,7 +26,6 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
 
     private Options _options;
 
-    private readonly MainViewModel _mainViewModelDialog;
     private readonly FocusStack _focusStack;
     private readonly UserInterface _dialogUserInterface;
 
@@ -63,7 +62,6 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
         _options = options;
         _focusStack = focusStack;
         _dialogUserInterface = dialogUserInterface;
-        _mainViewModelDialog = mainViewModelDialog;
 
         MasterLevel = GetBusLinearEnergyPercentage(Bus.Master);
         MusicLevel = GetBusLinearEnergyPercentage(Bus.Music);
@@ -79,11 +77,9 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
             "Any made changes will be lost.",
             "Cancel", confirmText: "Reset to default"
             );
-        dialog.Responded += OnResponse;
 
-        void OnResponse(DialogViewModel.Response response)
+        DialogViewModel.OpenDialog(_dialogUserInterface, _focusStack, dialog, response =>
         {
-            dialog.Responded -= OnResponse;
             if (response == DialogViewModel.Response.Confirm)
             {
                 MasterLevel = 100;
@@ -91,11 +87,7 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
                 SoundEffectsLevel = 100;
                 InterfaceLevel = 100;
             }
-        }
-
-        _mainViewModelDialog.NavigateTo(dialog);
-        _focusStack.Push(_dialogUserInterface);
-        dialog.Closed += (_) => _focusStack.Pop();
+        });
     }
 
     public void TryClose(Action callOnClose)
