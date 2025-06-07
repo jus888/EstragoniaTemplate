@@ -5,7 +5,7 @@ namespace EstragoniaTemplate.UI.Models;
 
 public class InputMapGroup
 {
-    public HashSet<Key> ReservedKeys { get; private init; } = new();
+    public HashSet<Key> ReservedKeys { get; } = new();
     public Dictionary<Key, InputMapItem> KeyMappings { get; } = new();
     public Dictionary<JoyButton, InputMapItem> JoypadMappings { get; } = new();
 

@@ -6,9 +6,9 @@ namespace EstragoniaTemplate.UI.ViewModels;
 public partial class DialogViewModel : ViewModel
 {
     public string Message { get; private set; } = "";
-    public string? CancelText { get; private init; }
-    public string? DenyText { get; private init; }
-    public string? ConfirmText { get; private init; }
+    public string? CancelText { get; }
+    public string? DenyText { get; }
+    public string? ConfirmText { get; }
 
     public enum Response
     {

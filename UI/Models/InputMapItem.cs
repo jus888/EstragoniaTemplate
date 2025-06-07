@@ -6,12 +6,12 @@ namespace EstragoniaTemplate.UI.Models;
 
 public partial class InputMapItem : ObservableObject
 {
-    public string InputName { get; private init; } = "";
+    public string InputName { get; } = "";
     public string KeyName => KeyEnumValue == null ? "" : ((Key)KeyEnumValue).ToString();
     public string JoyButtonName => ControllerEnumValue == null ? "" : ((JoyButton)ControllerEnumValue).ToString();
 
     public HashSet<Key> GroupReservedKeys => _inputMapGroup.ReservedKeys;
-    public string[]? ReservedKeyPaths { get; private init; }
+    public string[]? ReservedKeyPaths { get; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(KeyName))]

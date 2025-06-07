@@ -10,8 +10,8 @@ public partial class InputListenerDialogViewModel : ViewModel
 {
     public event Action<(Key?, JoyButton?)>? InputPressed;
 
-    public bool ListenToKeyboard { get; private init; } = true;
-    public string InputName { get; private init; } = "Input Name";
+    public bool ListenToKeyboard { get; } = true;
+    public string InputName { get; } = "Input Name";
 
     private UserInterface _userInterface;
     private EventHandler<InputEvent>? _inputEventHandler;
