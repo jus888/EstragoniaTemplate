@@ -40,14 +40,14 @@ public class ViewModelFactory
     /// Assumes that this viewModel is created for the main UserInterface.
     /// </summary>
     public virtual OptionsGraphicsViewModel CreateOptionsGraphics()
-        => new(_options, _focusStack, _userInterfaceDialog, _mainViewModelDialog);
+        => new(_options, _focusStack, _userInterfaceDialog);
 
     public virtual OptionsControlsViewModel CreateOptionsControls()
         => new(_focusStack, _userInterfaceDialog, _mainViewModelDialog, _keyRepeater);
 
     public virtual OptionsAudioViewModel CreateOptionsAudio()
-        => new(_options, _focusStack, _userInterfaceDialog, _mainViewModelDialog);
+        => new(_options, _focusStack, _userInterfaceDialog);
 
     public virtual EscapeMenuViewModel CreateEscapeMenu()
-        => new(this, _mainViewModel, _focusStack, _userInterfaceDialog, _mainViewModelDialog);
+        => new(this, _mainViewModel, _focusStack, _userInterfaceDialog);
 }

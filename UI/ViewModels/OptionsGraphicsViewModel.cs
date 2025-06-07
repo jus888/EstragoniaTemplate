@@ -33,7 +33,7 @@ public partial class OptionsGraphicsViewModel : ViewModel, IOptionsTabViewModel
         }
     }
 
-    public OptionsGraphicsViewModel(Options options, FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog) : this(options)
+    public OptionsGraphicsViewModel(Options options, FocusStack focusStack, UserInterface dialogUserInterface) : this(options)
     {
         _focusStack = focusStack;
         _dialogUserInterface = dialogUserInterface;

@@ -17,7 +17,7 @@ public partial class EscapeMenuViewModel : ViewModel
     /// </summary>
     public EscapeMenuViewModel() { }
     public EscapeMenuViewModel(ViewModelFactory viewModelFactory, NavigatorViewModel navigatorViewModel, FocusStack focusStack, 
-        UserInterface dialogUserInterface, MainViewModel mainViewModelDialog)
+        UserInterface dialogUserInterface)
     {
         _viewModelFactory = viewModelFactory;
         _navigatorViewModel = navigatorViewModel;

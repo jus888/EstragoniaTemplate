@@ -57,7 +57,7 @@ public partial class OptionsAudioViewModel : ViewModel, IOptionsTabViewModel
     /// Intended for designer usage only.
     /// </summary>
     public OptionsAudioViewModel() { }
-    public OptionsAudioViewModel(Options options, FocusStack focusStack, UserInterface dialogUserInterface, MainViewModel mainViewModelDialog)
+    public OptionsAudioViewModel(Options options, FocusStack focusStack, UserInterface dialogUserInterface)
     {
         _options = options;
         _focusStack = focusStack;
