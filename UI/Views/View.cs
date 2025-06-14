@@ -40,6 +40,7 @@ public class FocussedItemsControl : FocussedControl
     public override bool TryFocus()
     {
         var itemsControl = (ItemsControl)Control;
+        itemsControl.UpdateLayout();
 
         // First, check the saved index. If this is unsuccessful, check the previous index (item directly above)
         for (int i = 0; i < 2; i++)
