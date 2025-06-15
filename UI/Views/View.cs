@@ -75,7 +75,7 @@ public abstract partial class View : UserControl
 
         base.OnGotFocus(e);
 
-        if (TrackFocussedControls && e.Source is Control control && control.IsFocused)
+        if (IsLoaded && TrackFocussedControls && e.Source is Control control && control.IsFocused)
         {
             var itemsControl = control.FindAncestorOfType<ItemsControl>();
             if (itemsControl != null)
@@ -144,7 +144,7 @@ public abstract partial class View : UserControl
             return;
 
         var topLevel = TopLevel.GetTopLevel(_lastFocussedControls[0].Control);
-        topLevel.FocusManager.ClearFocus();
+        topLevel?.FocusManager?.ClearFocus();
 
         foreach (var focussableControl in _lastFocussedControls)
         {
