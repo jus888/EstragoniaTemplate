@@ -162,7 +162,7 @@ public abstract partial class View : UserControl
         {
             focusableControl = this.FindControl<Control>($"initialFocus{count}");
 
-            if (focusableControl?.Focusable ?? false)
+            if (focusableControl != null && focusableControl.Focusable && focusableControl.IsEffectivelyEnabled)
                 break;
 
             count++;
