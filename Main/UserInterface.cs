@@ -45,14 +45,24 @@ public partial class UserInterface : AvaloniaControl, IFocussable
         return base._HasPoint(point);
     }
 
+    private void OnUIScaleChanged(object? sender, double scale)
+    {
+        RenderScaling = scale;
+    }
+
     public override void _Ready()
     {
         RenderScaling = AvaloniaLoader.Instance.UIScaling;
-        AvaloniaLoader.Instance.UIScaleChanged += (_, scale) =>
-        {
-            RenderScaling = scale;
-        };
+        AvaloniaLoader.Instance.UIScaleChanged += OnUIScaleChanged;
         base._Ready();
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what == NotificationPredelete)
+        {
+            AvaloniaLoader.Instance.UIScaleChanged -= OnUIScaleChanged;
+        }
     }
 
     public void Initialize(MainViewModel mainViewModel, KeyRepeater keyRepeater, ViewModel? initialViewModel = null)
